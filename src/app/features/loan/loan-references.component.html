@@ -1,0 +1,135 @@
+<p class="mb-1 mt-3">Investment References</p>
+<div class="asset-table-container col-12">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <form [formGroup]="referenceForm">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Reference Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.ReferenceName }}
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+          <input
+            type="text"
+            class="form-control"
+            id="txtDetails"
+            formControlName="name"
+          />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="relation">
+        <th mat-header-cell *matHeaderCellDef>Reference Relation</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.ReferenceRelation }}
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+          <input
+            type="text"
+            class="form-control"
+            id="txtMarketValue"
+            formControlName="relation"
+          />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="profession">
+        <th mat-header-cell *matHeaderCellDef>Reference Profession</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.ReferenceProfession }}
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+          <input
+            type="text"
+            class="form-control"
+            id="txtLocation"
+            formControlName="profession"
+          />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="eduQualification">
+        <th mat-header-cell *matHeaderCellDef>
+          Reference Educational Qualification
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          {{ element.ReferenceEduQualification }}
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+          <input
+            type="text"
+            class="form-control"
+            id="txtLiabilities"
+            formControlName="eduQualification"
+          />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Reference Email</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.ReferenceEmail }}
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+          <input
+            type="text"
+            class="form-control"
+            id="txtLiabilities"
+            formControlName="email"
+          />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="mobile">
+        <th mat-header-cell *matHeaderCellDef>Reference Mobile</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          {{ element.ReferenceMobile }}
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+          <input
+            type="text"
+            class="form-control"
+            id="txtLiabilities"
+            formControlName="mobile"
+          />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="onDelete(element)"
+          >
+            Delete
+          </button>
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="referenceForm.invalid"
+            (click)="onSubmit()"
+          >
+            Add
+          </button>
+        </td>
+      </ng-container>
+    </form>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
+</div>
+<button
+  type="button"
+  class="btn btn-success mt-3 mr-2"
+  *ngIf="btnVisible"
+  (click)="onBack()"
+>
+  Back
+</button>
+<button
+  type="button"
+  *ngIf="btnVisible"
+  class="btn btn-success mt-3"
+  [disabled]="dataSource.data.length < 1"
+  (click)="onNext()"
+>
+  Next
+</button>

@@ -1,0 +1,255 @@
+<div class="container my-3" *ngIf="!otpComponentShow">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">General Information</legend>
+    <form [formGroup]="stopChequeForm">
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="stchAccountNumber">Account Number</label>
+          <mat-select id="ddlAccountNo" name="ddlAccountNo" formControlName="stchAccountNumber"
+            class="form-control signupInput" (selectionChange)="getChequbookList($event)" [ngClass]="{
+            'is-invalid':
+              (f.stchAccountNumber.errors && f.stchAccountNumber.touched) ||
+              (f.stchAccountNumber.errors && submitted)
+          }">
+            <input matInput type="text" id="txtSearchAccount" formControlName="txtSearchAccount" placeholder="Search Here"
+              class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="">-- Select --</mat-option>
+            <mat-option *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchAccount.value"
+              value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}_{{ acc.accounT_TITLE }}" class="signupInput">
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </mat-option>
+          </mat-select>          
+          <div *ngIf="
+              (f.stchAccountNumber.errors && f.stchAccountNumber.touched) ||
+              (f.stchAccountNumber.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.stchAccountNumber.errors.required">
+              Account number is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="f.stchAccountNumber.value">        
+        <div  class="col-md-4 mb-3">
+          <label for="chequeBook">Cheque Book</label>
+          <select class="form-control" (change)="getUnusedCheques()" formControlName="chequeBook" [ngClass]="{
+              'is-invalid':
+                (f.chequeBook.errors && f.chequeBook.touched) ||
+                (f.chequeBook.errors && submitted)
+            }">
+            <option value="" selected>--Select--</option>
+            <option *ngFor="let cheque of chequeBookList" value="{{ cheque.chQ_PREFIX }}_{{ cheque.starT_LEAF_NO }}_{{
+                cheque.enD_LEAF_NO
+              }}_{{ cheque.issuE_DATE }}">
+              {{ cheque.chQ_PREFIX }}-{{ cheque.starT_LEAF_NO }}-{{
+              cheque.enD_LEAF_NO
+              }}
+            </option>
+          </select>
+          <div *ngIf="
+              (f.chequeBook.errors && f.chequeBook.touched) ||
+              (f.chequeBook.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.chequeBook.errors.required">
+              Cheque book is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div *ngIf="f.stchAccountNumber.value" class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="chequeBook">Cheque Book</label>
+          <select
+            class="form-control"
+            (change)="getUnusedCheques()"
+            formControlName="chequeBook"
+            [ngClass]="{
+              'is-invalid':
+                (f.chequeBook.errors && f.chequeBook.touched) ||
+                (f.chequeBook.errors && submitted)
+            }"
+          >
+            <option value="" selected>--Select--</option>
+            <option
+              *ngFor="let cheque of chequeBookList"
+              value="{{ cheque.chQ_PREFIX }}_{{ cheque.starT_LEAF_NO }}_{{
+                cheque.enD_LEAF_NO
+              }}"
+            >
+              {{ cheque.chQ_PREFIX }}_{{ cheque.starT_LEAF_NO }}-{{
+                cheque.enD_LEAF_NO
+              }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              (f.chequeBook.errors && f.chequeBook.touched) ||
+              (f.chequeBook.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.chequeBook.errors.required">
+              Cheque book is required
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="form-row">
+        <div class="col-md-8 mb-3">
+          <ng-template [ngIf]="unUsedChequeList">
+            <app-unused-cheques [branchName]="branchName" [unUsedCheque]="unUsedCheque" [issueDate]="issueDate"
+              [unUsedChequeList]="unUsedChequeList" (otpShowStatus)="changeComponentVisibility($event)"
+              (stopChequeEmitter)="selectCheque($event)"></app-unused-cheques>
+          </ng-template>
+        </div>
+      </div>
+      <!-- <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="StartLeafNo">Start Leaf No.</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="StartLeafNo"
+            [ngClass]="{
+              'is-invalid':
+                (f.StartLeafNo.errors && f.StartLeafNo.touched) ||
+                (f.StartLeafNo.errors && submitted)
+            }"
+          />
+          <div
+            *ngIf="
+              (f.StartLeafNo.errors && f.StartLeafNo.touched) ||
+              (f.StartLeafNo.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.StartLeafNo.errors.required">
+              Start Leaf number is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="EndLeafNo">End Leaf No.</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="EndLeafNo"
+            [ngClass]="{
+              'is-invalid':
+                (f.EndLeafNo.errors && f.EndLeafNo.touched) ||
+                (f.EndLeafNo.errors && submitted)
+            }"
+          />
+          <div
+            *ngIf="
+              (f.EndLeafNo.errors && f.EndLeafNo.touched) ||
+              (f.EndLeafNo.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.EndLeafNo.errors.required">
+              End Leaf number is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="Beneficiary">Beneficiary Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="Beneficiary"
+            [ngClass]="{
+              'is-invalid':
+                (f.Beneficiary.errors && f.Beneficiary.touched) ||
+                (f.Beneficiary.errors && submitted)
+            }"
+          />
+          <div
+            *ngIf="
+              (f.Beneficiary.errors && f.Beneficiary.touched) ||
+              (f.Beneficiary.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.Beneficiary.errors.required">
+              Beneficiary name is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="ChequeAmount">Amount</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="ChequeAmount"
+            [ngClass]="{
+              'is-invalid':
+                (f.ChequeAmount.errors && f.ChequeAmount.touched) ||
+                (f.ChequeAmount.errors && submitted)
+            }"
+          />
+          <div
+            *ngIf="
+              (f.ChequeAmount.errors && f.ChequeAmount.touched) ||
+              (f.ChequeAmount.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.ChequeAmount.errors.required">
+              Cheque amount is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <label for="Reason">Reason</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="Reason"
+            [ngClass]="{
+              'is-invalid':
+                (f.Reason.errors && f.Reason.touched) ||
+                (f.Reason.errors && submitted)
+            }"
+          />
+          <div
+            *ngIf="
+              (f.Reason.errors && f.Reason.touched) ||
+              (f.Reason.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.Reason.errors.required">Reason is required</div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <div class="form-row">
+        <div class="col-md-2 mb-2">
+          <button
+            class="btn btn-success btn-block"
+            [disabled]="stopChequeForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
+        <div class="col-md-2 mb-2">
+          <button class="btn btn-success btn-block">Refresh</button>
+        </div>
+      </div> -->
+    </form>
+  </fieldset>
+</div>
+
+<app-loader *ngIf="loading"></app-loader>
+
+<app-confirm-otp *ngIf="otpComponentShow" [onSubmit]="otpSubmit" [goBack]="goBack" (otpEmitter)="setOtp($event)">
+</app-confirm-otp>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText"></app-popup>

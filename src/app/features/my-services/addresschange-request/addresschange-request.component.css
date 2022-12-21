@@ -1,0 +1,23 @@
+.form-control.ng-touched.ng-invalid {
+    border: 1px solid red;
+  }
+  
+  .form-control.ng-touched.ng-valid {
+    border: 1px solid green;
+  }
+
+  /* :host ::ng-deep .mat-tab-body-content{
+    overflow:visible !important;
+  }  */
+
+  .mat-card
+  {
+    background-color: lightgrey !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .mat-card-title
+  {
+    font-size: 18px !important;
+  }

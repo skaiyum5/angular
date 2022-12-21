@@ -1,0 +1,239 @@
+<div class="container my-3" *ngIf="!otpComponentShow">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">Top Up Details</legend>
+    <form [formGroup]="topUpForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div [ngClass]="operator === '' ? 'col-md-9 mb-3' : 'col-md-6 mb-3'">
+          <label for="mobileOperator">Mobile Operator</label>
+          <div class="form-row operator-buttons">
+            <button id="Grameenphone" type="button" mat-raised-button class="mt-2 mx-1"
+              *ngIf="operator === '' || operator === 'Grameenphone'" (click)="selectOperator('Grameenphone')">
+              <img [src]="gpLogo" alt="Grameenphone" width="64px" height="64px" />
+              Grameenphone
+            </button>
+            <button id="banglalink" type="button" mat-raised-button class="mt-2 mx-1"
+              *ngIf="operator === '' || operator === 'Banglalink'" (click)="selectOperator('Banglalink')">
+              <img [src]="blLogo" alt="Banglalink" width="64px" height="64px" />
+              Banglalink
+            </button>
+            <button id="robi" type="button" mat-raised-button class="mt-2 mx-1"
+              *ngIf="operator === '' || operator === 'Robi'" (click)="selectOperator('Robi')">
+              <img [src]="robiLogo" alt="Robi" width="64px" height="64px" />
+              Robi
+            </button>
+            <button id="teletalk" type="button" mat-raised-button class="mt-2 mx-1"
+              *ngIf="operator === '' || operator === 'TeleTalk'" (click)="selectOperator('TeleTalk')">
+              <img [src]="teletalkLogo" alt="Teletalk" width="64px" height="64px" />
+              Teletalk
+            </button>
+            <button id="airtel" type="button" mat-raised-button class="mt-2 mx-1"
+              *ngIf="operator === '' || operator === 'Airtel'" (click)="selectOperator('Airtel')">
+              <img [src]="airtelLogo" alt="Airtel" width="64px" height="64px" />
+              Airtel
+            </button>
+          </div>
+          <p *ngIf="operator !== ''" class="cust-link mt-2" (click)="changeOperator()">
+            Change Mobile Operator
+          </p>
+        </div>
+      </div>
+
+      <label for="">SIM Type</label>
+      <br />
+      <div class="form-row">
+        <button type="button" [ngClass]="
+            f.simType.value === 'Prepaid'
+              ? 'col-md-1 col-sm-3 col-lg-1 sim-type-btn sim-type-active'
+              : 'col-md-1 col-sm-3 col-lg-1 sim-type-btn'
+          " (click)="selectSimType('Prepaid')">
+          Prepaid
+        </button>
+        <button type="button" [ngClass]="
+            f.simType.value === 'Postpaid'
+              ? 'col-md-1 col-sm-3 col-lg-1 sim-type-btn sim-type-active'
+              : 'col-md-1 col-sm-3 col-lg-1 sim-type-btn'
+          " (click)="selectSimType('Postpaid')">
+          Postpaid
+        </button>
+        <button *ngIf="operator !== '' && operator === 'Grameenphone'" type="button" [ngClass]="
+            f.simType.value === 'skitto'
+              ? 'col-md-1 col-sm-3 col-lg-1 sim-type-btn sim-type-active'
+              : 'col-md-1 col-sm-3 col-lg-1 sim-type-btn'
+          " (click)="selectSimType('skitto')">
+          skitto
+        </button>
+      </div>
+
+      <div class="mt-3 mb-3" *ngIf="operator !== '' && isSimOfferAvailable" style="max-height: 120px; overflow-y:scroll;">
+        <mat-grid-list cols="4" rowHeight="80px" gutterSize="10px">
+          <mat-grid-tile *ngFor="let offer of simOfferList">
+            <mat-card>
+              <div class="form-row">
+                <div class="col-md-2 col-sm-3 col-lg-2" style="text-align: center;">
+                  <img [src]="offerOperatorLogo" alt="offerOperatorTitle" width="32px" height="32px" style="background-color:transparent;" />
+                </div>
+                <div class="col-md-10 col-sm-9 col-lg-10" style="text-align: left;">
+                  <mat-card-subtitle>
+                    <a mat-button color="primary" matTooltip="Click to select this offer" (click)="setAmount(offer.amount)" style="white-space: normal; width: 100%; height: auto; font-size: 12px; text-align: justify; line-height: normal;">{{offer.offerDetails}} @ Tk. {{ offer.amount }}</a>
+                  </mat-card-subtitle>
+                </div>
+                <!-- <div class="col-md-3 col-sm-3 col-lg-3" style="text-align: center;">
+                  <button mat-raised-button class="mt-1 mx-1 btn-success cardButton" type="button" (click)="setAmount(offer.amount)">
+                    {{ offer.amount }} Tk.
+                  </button>
+                </div> -->
+              </div>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>       
+      </div>
+
+      <div class="form-row mt-2" *ngIf="operator !== ''">
+        <div class="col-md-5 mt-2">
+          <label for="ddlPayOutAccount">From (Account/Card Number)</label>
+          <mat-select id="ddlPayOutAccount" name="ddlPayOutAccount" formControlName="accountNumber"
+            (selectionChange)="getAccount($event)" class="form-control signupInput" [ngClass]="{
+              'is-invalid':
+                (f.accountNumber.errors && f.accountNumber.touched) ||
+                (f.accountNumber.errors && submitted)
+            }">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+              class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+
+            <mat-option value="">-- Select --</mat-option>
+            <mat-option *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+              value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}" class="signupInput">
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </mat-option>
+          </mat-select>          
+          <div *ngIf="
+              (f.accountNumber.errors && f.accountNumber.touched) ||
+              (f.accountNumber.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.accountNumber.errors.required">
+              Account number is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="branchId && gotAcc">
+        <div class="col-md-5 mb-2">
+          <div class="form-group row mt-3">
+            <label for="staticEmail" class="col-5 col-form-label"><b>Available Balance :</b></label>
+            <div class="col-7">
+              <label for="" class="form-control-plaintext text-primary">{{
+                accountBalanceResult.availablE_BALANCE
+                }}</label>
+            </div>
+          </div>
+
+          <label>{{ balanceInWords | titlecase }}</label>
+        </div>
+      </div>
+      <!-- <div class="form-row mt-2" *ngIf="operator !== '' && gotAcc"> -->
+      <div class="form-row mt-2" *ngIf="operator !== ''">
+        <div class="col-md-5 mb-2">
+          <label for="mobileNumber">Mobile Number</label>
+          <input
+          type="text"
+          class="form-control"
+          id="mobileNumber"
+          formControlName="mobileNumber"
+          PhoneNumberValidator
+          [ngClass]="{
+            'is-invalid':
+              (f.mobileNumber.errors && f.mobileNumber.touched) ||
+              (f.mobileNumber.errors && submitted)
+          }"
+        />
+        <div
+          *ngIf="
+            (f.mobileNumber.errors && f.mobileNumber.touched) ||
+            (f.mobileNumber.errors && submitted)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.mobileNumber.errors.required">
+            Mobile number is required
+          </div>
+          <div *ngIf="f.mobileNumber.errors.pattern">
+            Mobile number must contain only numbers
+          </div>
+        
+          <div *ngIf="!f.mobileNumber.errors.required && f.mobileNumber.touched && f.mobileNumber.errors.phoneNOMinMaxlength">
+            Only 11 digit mobile number is allowed
+          </div>
+          <div *ngIf="!f.mobileNumber.errors.pattern && !f.mobileNumber.errors.phoneNOMinMaxlength && f.mobileNumber.touched && f.mobileNumber.errors.phoneNumberInvalid">
+            Mobile Number is Invalid.
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- <div class="form-row align-items-center mt-2" *ngIf="operator !== '' && gotAcc"> -->
+      <div class="form-row align-items-center mt-2" *ngIf="operator !== ''">
+        <div class="col-md-3 col-sm-8 col-8">
+          <label for="amount">Amount</label>
+          <input checkParamValueIsGreaterthan="{{accountBalanceResult.availablE_BALANCE}}" type="text"
+            style="text-align: right" class="form-control" id="amount" formControlName="amount"
+            (keyup)="getTransferAmountInWords($event)" [ngClass]="{
+              'is-invalid':
+                (f.amount.errors && f.amount.touched) ||
+                (f.amount.errors && submitted)||
+                (f.amount.errors && f.amount.errors.isGreaterthan && f.accountNumber.touched)
+            }" />
+          <div *ngIf="
+              (f.amount.errors && f.amount.touched) ||
+              (f.amount.errors && submitted)||
+              (f.amount.errors && f.amount.errors.isGreaterthan && f.accountNumber.touched)
+            " class="invalid-feedback">
+            <div *ngIf="f.amount.errors.required">Amount is required</div>
+            <div *ngIf="f.amount.errors.pattern">
+              Amount must contain only numbers
+            </div>
+            <div
+              *ngIf="!f.amount.errors.required && !f.amount.errors.pattern && f.accountNumber.touched && f.amount.errors.isGreaterthan">
+              Amount must be lower or equal to Available Balance
+            </div>
+          </div>
+          <p class="mt-2">{{ topupAmountInWords | titlecase }}</p>
+        </div>
+        <div class="col-md-2 col-sm-4 col-4">
+          <div class="form-row  amount-buttons">
+            <button *ngFor="let amount of topupAmounts" mat-raised-button class="mt-2 mx-1 btn-success" type="button"
+              (click)="setAmount(amount)">
+              {{ amount }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="form-row mt-3" *ngIf="operator !== '' && gotAcc"> -->
+      <div class="form-row mt-3" *ngIf="operator !== ''">
+        <div class="col-md-2 mb-2">
+          <button class="btn btn-success btn-block" type="submit" [disabled]="topUpForm.invalid">
+            Submit
+          </button>
+        </div>
+        <div class="col-md-2 mb-2">
+          <button type="button" class="btn btn-refresh btn-block" (click)="onReset()">
+            Refresh
+          </button>
+        </div>
+      </div>
+    </form>
+  </fieldset>
+</div>
+
+
+
+<app-confirm-otp *ngIf="otpComponentShow" [onSubmit]="otpSubmit" [goBack]="goBack" [title]="title" (otpEmitter)="setOtp($event)">
+</app-confirm-otp>
+<app-loader *ngIf="loading"></app-loader>
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText"></app-popup>
+
+<!-- Information Popup -->
+<app-info-popup *ngIf="infoPopup" (close)="onCloseModal($event)" [header]="header" [message]="message"
+  [btnText]="btnText"></app-info-popup>

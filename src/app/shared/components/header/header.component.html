@@ -1,0 +1,117 @@
+<mat-toolbar class="mat-elevation-z8 py-0 px-1 px-sm-5 ">
+  <a [routerLink]="'/'">  
+  <img class="bg-light p-1" [src]="logo" height="64" width="64" alt="" />
+  
+</a>
+  <!-- <img [src]="logo" height="40" width="150" alt="" /> -->
+  <div class="d-flex align-items-center">
+    <!-- <img [src]="logo" height="40" width="60" alt="" /> -->
+    <h1 class="ml-2">FSIBL Cloud</h1>
+  </div>
+  <div class="d-flex w-100 align-items-center justify-content-end">
+    <!-- <span style="font-size: 12px" class="px-1"
+      >Welcome {{ loggedInUserName }}</span
+    > -->
+    <button mat-icon-button [routerLink]="'/securityadvice'" class="mr-0 mr-md-2">     
+      <mat-icon>security</mat-icon>
+    </button>
+    <button mat-icon-button [routerLink]="'/'" class="mr-0 mr-md-2">
+      <mat-icon>home</mat-icon>
+    </button>
+
+    <div class="dropdown">
+      <button (click)="getNotifications()" mat-icon-button class="mr-0 mr-md-2" data-toggle="dropdown">
+        <mat-icon matBadge="{{ newNotification }}" matBadgeColor="warn" matBadgeSize="medium" [matBadgeHidden] = "newNotification == 0">notifications</mat-icon>
+      </button>
+      <div *ngIf="notificationList" class="dropdown-menu dropdown-menu-right not-dropdown-custom">
+        <div class="notification-header">
+          <p>Notifications</p>
+          <!-- <span class="ml-3 notification-count">{{ newNotification }}</span> -->
+        </div>
+        <mat-list>
+          <mat-list-item class="dropdown-item notification-items" [ngClass]="{'newNotification': !notification.isRead}" *ngFor="
+              let notification of notificationList.slice(0, 5);
+              last as last" [routerLink]="[
+              '/otherservices/notifications',
+              { data: notification.notificationID }
+            ]">
+            <p matLine style="
+                text-align: justify;
+                word-break: break-all;
+                white-space: normal;">
+              {{ notification.NotificationTitle }}
+            </p>                              
+            <p matLine style="text-align: right; margin-top: 5px">
+              Date : {{ notification.CreatedAt | date }}
+            </p>
+            <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item show-all" type="button" routerLink="/otherservices/notifications">
+          <span class="w-100 text-center" style="font-size: 12px">Show all</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="dropdown mr-2 mr-sm-3 mr-md-0">
+      <button mat-icon-button data-toggle="dropdown" aria-label="Example">
+        <!-- <img [src]="userIcon" class="avatar-img" alt="" /> -->
+        <mat-icon>person</mat-icon>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right dropdown-custom">
+        <span class="dropdown-menu-arrow"></span>
+        <button class="dropdown-item user-item" type="button" routerLink="{{ userRouterLink }}">
+          <span>{{ loggedInUserName }}</span>
+          <span>BST {{ currentTime }}</span>
+        </button>
+        <button class="dropdown-item" type="button" routerLink="/profile/detailprofile" *ngIf="!isFirstLogin">
+          <mat-icon class="mr-2">person_outline</mat-icon><span>Profile</span>
+        </button>
+        <button class="dropdown-item" type="button" routerLink="/account/changepassword">
+          <mat-icon class="mr-2">lock_outline</mat-icon><span>Change Password</span>
+        </button>
+        <button *ngIf="isTpinEnable" class="dropdown-item" type="button" routerLink="/account/change-tpin">
+          <mat-icon class="mr-2">lock_outline</mat-icon><span>Change TPIN</span>
+        </button>
+        <!-- <button class="dropdown-item" type="button">Contacts</button> -->
+        <button class="dropdown-item" type="button" routerLink="/activity/useractivity" *ngIf="!isFirstLogin">
+          <mat-icon class="mr-2">local_activity_outline</mat-icon><span>Activity</span>
+        </button>
+        <hr style="margin: 0" />
+        <button class="dropdown-item" data-toggle="modal" data-target="#exampleModal" type="button">
+          <mat-icon class="mr-2">logout</mat-icon><span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h2 class="modal-title w-100" id="exampleModalLabel">Confirmation</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">Are you sure want to logout?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="logout()" data-dismiss="modal">
+          Yes
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-loader *ngIf="loading"></app-loader>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText"></app-popup>

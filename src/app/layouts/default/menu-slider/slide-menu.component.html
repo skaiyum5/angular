@@ -1,0 +1,31 @@
+<a
+  class="{{this.key === menu.key ? 'card active' : 'card'}}"
+  rel="noopener"
+  (click)="menu.children ? toggleSubmenu() : route(menu.url)"
+>
+  <img
+    src="{{ menu.imagePath }}"
+    alt=""
+    class="logo-img"
+    viewBox="0 0 24 24"
+  />
+  <span class="text-center"><b>{{ menu.title }}</b></span>
+</a>
+
+<ng-template [ngIf]="submenu">
+  <div class="submenu">
+    <div class="submenu-container">
+      <mat-icon class="close-btn" (click)="toggleSubmenu()">
+        close
+      </mat-icon>
+      <div class="d-flex justify-content-center">
+        <h2 class="page-title">
+          <strong>{{ menu.title | titlecase }}</strong>
+        </h2>
+      </div>
+      <div class="submenu-items">
+        <app-menu *ngFor="let menu of menu.children" [menu]="menu"></app-menu>
+      </div>
+    </div>
+  </div>
+</ng-template>

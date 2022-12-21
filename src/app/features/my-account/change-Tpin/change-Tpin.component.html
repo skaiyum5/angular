@@ -1,0 +1,132 @@
+<div class="container my-3">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 16px; width: auto;">Instructions</legend>
+    <div>
+      <!-- <p style="font-size: 16px; color: green;">INSTRUCTIONS:</p> -->
+
+      <p style="font-size: 16px; color: green; text-align: justify; line-height: 150%;">
+        You are requested to please change your T-PIN first through the appeared screen of home page by inserting
+        Current
+        T-PIN then new T-PIN and then confirm new T-PIN again. Please note that : </p> <br />
+      <ul style="font-size: 16px; color: blue; text-align: justify; line-height: 90%;" class="ml-4">
+        <!-- <li>The new password must be the combination of alpha (UPPER and lower case), Non alpha numeric character and
+          numeric.</li>
+        <br /> -->
+        <li>Minimum length of the T-PIN must be 4(four) digits.</li>
+        <br />
+        <li>Example: 1234</li>
+      </ul>
+      <br />
+
+      <!-- <p style="font-size: 16px; color: green; text-align: justify; margin-top: -18px;">After changing of T-PIN, you
+        need
+        to login again and then you will see the operational menu.</p>
+      <br /> -->
+    </div>
+  </fieldset>
+  <fieldset style="margin-top:5px; border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 16px; width: auto;">Request Details</legend>
+    <form [formGroup]="tPinChangeForm" (ngSubmit)="changePasswordRequest()">
+      <div class="form-row">
+        <input type="hidden" class="form-control" id="txtUserName" formControlName="txtUserName" />
+        <!-- <div class="col-md-4 mb-2">
+                    <label for="txtUserName">User Name</label>
+                    <input type="text" class="form-control" id="txtUserName" formControlName="txtUserName">
+                </div> -->
+
+        <div class="col-md-3 mb-2">
+          <label for="txtOldTpin">Current T-PIN</label>
+          <div class="password-field">
+            <input [type]="oldTpinVisible ? 'text' : 'password'" class="form-control" id="txtOldTpin"
+              formControlName="txtOldTpin" [ngClass]="{
+                'is-invalid':
+                  (f.txtOldTpin.errors && f.txtOldTpin.touched) ||
+                  (f.txtOldTpin.errors && submitted)
+              }" />
+            <span class="visibility-icon" (click)="showOldPassword()">
+              <mat-icon *ngIf="oldTpinVisible">visibility</mat-icon>
+              <mat-icon *ngIf="!oldTpinVisible">visibility_off</mat-icon>
+            </span>
+            <!-- <button class="visibility-icon"><mat-icon>visibility</mat-icon></button> -->
+          </div>
+          <div *ngIf="
+              (f.txtOldTpin.errors && f.txtOldTpin.touched) ||
+              (f.txtOldTpin.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.txtOldTpin.errors.required">
+              Current T-PIN is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-2">
+          <label for="txtNewTpin">New T-PIN</label>
+          <div class="password-field">
+            <input [type]="newTpinVisible ? 'text' : 'password'" class="form-control" id="txtNewTpin"
+              formControlName="txtNewTpin" [ngClass]="{
+                'is-invalid':
+                  (f.txtNewTpin.errors && f.txtNewTpin.touched) ||
+                  (f.txtNewTpin.errors && submitted)
+              }" />
+            <span class="visibility-icon" (click)="showNewPassword()">
+              <mat-icon *ngIf="newTpinVisible">visibility</mat-icon>
+              <mat-icon *ngIf="!newTpinVisible">visibility_off</mat-icon>
+            </span>
+          </div>
+          <div *ngIf="
+              (f.txtNewTpin.errors && f.txtNewTpin.touched) ||
+              (f.txtNewTpin.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.txtNewTpin.errors.required">
+              New T-PIN is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-2">
+          <label for="txtConfirmNewTpin">Confirm New T-PIN</label>
+          <div class="password-field">
+            <input [type]="tPinConfirmVisible ? 'text' : 'password'" class="form-control" id="txtConfirmNewTpin"
+              formControlName="txtConfirmNewTpin" [ngClass]="{
+                'is-invalid':
+                  (f.txtConfirmNewTpin.errors &&
+                    f.txtConfirmNewTpin.touched) ||
+                  (f.txtConfirmNewTpin.errors && submitted)
+              }" />
+            <span class="visibility-icon" (click)="showPassConfirm()">
+              <mat-icon *ngIf="tPinConfirmVisible">visibility</mat-icon>
+              <mat-icon *ngIf="!tPinConfirmVisible">visibility_off</mat-icon>
+            </span>
+          </div>
+          <div *ngIf="
+              (f.txtConfirmNewTpin.errors &&
+                f.txtConfirmNewTpin.touched) ||
+              (f.txtConfirmNewTpin.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.txtConfirmNewTpin.errors.required">
+              Confirm new T-PIN is required
+            </div>
+            <div *ngIf="f.txtConfirmNewTpin.errors.confirmedValidator">
+              T-PIN and Confirm T-PIN must be match.
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-md-2 mb-2">
+          <label>&nbsp;</label>
+          <button class="btn btn-success btn-block" [disabled]="tPinChangeForm.invalid">
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </fieldset>
+</div>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+  [btnDisable]="btnDisabled"
+></app-popup>

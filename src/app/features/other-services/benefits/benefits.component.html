@@ -1,0 +1,90 @@
+<div class="container mt-3">
+  <div class="form-row">
+    <div class="acc-table-container col-12 col-12 mb-2">
+      <mat-accordion>
+        <mat-expansion-panel
+          *ngFor="let type of benefitTypeList"
+          (opened)="openGroup(type.typeid)"
+        >
+          <mat-expansion-panel-header>
+            {{ type.typename }}
+          </mat-expansion-panel-header>
+          <mat-list>
+            <mat-list-item *ngFor="let benefit of benefitList; last as last">
+              <p
+                matLine
+                class="companyName"
+                style="
+                  text-align: justify;
+                  word-break: break-all;
+                  white-space: normal;
+                "
+              >
+                <b>{{ benefit.Companyname }}</b>
+              </p>
+              <p matLine><br /></p>
+              <p matLine style="margin-bottom: 5px">
+                <img
+                  [src]="discountIcon"
+                  height="32px"
+                  width="32px"
+                />&nbsp;&nbsp;<b>{{ benefit.Discountamount }}%</b>
+              </p>
+              <p
+                matLine
+                style="
+                  text-align: justify;
+                  overflow-wrap: break-word;
+                  white-space: normal;
+                "
+              >
+                ({{ benefit.Discountinfo }})
+              </p>
+              <p matLine style="margin-bottom: 5px"><br /></p>
+              <p matLine style="margin-bottom: 5px">
+                <img
+                  [src]="addressIcon"
+                  height="32px"
+                  width="32px"
+                />&nbsp;&nbsp;{{ benefit.Address }}
+              </p>
+              <p matLine style="margin-bottom: 5px">
+                <img [src]="webIcon" height="32px" width="32px" />&nbsp;&nbsp;<a
+                  href="{{ benefit.Weburl }}"
+                  target="_blank"
+                  >{{ benefit.Weburl }}</a
+                >
+              </p>
+
+              <p matLine style="margin-bottom: 5px">
+                <img
+                  [src]="phoneIcon"
+                  height="32px"
+                  width="32px"
+                />&nbsp;&nbsp;{{ benefit.Contact }}
+              </p>
+
+              <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</div>
+<!-- <div class="container-fluid mt-5">
+  <div class="container mt-3">
+    <h2 class="page-title"><strong>{{'Merchants' | titlecase}}</strong></h2>
+  </div>
+</div>
+<app-partner></app-partner> -->
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

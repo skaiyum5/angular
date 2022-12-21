@@ -1,0 +1,47 @@
+.bottom {
+    background: #FFF;
+    color:  #444247;
+    font-size: 14px;
+    height: auto;
+    padding-top: 5px;
+    width: 300px;
+    }
+    .row {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    }
+    .twitter {
+    margin-left: 16px;
+    height: 30px;
+    position: relative;
+    top: 0px;
+    width: 30px;
+    }
+    .medium {
+    height: 30px;
+    margin-left: 16px;
+    position: relative;
+    width: 30px;
+    }
+    .link {
+    /* margin-left: 76px; */
+    margin-left:auto;
+    margin-right: auto;
+    }
+    .link a {
+    color:  #444247;
+    text-decoration: none;
+    }
+    .link a:hover {
+    color:  #777579;
+    }
+
+.slider-img{
+    height: 380px;
+    width: 1052px;
+}
+.rounded-circle{
+    z-index:999;
+}

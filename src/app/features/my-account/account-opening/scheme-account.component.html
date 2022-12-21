@@ -1,0 +1,110 @@
+<div class="container mt-4 mb-4">
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Product Name</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.productname}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Branch</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{branchName}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Tenure</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.tenure}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Terms</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.terms}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Terms Frequency</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.termsFrequancy}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Maturity Date</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.maturityDate | date: "dd/MMM/y"}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Base Deposit Amount</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.baseDepositamount}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Installment Amount</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.instalmentAmount}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Installment Frequency</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.instalmentFrequancy}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Maturity Amount</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.maturityAmount}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Interest Rate</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.interestRate}}</label>
+    </div>
+  </div>
+  <!-- <div class="row">
+    <div class="col-4 col-md-3">
+      <label><b>Bonus Amount</b></label>
+    </div>
+    <div class="col-8">
+      <label><b>:</b>&nbsp;{{schemeDetails.bonusAmount}}</label>
+    </div>
+  </div> -->
+  <button class="btn btn-success mt-3" (click)="openSchemeAccount()">Open Scheme Account</button>
+  <button type="button" class="btn btn-secondary mt-3 ml-2" (click)="cancel()">Cancel</button>
+</div>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

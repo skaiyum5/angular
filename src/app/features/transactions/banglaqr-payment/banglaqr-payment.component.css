@@ -1,0 +1,103 @@
+.invalid-feedback {
+  display: block;
+  color: red;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+  border: 1px solid green;
+}
+
+.datefield {
+  position: relative;
+}
+
+.datebutton {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 1px solid #ced4da;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 00.25rem;
+}
+
+:host /deep/ ngb-datepicker {
+  top: 35px !important;
+  transform: translate(0, 0) !important;
+}
+
+.mat-option.mat-active {
+  background-color: lightgrey;
+}
+
+/* Camera  */
+
+#camera:before,
+
+#camera:after,
+
+#camera>:last-child:before,
+
+#camera>:last-child:after {
+
+  position: absolute;
+
+  width: 60px;
+
+  height: 50px;
+
+  border: 5px solid white;
+
+  content: ' ';
+
+}
+
+
+
+#camera:before {
+
+  top: 10px;
+
+  left: 10px;
+
+  border-width: 5px 0 0 5px
+}
+
+
+
+#camera:after {
+
+  top: 10px;
+
+  right: 10px;
+
+  border-width: 5px 5px 0 0
+}
+
+
+
+#camera>:last-child:before {
+
+  bottom: 10px;
+
+  right: 10px;
+
+  border-width: 0 5px 5px 0
+}
+
+
+
+#camera>:last-child:after {
+
+  bottom: 10px;
+
+  left: 10px;
+
+  border-width: 0 0 5px 5px
+}

@@ -1,0 +1,61 @@
+<div class="container mt-3">
+  <div class="form-row">
+    <div class="acc-table-container col-12 col-12 mb-2">
+      <mat-accordion>
+        <mat-expansion-panel
+          *ngFor="let type of partnerTypeList"
+          (opened)="openGroup(type.typeid)"
+        >
+          <mat-expansion-panel-header>
+            {{ type.typename }}
+          </mat-expansion-panel-header>
+          <mat-list>
+            <mat-list-item *ngFor="let partner of partnerList; last as last">
+              <p
+                matLine
+                class="partnerName"
+                style="
+                  text-align: justify;
+                  word-break: break-all;
+                  white-space: normal;
+                "
+              >
+                <b>{{ partner.partnername }}</b>
+              </p>
+              <p matLine><br /></p>
+              <p matLine style="margin-bottom: 5px">
+                <b>Tenor : &nbsp;&nbsp;{{ partner.trenor }}</b>
+              </p>
+              <p matLine style="margin-bottom: 5px"><br /></p>
+              <p matLine style="margin-bottom: 5px">
+                <img [src]="webIcon" height="32px" width="32px" />&nbsp;&nbsp;<a
+                  href="{{ partner.weburl }}"
+                  target="_blank"
+                  >{{ partner.weburl }}</a
+                >
+              </p>
+              <p matLine style="margin-bottom: 5px">
+                <img
+                  [src]="phoneIcon"
+                  height="32px"
+                  width="32px"
+                />&nbsp;&nbsp;{{ partner.contact }}
+              </p>
+              <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</div>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

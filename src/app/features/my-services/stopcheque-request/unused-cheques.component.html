@@ -1,0 +1,151 @@
+<div class="unused-cheque-table">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="leafno">
+      <th mat-header-cell *matHeaderCellDef>Leaf No.</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element._CHQ_PREFIX }}-{{ element._LEAF_NO }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element._STATUS }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="button">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          class="btn btn-danger btn-sm"
+          (click)="stopChequePopUp(element._CHQ_PREFIX, element._LEAF_NO)"
+          data-toggle="modal"
+          data-target="#stopChequeModal"
+        >
+          Stop
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+
+<mat-paginator
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 15, 25]"
+  showFirstLastButtons
+></mat-paginator>
+<br />
+
+<div
+  class="modal fade"
+  id="stopChequeModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="stopChequeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h2 class="modal-title w-100" id="stopChequeModalLabel">
+          Cheque Information
+        </h2>
+        <button
+          #close
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-4">
+            <label><b> Account Number</b></label>
+          </div>
+          <div class="col-8">
+            <label
+              ><b>:</b>&nbsp;{{ popUpInfo.branchId }}-{{
+                popUpInfo.accountNumber
+              }}</label
+            >
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label><b> Bank Branch</b></label>
+          </div>
+          <div class="col-8">
+            <label><b>:</b>&nbsp;{{ popUpInfo.bankBranch | titlecase }}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label><b> Leaf Number</b></label>
+          </div>
+          <div class="col-8">
+            <label
+              ><b>:</b>&nbsp;{{ popUpInfo.chequePrefix }}-{{
+                popUpInfo.leafNo
+              }}</label
+            >
+          </div>
+        </div>
+        <form
+          [formGroup]="stopChequeForm"
+          (ngSubmit)="stopChequeRequest()"
+          id="stpChq"
+        >
+          <div class="row">
+            <div class="col-4">
+              <label><b> Cheque Amount</b></label>
+            </div>
+            <div class="col-6">
+              <input
+                type="text"
+                id="chequeAmount"
+                class="form-control"
+                formControlName="chequeAmount"
+              />
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-4">
+              <label><b>Reason</b></label>
+            </div>
+            <div class="col-6">
+              <input
+                type="text"
+                id="reason"
+                class="form-control"
+                formControlName="reason"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button form="stpChq" type="submit" class="btn btn-danger">
+          Stop Cheque
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

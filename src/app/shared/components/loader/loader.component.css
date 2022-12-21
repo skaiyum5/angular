@@ -1,0 +1,93 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.loader-container .ring {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top: 4px solid #2cb34c;
+  border-left: 4px solid  #2cb34c;
+  animation: animate 1s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-container .ring::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  right: 19px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  background: #2cb34c;
+  box-shadow: 0 0 0 5px rgba(0, 255, 76, 0.2), 0 0 0 10px rgba(0, 255, 0, 0.2),
+    0 0 50px 20px rgba(51, 255, 0, 0.2);
+}
+
+.loader-container .ring:last-of-type {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-top: 4px solid rgb(0, 74, 159);
+  border-left: 4px solid transparent;
+  border-right: 4px solid rgb(0, 74, 159);
+  animation: animate2 1s linear infinite;
+}
+
+@keyframes animate2 {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.loader-container .ring:last-of-type::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 9px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  background: rgb(0, 74, 159);
+  box-shadow: 0 0 0 5px rgba(0, 82, 159, 0.2), 0 0 0 10px rgba(8, 106, 233, 0.2),
+    0 0 50px 20px rgb(0, 74, 159, 0.2);
+}
+
+.loader-container p {
+  position: absolute;
+  font-size: 1.5em;
+  font-family: consolas;
+  bottom: 20%;
+  letter-spacing: 0.2em;
+  color: black;
+  box-shadow: 0 0 20px 20px rgb(255, 255, 255, 0.3);
+  background-color: rgb(255, 255, 255, 0.3);
+}

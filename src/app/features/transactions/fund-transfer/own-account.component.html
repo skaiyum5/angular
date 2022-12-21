@@ -1,0 +1,25 @@
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlReceiverAccount">Transfer To</label>
+        <select id="ddlReceiverAccount" name="ddlReceiverAccount" class="form-control"
+            (change)="getAccountDetails($event)">
+            <option value="0" selected>--Select--</option>
+            <option *ngFor="let acc of userAccountList"
+                value="{{acc.brancH_ID}}_{{acc.accounT_NUMBER}}_{{acc.accounT_TITLE}}">
+                {{acc.brancH_ID}}-{{acc.accounT_NUMBER}}
+            </option>
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="txtAccountTitle">Account Title</label>
+        <input type="text" class="form-control" id="txtAccountTitle" value="{{PayeeAccountTitle}}" disabled>
+    </div>
+</div>
+<!-- <div class="form-row">
+    <div class="col-md-3 mb-3">
+        <label for="txtPurpose">Purpose of Transaction</label>
+        <input type="text" class="form-control" id="txtPurpose">
+    </div>
+</div> -->

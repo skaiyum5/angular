@@ -1,0 +1,28 @@
+ 
+  .mat-button {
+    color: green;
+  } 
+
+  .cust-link {
+    color: green;
+  }
+  
+  .cust-link:hover {
+    color: darkgreen;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  img {
+    border-radius: 50%;
+    border: 1px solid gray;
+  }
+
+  .mat-list-item-content {
+    padding: 0 !important;
+  }
+
+  ::ng-deep .mat-drawer-content{ 
+    overflow:overlay !important;
+   }

@@ -1,0 +1,86 @@
+<div class="form_bg">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5" [ngClass]="{'col-lg-12 col-xl-12 padding-bottom':isRegisterComponent}">
+        <!-- <div class="col-4"> -->
+        <form
+          class="form-container"
+          #otpForm="ngForm"
+          (ngSubmit)="submitOtp()"
+          autocomplete="off"
+        >
+          <button
+            type="button"
+            class="btn btn-success back-btn"
+            (mouseover)="toggleBackBtnVisibility(true)"
+            (mouseleave)="toggleBackBtnVisibility(false)"
+            (click)="backClick()"
+          >
+            <span>&lt;</span> <span *ngIf="this.backBtnVisible" class="pl-2">Go back</span>
+          </button>
+          <h4 class="text-capitalize text-center mt-4 mb-2">
+            <span>2-Step Verification</span>
+          </h4>    
+          <div class="my-1 text-center">
+            <!-- <span class="content">A verification code has been sent to you via SMS.</span>
+            <br />
+            <span class="content">Please verify that 6 digit code below to continue.</span> -->
+            <span class="content">{{ securityCodeTitle }}</span>
+          </div>     
+          <!-- <div>
+            <span class="float-right my-3 content text-primary resendCode" (click)="onClick()">Resend code</span>
+          </div> -->
+          <div class="form-group">            
+            <input
+              type="text"
+              id="txtOtp"
+              class="form-control"
+              name="otp"
+              [(ngModel)]="otp"
+              required
+              minlength="4"
+              maxlength="15"
+              (keyup)="setOtp($event)"
+            />
+          </div>
+          <div class="form-group">
+            <button
+              type="submit"
+              class="btn btn-success btn-block"
+              [disabled]="!otpForm.valid"
+            >
+              <b>Verify</b>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="col-5 mx-auto">
+    <form #otpForm="ngForm" (ngSubmit)="submitOtp()" autocomplete="off">
+      <div class="form-group">
+        <label for="txtName" class="col-form-label"
+          >Confirm<span class="text-danger">*</span></label
+        >
+        <input
+          type="text"
+          id="txtName"
+          class="form-control"
+          name="name"
+          required
+        />
+      </div>
+  
+      <div class="form-group">
+        <button
+          type="submit"
+          class="btn btn-success btn-block"
+          [disabled]="!otpForm.valid"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div> -->

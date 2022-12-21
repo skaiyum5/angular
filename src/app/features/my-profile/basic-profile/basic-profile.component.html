@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="form-row">
+    <div class="col-md-4 mb-3">
+      <label for="txtCustomerID">Customer ID</label>
+      <input type="text" class="form-control" id="txtCustomerID" placeholder="Customer ID"
+        [(ngModel)]="userProfileResult.customeR_ID" [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label for="txtCustomerName">Name</label>
+      <input type="text" class="form-control" id="txtCustomerName" placeholder="Customer Name"
+        [(ngModel)]="userProfileResult.customeR_FULL_NM" [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label for="txtCustomerType">Customer Type</label>
+      <input type="text" class="form-control" id="txtCustomerType" placeholder="Customer Type"
+        [(ngModel)]="userProfileResult.customeR_TYPE_NM" [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="txtFathersName">Father's Name</label>
+      <input type="text" class="form-control" id="txtFathersName" placeholder="Father's Name"
+        [(ngModel)]="userProfileResult.fatheR_NM" [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="txtMothersName">Mother's Name</label>
+      <input type="text" class="form-control" id="txtMothersName" placeholder="Mother's Name"
+        [(ngModel)]="userProfileResult.motheR_NM" [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="txtHomeBranchName">Home Branch</label>
+      <input type="text" class="form-control" id="txtHomeBranchName" placeholder="Home Branch"
+        [(ngModel)]="userProfileResult.brancH_NM" [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="txtDOB">D.O.B/D.O.E</label>
+      <input type="text" class="form-control" id="txtDOB" placeholder="Customer's D.O.B"
+        [(ngModel)]="userProfileResult.birtH_DATE" [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="txtNationalID">National ID</label>
+      <input type="text" class="form-control" id="txtNationalID" placeholder="Customer's National ID"
+        [(ngModel)]="userProfileResult.nationaL_ID" [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="txtTinNo">TIN No</label>
+      <input type="text" class="form-control" id="txtTinNo" placeholder="Customer's TIN No"
+        [(ngModel)]="userProfileResult.tiN_NO" [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+  </div>
+</div>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

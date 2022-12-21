@@ -1,0 +1,50 @@
+<div class="p-4 mb-3 asset-card" *ngFor="let reference of loanReferences">
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Name</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ reference.referenceName }}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Relation</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ reference.referenceRelation }}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Profession</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ reference.referenceProfession }}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Educational Qualification</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ reference.referenceEduQualification }}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Email</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ reference.referenceEmail }}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Phone</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ reference.referenceMobile }}</label>
+    </div>
+  </div>
+</div>

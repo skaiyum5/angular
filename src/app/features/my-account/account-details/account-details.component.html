@@ -1,0 +1,369 @@
+<div class="container my-3" [hidden]="!isComponentShow">
+  <div class="form-row">
+    <div class="acc-table-container col-12 col-12 mb-2">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- <ng-container matColumnDef="sl">
+          <th mat-header-cell *matHeaderCellDef>Sl.</th>
+          <td mat-cell *matCellDef="let element; let i = index;"> 
+            {{paginator.pageIndex * paginator.pageSize + i + 1}}             
+          </td> 
+        </ng-container> -->
+        <ng-container matColumnDef="accounT_NUMBER">
+          <th mat-header-cell *matHeaderCellDef>Account Number</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-button              
+              (click)="showAccountDetails(element)"
+              matTooltip="Click For Account Details"
+            >
+              <b>{{ element?.accounT_NUMBER }}</b>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="brancH_NM">
+          <th mat-header-cell *matHeaderCellDef>Branch Name</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.brancH_NM | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accounT_TITLE">
+          <th mat-header-cell *matHeaderCellDef>Account Title</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.accounT_TITLE | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="producT_NM">
+          <th mat-header-cell *matHeaderCellDef>Type of Account</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.producT_NM | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accounT_STATUS">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.accounT_STATUS | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="availablE_BALANCE">
+          <th mat-header-cell *matHeaderCellDef>Available Balance</th>
+          <td mat-cell *matCellDef="let element" class="text-right">
+            {{ element?.availablE_BALANCE | number: "1.2" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="outstandinG_BAL">
+          <th mat-header-cell *matHeaderCellDef>Current Balance</th>
+          <td mat-cell *matCellDef="let element" class="text-right">
+            {{ element?.outstandinG_BAL | number: "1.2" }}
+          </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="Select">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let element" class="rightalign">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="showAccountDetails(element)"
+            >
+              Select
+            </button>
+          </mat-cell>
+        </ng-container> -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <br />
+    <mat-paginator
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 15, 25]"
+    showFirstLastButtons
+  ></mat-paginator>
+  </div> 
+</div>
+<!-- Details -->
+<div class="form_bg" *ngIf="isDetailsPopupShow">
+  <div class="container my-3">
+    <div class="form-row">
+      <div class="col-md-12 col-sm-12 mb-2">
+        <mat-tab-group dynamicHeight animationDuration="1000ms">
+          <!-- Account Information Start -->
+          <mat-tab label="Account Information">
+            <br />
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b>Branch Name</b></label>
+              </div>
+              <div class="col-8">
+                <label
+                  ><b>:</b>&nbsp;{{
+                    accountDetails?.brancH_NM | titlecase
+                  }}</label
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b>Product Name</b></label>
+              </div>
+              <div class="col-8">
+                <label
+                  ><b>:</b>&nbsp;{{
+                    accountDetails?.producT_NM | titlecase
+                  }}</label
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b>Account Title</b></label>
+              </div>
+              <div class="col-8">
+                <label
+                  ><b>:</b>&nbsp;{{
+                    accountDetails?.accounT_TITLE | titlecase
+                  }}</label
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b>Status</b></label>
+              </div>
+              <div class="col-8">
+                <label
+                  ><b>:</b>&nbsp;{{
+                    accountDetails?.accounT_STATUS | titlecase
+                  }}</label
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> A/C Open date</b></label>
+              </div>
+              <div class="col-8">
+                <label
+                  ><b>:</b>&nbsp;{{
+                    accountDetails?.opeN_DT | date: "dd/MMM/y"
+                  }}</label
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Currency</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountDetails?.currencY_NM }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Last Tran. Date</b></label>
+              </div>
+              <div class="col-8">
+                <label
+                  ><b>:</b>&nbsp;{{
+                    accountDetails?.lasT_TRN_DT | date: "dd/MMM/y"
+                  }}</label
+                >
+              </div>
+            </div>
+          </mat-tab>
+          <!-- Account Information End -->
+
+          <!-- Balance Start -->
+          <mat-tab label="Balance">
+            <br />
+            <!-- <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Currency</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountBalance.currencY_NM }}</label>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Current Balance</b> &nbsp;&nbsp;{{ accountBalance?.currencY_NM }}</label>
+              </div>
+              <div class="col-8">
+                <label
+                  ><b>:</b>&nbsp;{{ accountBalance?.currenT_BALANCE }}</label
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Un Cleared Amount (-)</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountBalance?.clearinG_AMT }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Blocked Amount (-)</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountBalance?.blockeD_AMOUNT }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Hold Amount (-)</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountBalance?.holD_AMOUNT }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Lien Amount (-)</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountBalance?.lieN_AMOUNT }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Pending Authorization (Dr)</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountBalance?.pendinG_DR }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Pending Authorization (Cr)</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountBalance?.pendinG_CR }}</label>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Minimum Bal. Required</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountBalance.miN_BALANCE }}</label>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Available Balance</b></label>
+              </div>
+              <div class="col-8">
+                <label
+                  ><b>:</b>&nbsp;{{ accountBalance?.availablE_BALANCE }}</label
+                >
+              </div>
+            </div>
+          </mat-tab>
+          <!-- Balance End -->
+
+          <!-- Interest Start -->
+          <!-- <mat-tab label="Profit">
+            <br />
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Currency</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountInterest.currency }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Profit Accrued To Month</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountInterest.inT_TO_MONTH }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Accumulated Profit</b></label>
+              </div>
+              <div class="col-8">
+                <label
+                  ><b>:</b>&nbsp;{{ accountInterest.accumulateD_INT }}</label
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Total Profit</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountInterest.totaL_INT }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Profit Rate</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountInterest.inT_RATE }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Last Profit Calculation Date</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountInterest.lasT_CAL_DT }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 col-md-3">
+                <label><b> Last Profit Applied Date</b></label>
+              </div>
+              <div class="col-8">
+                <label><b>:</b>&nbsp;{{ accountInterest.lasT_APPLY_DT }}</label>
+              </div>
+            </div>
+          </mat-tab> -->
+          <!-- Interest End -->
+
+          <!-- Cheque Start -->
+          <mat-tab label="Cheque">
+            <br />
+            <app-cheque-list
+              *ngIf="chequeBookList"
+              [chequeList]="chequeBookList"
+            ></app-cheque-list>
+          </mat-tab>
+          <!-- Cheque End -->
+
+          <!-- History Start -->
+          <mat-tab label="History">
+            <br />
+            <app-transaction-history
+              *ngIf="transactionHistory"
+              [transactionHistory]="transactionHistory"
+            ></app-transaction-history>
+          </mat-tab>
+          <!-- History End -->
+        </mat-tab-group>
+      </div>
+      <div class="col-md-2 my-2">
+        <button class="btn btn-success btn-block" (click)="closeDetailsPopup()">
+          Back
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <app-loader *ngIf="loading"></app-loader> -->
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

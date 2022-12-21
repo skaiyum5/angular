@@ -1,0 +1,11 @@
+.manageLargeText {
+    text-align: justify;    
+    word-break: break-all; 
+    white-space: normal;  
+  }
+
+.partnerName
+  {
+    text-align: center;
+    font-size: 18px;
+  }

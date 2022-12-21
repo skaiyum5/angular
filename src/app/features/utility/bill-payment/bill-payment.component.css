@@ -1,0 +1,42 @@
+.invalid-feedback {
+  display: block;
+  color: red;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+  border: 1px solid green;
+}
+
+.amount-buttons button {
+  flex: auto;
+}
+
+.vendor-buttons button {
+  flex: auto;
+  outline:none;
+}
+
+.cust-link {
+  color: green;
+}
+
+.cust-link:hover {
+  color: green;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mat-option.mat-active
+{
+  background-color: lightgrey;
+}
+
+.btn-refresh
+{
+  background-color: #3C398F;
+  color:white;
+}

@@ -1,0 +1,214 @@
+<div class="container my-3">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">Encashment Information</legend>
+    <form [formGroup]="encashmentForm" (submit)="createEncashmentRequest()">
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="ddlEncashmentType">Encashment Type</label>
+          <select
+            id="ddlEncashmentType"
+            name="ddlEncashmentType"
+            formControlName="ddlEncashmentType"
+            class="form-control"
+            (change)="getAccountList($event)"
+            [ngClass]="{
+              'is-invalid':
+                (f.ddlEncashmentType.errors && f.ddlEncashmentType.touched) ||
+                (f.ddlEncashmentType.errors && submitted)
+            }"
+          >
+            <option value="" selected>Select</option>
+            <option value="Time">Time Encashment</option>
+            <option value="Scheme">Scheme Encashment</option>
+          </select>
+          <div
+            *ngIf="
+              (f.ddlEncashmentType.errors && f.ddlEncashmentType.touched) ||
+              (f.ddlEncashmentType.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.ddlEncashmentType.errors.required">
+              Please select encashment type
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="ddlEncashAccountNo">Account No</label>
+          <mat-select id="ddlEncashAccountNo" name="ddlEncashAccountNo"
+          formControlName="ddlEncashAccountNo" (selectionChange)="getAccountDetails($event)" class="form-control signupInput"
+          [ngClass]="{
+            'is-invalid':
+              (f.ddlEncashAccountNo.errors && f.ddlEncashAccountNo.touched) ||
+              (f.ddlEncashAccountNo.errors && submitted)
+          }">
+          <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here" class="form-control signupInput"
+             autocomplete="off" (keydown.Space)="$event.stopPropagation()">
+          
+          <mat-option value="">-- Select --</mat-option>
+          <mat-option *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+            value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}_{{ acc.producT_ID }}_{{ acc.producT_NM }}" class="signupInput">
+            {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+          </mat-option>
+        </mat-select>
+          <!-- <select
+            id="ddlEncashAccountNo"
+            name="ddlEncashAccountNo"
+            formControlName="ddlEncashAccountNo"
+            class="form-control"
+            (change)="getAccountDetails($event)"
+            [ngClass]="{
+              'is-invalid':
+                (f.ddlEncashAccountNo.errors && f.ddlEncashAccountNo.touched) ||
+                (f.ddlEncashAccountNo.errors && submitted)
+            }"
+          >
+            <option value="" selected>--Select--</option>
+            <option
+              *ngFor="let acc of userAccountList"
+              value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}_{{
+                acc.producT_ID
+              }}_{{ acc.producT_NM }}"
+            >
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </option>
+          </select> -->
+          <div
+            *ngIf="
+              (f.ddlEncashAccountNo.errors && f.ddlEncashAccountNo.touched) ||
+              (f.ddlEncashAccountNo.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.ddlEncashAccountNo.errors.required">
+              Please select account number
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label>Product ID</label>
+          <div>
+            <label id="lblProductID" name="lblProductID"></label>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label>Product Name</label>
+          <div>
+            <label id="lblProductName" name="lblProductName"></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label>Term</label>
+          <div>
+            <label id="lblTermNo" name="lblTermNo"></label>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label>Frequency</label>
+          <div>
+            <label id="lblTermFrequency" name="lblTermFrequency"></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label>Principal Amount</label>
+          <div>
+            <label id="lblPrincipalAmount" name="lblPrincipalAmount"></label>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label>Maturity Amount</label>
+          <div>
+            <label id="lblMaturityAmount" name="lblMaturityAmount"></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label>Maturity Date</label>
+          <div>
+            <label id="lblMaturityDate" name="lblMaturityDate"></label>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="ddlPayeeAccount">Payee Account</label>
+          <mat-select id="ddlPayeeAccount" name="ddlPayeeAccount" placeholder="Select Account"
+          formControlName="ddlPayeeAccount" class="form-control signupInput"
+          [ngClass]="{
+            'is-invalid':
+              (f.ddlPayeeAccount.errors && f.ddlPayeeAccount.touched) ||
+              (f.ddlPayeeAccount.errors && submitted)
+          }">
+          <input matInput type="text" id="txtPayeeAccSearchValue" formControlName="txtPayeeAccSearchValue" class="form-control signupInput"
+            (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+        
+          <mat-option *ngFor="let acc of payeeAccountList | search : 'accounT_NUMBER' : f.txtPayeeAccSearchValue.value"
+            value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}" class="signupInput">
+            {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+          </mat-option>
+        </mat-select>
+          <!-- <select
+            id="ddlPayeeAccount"
+            name="ddlPayeeAccount"
+            class="form-control"
+            formControlName="ddlPayeeAccount"
+            [ngClass]="{
+              'is-invalid':
+                (f.ddlPayeeAccount.errors && f.ddlPayeeAccount.touched) ||
+                (f.ddlPayeeAccount.errors && submitted)
+            }"
+          >
+            <option value="" selected>--Select--</option>
+            <option
+              *ngFor="let acc of payeeAccountList"
+              value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}"
+            >
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </option>
+          </select> -->
+          <div
+            *ngIf="
+              (f.ddlPayeeAccount.errors && f.ddlPayeeAccount.touched) ||
+              (f.ddlPayeeAccount.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.ddlPayeeAccount.errors.required">
+              Please select payee account number
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-1 mb-2">
+          <button
+            class="btn btn-success btn-block"
+            [disabled]="encashmentForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
+        <div class="col-md-1 mb-2">
+          <button type="button" class="btn btn-refresh btn-block" (click)="onRefreshData()">
+            Refresh
+          </button>
+        </div>
+      </div>
+    </form>
+  </fieldset>
+</div>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

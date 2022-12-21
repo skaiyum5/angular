@@ -1,0 +1,77 @@
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlBeneficiary">Beneficiary List</label>
+        <select id="ddlBeneficiary" name="ddlBeneficiary" class="form-control">
+            <option value="0" selected>--Select--</option>
+            <option *ngFor="let beneficiary of beneficiaryList" value="{{beneficiary.beneficiaryId}}-{{beneficiary.beneficiaryAlias}}">
+                {{beneficiary.beneficiaryId}}-{{beneficiary.beneficiaryAlias}}
+            </option>
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlBankName">Bank Name</label>
+        <mat-select id="ddlBankName" name="ddlBankName" formControlName="ddlBankName" (selectionChange)="getOtherBankBranchList($event)"
+            class="form-control signupInput">
+            <input matInput type="text" id="txtSearchEFTBank" formControlName="txtSearchEFTBank" placeholder="Search Here"
+                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="">--Select Bank--</mat-option>
+            <mat-option *ngFor="let bank of otherBankList | search : 'banK_NM' : f.txtSearchEFTBank.value"
+                value="{{bank.banK_ID}}" class="signupInput">
+                {{bank.banK_NM}}
+            </mat-option>
+        </mat-select>
+
+        <!-- <select id="ddlBankName" name="ddlBankName" class="form-control" (change)="getOtherBankBranchList($event)">
+            <option value="0" selected>--Select--</option>
+            <option *ngFor="let bank of otherBankList" value="{{bank.banK_ID}}">
+                {{bank.banK_NM}}
+            </option>
+        </select> -->
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlBranch">Branch</label>
+        <mat-select id="ddlBranch" name="ddlBranch" formControlName="ddlBranch" (selectionChange)="getOtherBankBranchDetails($event)" class="form-control signupInput">
+            <input matInput type="text" id="txtSearchEFTBranch" formControlName="txtSearchEFTBranch" placeholder="Search Here" class="form-control signupInput"
+                (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="">--Select Branch--</mat-option>
+            <mat-option *ngFor="let eftBranch of otherBankBranchList | search : 'BANK_BR_NM' : f.txtSearchEFTBranch.value"
+                value="{{eftBranch.BANK_BR_ID}}" class="signupInput">
+                {{eftBranch.BANK_BR_NM}}
+            </mat-option>
+        </mat-select>
+        <!-- <select id="ddlBranch" name="ddlBranch" class="form-control" (change)="getOtherBankBranchDetails($event)">
+            <option value="0" selected>--Select--</option>
+            <option *ngFor="let branch of otherBankBranchList" value="{{branch.BANK_BR_ID}}">
+                {{branch.BANK_BR_NM}}
+            </option>
+        </select> -->
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlReceiverAccount">Account No</label>
+        <input type="text" class="form-control" id="txtReceiverAccount" (change)="getAccountNumber($event)" required>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-3">
+        <label for="txtReceiverName">Receiver Name</label>
+        <input type="text" class="form-control" id="txtReceiverName" (change)="getReceiverName($event)" required>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-3">
+        <label for="txtReceiverId">Receiver ID (11 Digit Mobile Number)</label>
+        <input type="text" class="form-control" id="txtReceiverId" (change)="getReceiverID($event)" maxlength="11" required>
+    </div>
+</div>
+<!-- <div class="form-row">
+    <div class="col-md-3 mb-3">
+        <label for="txtPurpose">Purpose of Transaction</label>
+        <input type="text" class="form-control" id="txtPurpose">
+    </div>
+</div> -->

@@ -1,0 +1,79 @@
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-4 col-md-3">
+        <label><b>Product Name</b></label>
+      </div>
+      <div class="col-8">
+        <label><b>:</b>&nbsp;{{timeAccDetails.productname}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 col-md-3">
+        <label><b>Branch</b></label>
+      </div>
+      <div class="col-8">
+        <label><b>:</b>&nbsp;{{branchName}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 col-md-3">
+        <label><b>Terms</b></label>
+      </div>
+      <div class="col-8">
+        <label><b>:</b>&nbsp;{{timeAccDetails.terms}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 col-md-3">
+        <label><b>Terms Frequency</b></label>
+      </div>
+      <div class="col-8">
+        <label><b>:</b>&nbsp;{{timeAccDetails.termsFrequancy}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 col-md-3">
+        <label><b>Maturity Date</b></label>
+      </div>
+      <div class="col-8">
+        <label><b>:</b>&nbsp;{{timeAccDetails.maturityDate | date: "dd/MMM/y"}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 col-md-3">
+        <label><b>Principal Amount</b></label>
+      </div>
+      <div class="col-8">
+        <label><b>:</b>&nbsp;{{timeAccDetails.principalAmount}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 col-md-3">
+        <label><b>Maturity Amount</b></label>
+      </div>
+      <div class="col-8">
+        <label><b>:</b>&nbsp;{{timeAccDetails.maturityAmount}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 col-md-3">
+        <label><b>Total Rate</b></label>
+      </div>
+      <div class="col-8">
+        <label><b>:</b>&nbsp;{{timeAccDetails.totalRate}}</label>
+      </div>
+    </div>
+    <button class="btn btn-success mt-3" (click)="openTimeAccount()">Open Time Account</button>
+    <button type="button" class="btn btn-secondary mt-3 ml-2" (click)="cancel()">Cancel</button>
+  </div>
+  
+  <!-- Popup component -->
+  <app-popup
+    *ngIf="popup"
+    (close)="onCloseModal($event)"
+    [popupError]="popupError"
+    [header]="header"
+    [message]="message"
+    [btnText]="btnText"
+  ></app-popup>
+  

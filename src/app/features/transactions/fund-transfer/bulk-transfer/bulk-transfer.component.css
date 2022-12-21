@@ -1,0 +1,21 @@
+table {
+  width: 100%;
+}
+
+.acc-table-container {
+  overflow-x: auto;
+}
+
+@media only screen and (max-width: 450px) {
+  .acc-table-container {
+    overflow-x: scroll;
+  }
+
+  .cheque-table {
+    overflow-x: scroll;
+  }
+
+  .history-table {
+    overflow-x: scroll;
+  }
+}

@@ -1,0 +1,62 @@
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlReceiverType">Receiver Type</label>
+        <select id="ddlReceiverType" name="ddlReceiverType" class="form-control" (change)="getSelectedReceiverType($event)">
+            <option value="0" selected>--Select--</option>
+            <option value="Card">Card</option>
+            <option value="Account">Account</option>
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlBeneficiary">Beneficiary List</label>
+        <select id="ddlBeneficiary" name="ddlBeneficiary" class="form-control">
+            <option value="0" selected>--Select--</option>
+            <!-- <option *ngFor="let acc of userAccountList" value="{{acc.brancH_ID}}-{{acc.accounT_NUMBER}}">
+                {{acc.brancH_ID}}-{{acc.accounT_NUMBER}}
+            </option> -->
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlNpsbBankName">Bank Name</label>
+        <select id="ddlNpsbBankName" name="ddlNpsbBankName" class="form-control" (change)="getSelectedBank($event)">
+            <option value="0" selected>--Select--</option>
+            <option *ngFor="let bank of npsbBankList" value="{{bank.acquirinG_BANK_CODE}}">
+                {{bank.banK_NAME}}
+            </option>
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlReceiverAccount">Account No</label>
+        <input type="text" class="form-control" id="txtReceiverAccount" (change)="getSelectedAccount($event)">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-3">
+        <label for="txtReceiverName">Receiver Name</label>
+        <input type="text" class="form-control" id="txtReceiverName" (change)="getSelectedReceiverName($event)">
+    </div>
+</div>
+<!-- <div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlPurpose">Purpose of Transaction</label>
+        <select id="ddlPurpose" name="ddlPurpose" class="form-control">
+            <option value="0" selected>--Select--</option>
+            <option value="Business">Business</option>
+            <option value="Giving Loan">Giving Loan</option>
+            <option value="Debit Payment">Debit Payment</option>
+            <option value="Family Maintenance">Family Maintenance</option>
+            <option value="Education Expense">Education Expense</option>
+            <option value="Medical Expense">Medical Expense</option>
+            <option value="Service Charge Payment">Service Charge Payment</option>
+            <option value="Outward Remittence">Outward Remittence</option>
+            <option value="Personal Savings">Personal Savings</option>
+            <option value="Purchasing of Goods">Purchasing of Goods</option>
+        </select>
+    </div>
+</div> -->

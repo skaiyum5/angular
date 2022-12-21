@@ -1,0 +1,121 @@
+<div class="container my-3">
+    <fieldset style="
+        border: 1px solid gray;
+        padding: 10px;
+        border-radius: 5px;
+      ">
+        <legend style="font-size: 12px; width: auto">Paper Certificate Details</legend>
+        <form [formGroup]="certificateRequestForm">
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="ddlAccountNumber">Account Number</label>
+                    <mat-select id="ddlAccountNumber" name="ddlAccountNumber" formControlName="ddlAccountNumber"
+                        (selectionChange)="getAccountAndBranch($event)" class="form-control signupInput" [ngClass]="{
+                                      'is-invalid':
+                                        (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                                        (f.ddlAccountNumber.errors && submitted)
+                                    }">
+                        <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+                            class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                            autocomplete="off">
+                        <mat-option value="">-- Select --</mat-option>
+                        <mat-option
+                            *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+                            value="{{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}" class="signupInput">
+                            {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+                        </mat-option>
+                    </mat-select>
+                    <div *ngIf="
+                              (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                              (f.ddlAccountNumber.errors && submitted)
+                            " class="invalid-feedback">
+                        <div *ngIf="f.ddlAccountNumber.errors.required" class="validationMessage">
+                            Please Select Account Number
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="ddlCertificateType">Certificate Type</label>
+                    <mat-select id="ddlCertificateType" name="ddlCertificateType" formControlName="ddlCertificateType"
+                        class="form-control" [ngClass]="{
+                                      'is-invalid':
+                                        (f.ddlCertificateType.errors && f.ddlCertificateType.touched) ||
+                                        (f.ddlCertificateType.errors && submitted)
+                                    }">
+                        <input matInput type="text" id="txtSearchCertificateValue"
+                            formControlName="txtSearchCertificateValue" placeholder="Search Here" class="form-control signupInput"
+                            (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+                        <mat-option value="">-- Select --</mat-option>
+                        <mat-option
+                            *ngFor="let cert of certificateTypeList | search : 'name' : f.txtSearchCertificateValue.value"
+                            value="{{ cert.id }}" class="signupInput">
+                            {{ cert.name }}
+                        </mat-option>
+                    </mat-select>
+                    <div *ngIf="
+                              (f.ddlCertificateType.errors && f.ddlCertificateType.touched) ||
+                              (f.ddlCertificateType.errors && submitted)
+                            " class="invalid-feedback">
+                        <div *ngIf="f.ddlCertificateType.errors.required" class="validationMessage">
+                            Please Select Certificate Type
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="txtPurpose">Purpose</label>
+                    <textarea matInput id="txtPurpose" formControlName="txtPurpose" class="form-control" 
+                    cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"
+                    [ngClass]="{
+                            'is-invalid':
+                              (f.txtPurpose.errors && f.txtPurpose.touched) ||
+                              (f.txtPurpose.errors && submitted)
+                          }" ></textarea>
+
+                    <div *ngIf="
+                        (f.txtPurpose.errors && f.txtPurpose.touched) ||
+                        (f.txtPurpose.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtPurpose.errors.required">
+                            Purpose is Required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                    <label for="txtReferenceNo">Reference No</label>
+                    <input type="text" id="txtReferenceNo" formControlName="txtReferenceNo" class="form-control"
+                        [ngClass]="{
+                            'is-invalid':
+                              (f.txtReferenceNo.errors && f.txtReferenceNo.touched) ||
+                              (f.txtReferenceNo.errors && submitted)
+                          }" />
+
+                    <div *ngIf="
+                        (f.txtReferenceNo.errors && f.txtReferenceNo.touched) ||
+                        (f.txtReferenceNo.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtReferenceNo.errors.required">
+                            Reference No is Required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-2 mb-2">
+                    <button [disabled]="certificateRequestForm.invalid" class="btn btn-success btn-block" type="submit"
+                        (click)="onSubmit()">Submit</button>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button class="btn btn-refresh btn-block" (click)="onReset()">Refresh</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+    [btnText]="btnText"></app-popup>

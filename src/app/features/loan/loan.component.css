@@ -1,0 +1,52 @@
+table {
+  width: 100%;
+}
+
+.mat-footer-cell {
+  padding: 0 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.doc-list > button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.radio-input-custom {
+  transform: translateY(-2px);
+}
+
+.invalid-feedback {
+  display: block;
+  color: red;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+  border: 1px solid green;
+}
+
+.doc-response > p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Asset */
+.asset-table-container {
+  padding: 0;
+}
+
+.validationMessage
+{
+  text-align: left;
+}
+
+
+@media only screen and (max-width: 450px) {
+  .asset-table-container {
+    overflow-x: scroll;
+  }
+}

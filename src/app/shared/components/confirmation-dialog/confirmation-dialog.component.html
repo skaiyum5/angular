@@ -1,0 +1,40 @@
+<div id="myModal" class="modal fade show custom-modal d-flex align-items-center justify-content-center" style="display: block">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content" *ngIf="!isMobileScreen">
+            <div class="modal-header">
+                <h4 class="modal-title w-100 d-flex justify-content-center">{{ title }}</h4>
+                <!-- <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+            </div>
+            <div class="modal-body ml-2 mr-2 text-center">
+                <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-primary col-md-3" (click)="accept()">{{ btnOkText }}</button>
+                <button type="button" class="btn btn-danger col-md-4" (click)="decline()">{{ btnCancelText }}</button>
+            </div>
+        </div>
+
+        <div class="modal-content" *ngIf="isMobileScreen">
+           
+            <div class="modal-body ml-2 mr-2">   
+                <button type="button" class="close" aria-label="Close" style="top: -20px;
+                right: -27px; padding: 15px; border: 3px solid white;border-radius:0px 11px 0px 0px" (click)="dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>             
+                <div class="row text-center">
+                    <div class="col-12" style="text-align: center; font-weight: bold; margin-bottom: 10px; font-size: larger;">
+                    Download RAKUB App
+                    </div>
+                
+                    <div class="col-12" class="link">
+                    <a href="{{title}}" target="_blank" title="">
+                        <img src="{{message}}" class=" pl-2 pr-1" alt="Google Play Store" width="65%">
+                    </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

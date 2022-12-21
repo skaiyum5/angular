@@ -1,0 +1,25 @@
+table {
+  width: 100%;
+}
+
+.mat-cell {
+  padding: 0 10px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mat-footer-cell {
+  padding: 0 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+
+.asset-table-container {
+  padding: 0;
+}
+
+@media only screen and (max-width: 450px) {
+  .asset-table-container {
+    overflow-x: scroll;
+  }
+}

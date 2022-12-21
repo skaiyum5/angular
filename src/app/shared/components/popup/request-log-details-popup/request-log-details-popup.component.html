@@ -1,0 +1,381 @@
+<div id="myModal" class="modal fade show custom-modal" style="display: block">
+  <div class="modal-dialog modal-confirm" [style]="custStyle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100 text-center">{{ header }}</h4>
+      </div>
+      <div class="modal-body  ml-4 mr-2">
+        <div *ngIf="isStatement" class="account-info pt-2">
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Account :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ statementDetails.branchId }}-{{statementDetails.accountNumber}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>From :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ statementDetails.dateFrom | date: "dd-MMM-y"}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>To :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ statementDetails.dateTo | date: "dd-MMM-y"}}</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isStopCheque" class="account-info pt-2">
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Account :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ stopChequeDetails.branchId }}-{{stopChequeDetails.accountNumber}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Amount :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ stopChequeDetails.chequeAmount | number: "1.2"}} BDT</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Date :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ stopChequeDetails.chequeDate | date: "dd-MMM-y"}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Leaf No :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{stopChequeDetails.chequePrefix}} {{ stopChequeDetails.endLeafNo }}</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isChequeIssue" class="account-info pt-2">
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Account :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ chequeIssueDetails.branchId }}-{{chequeIssueDetails.accountNo}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Definition :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ chequeIssueDetails.definationId }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Delivery Br. :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ chequeIssueDetails.deliveryBranchId }}</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isComplain" class="account-info pt-2">
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Branch ID:</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ complainDetails.branchId }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Subject :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ complainDetails.subject }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Description :</strong>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-12 text-left">
+              <p style="
+                        text-align: justify;
+                        overflow-wrap: break-word;
+                        white-space: normal;
+                      ">{{ complainDetails.description }}</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isAddressChange" class="account-info pt-2">
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Address :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.address1 }}</p>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-4 text-left">              
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.address2 }}</p>
+            </div>
+          </div> -->
+          
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Country :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.country }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>City :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.city }}</p>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-4 text-left">
+              <strong>Zip Code :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.zipcode }}</p>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Division :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.division }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>District :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.district }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Thana :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.thana }}</p>
+            </div>
+          </div>
+         
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Email :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.email }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Phone :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.phone }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Mobile :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ addressChangeDetails.mobile }}</p>
+            </div>
+          </div>         
+        </div>
+        <div *ngIf="isLostCard" class="account-info pt-2">
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Branch :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ lostCardDetails.branchId }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Card No :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ lostCardDetails.cardNo }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Card Type :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ lostCardDetails.cardType }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Instruction :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ lostCardDetails.instruction }}</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isPositivePay" class="account-info pt-2">
+          <div class="row">
+            <div class="col-5 text-left">
+              <strong>Account :</strong>
+            </div>
+            <div class="col-7 px-1">
+              <p>{{ positivePayDetails.branchId }}-{{positivePayDetails.accountNo}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5 text-left">
+              <strong>Beneficiary :</strong>
+            </div>
+            <div class="col-7 px-1">
+              <p>{{ positivePayDetails.beneficiaryName }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5 text-left">
+              <strong>Start Date :</strong>
+            </div>
+            <div class="col-7 px-1">
+              <p>{{ positivePayDetails.startDate | date: "dd-MMM-y"}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5 text-left">
+              <strong>Expiary Date :</strong>
+            </div>
+            <div class="col-7 px-1">
+              <p>{{ positivePayDetails.expDate | date: "dd-MMM-y"}}</p>
+            </div>
+          </div>          
+          <div class="row">
+            <div class="col-5 text-left">
+              <strong>Amount :</strong>
+            </div>
+            <div class="col-7 px-1">
+              <p>{{ positivePayDetails.instAmt | number: "1.2"}} BDT</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5 text-left">
+              <strong>Instruction No :</strong>
+            </div>
+            <div class="col-7 px-1">
+              <p>{{ positivePayDetails.instNo}}</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isPayOrder" class="account-info pt-2">
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Account :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ payOrderDetails.branchid }}-{{payOrderDetails.accountnumber}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Amount :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ payOrderDetails.amount | number: "1.2"}} BDT</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Beneficiary :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ payOrderDetails.beneficiaryname }} </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Refarance No :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ payOrderDetails.refaranceNo }} </p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isPaperCertificate" class="account-info pt-2">
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Account :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ paperCertificateDetails.branchid }}-{{paperCertificateDetails.accountnumber}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Type :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ paperCertificateDetails.certificatetype }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Purpose :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ paperCertificateDetails.purpose }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 text-left">
+              <strong>Refarance No :</strong>
+            </div>
+            <div class="col-8 px-1">
+              <p>{{ paperCertificateDetails.refaranceNo }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button [ngClass]="
+              !popupError
+                ? 'btn btn-success btn-block'
+                : 'btn btn-danger btn-block'
+            " data-dismiss="modal" [disabled]="btnDisable" (click)="onClose()">
+          {{ btnText }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

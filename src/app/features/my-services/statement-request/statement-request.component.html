@@ -1,0 +1,182 @@
+<div class="container my-3">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">Request Details</legend>
+    <form
+      [formGroup]="statementRequestForm"
+      (ngSubmit)="createStatementRequest()"
+      #myForm="ngForm"
+    >
+      <div class="form-row">
+        <div class="col-md-3 mb-2">
+          <label for="ddlAccountNumber">Account Number</label>
+          <mat-select id="ddlAccountNumber" name="ddlAccountNumber" formControlName="ddlAccountNumber"
+            (selectionChange)="getAccountAndBranch($event)" class="form-control signupInput" [ngClass]="{
+              'is-invalid':
+                (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                (f.ddlAccountNumber.errors && submitted)
+            }">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+              class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="">-- Select --</mat-option>
+            <mat-option *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+              value="{{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}" class="signupInput">
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </mat-option>
+          </mat-select>
+          <!-- <select
+            id="ddlAccountNumber"
+            name="ddlAccountNumber"
+            formControlName="ddlAccountNumber"
+            class="form-control"
+            (change)="getAccountAndBranch($event)"
+            [ngClass]="{
+              'is-invalid':
+                (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                (f.ddlAccountNumber.errors && submitted)
+            }"
+          >
+            <option value="" selected>---Select---</option>
+            <option
+              *ngFor="let acc of userAccountList"
+              value="{{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}"
+            >
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </option>
+          </select> -->
+          <div
+            *ngIf="
+              (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+              (f.ddlAccountNumber.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.ddlAccountNumber.errors.required">
+              Account number is required
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="startdate">Start Date</label>
+          <div class="datefield">
+            <input
+              class="form-control"
+              placeholder="dd/mm/yyyy"
+              name="startdp"
+              ngbDatepicker
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              #startdp="ngbDatepicker"
+              [footerTemplate]="startDateFooter"
+              formControlName="startdate"
+              readonly
+              [ngClass]="{
+                'is-invalid':
+                  (f.startdate.errors && f.startdate.touched) ||
+                  (f.startdate.errors && submitted)
+              }"
+            />
+            <button type="button" (click)="startdp.toggle()" class="datebutton">
+              <mat-icon>calendar_today</mat-icon>
+            </button>
+          </div>
+          <ng-template #startDateFooter>
+            <hr class="my-0" />
+            <button
+              class="btn btn-success btn-sm m-2 float-left"
+              (click)="
+                statementRequestForm.controls['startdate'].setValue(today);
+                startdp.close()
+              "
+            >
+              Today
+            </button>
+            <button
+              class="btn btn-secondary btn-sm m-2 float-right"
+              (click)="startdp.close()"
+            >
+              Close
+            </button>
+          </ng-template>
+          <div
+            *ngIf="
+              (f.startdate.errors && f.startdate.touched) ||
+              (f.startdate.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.startdate.errors.required">
+              Start date is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="enddate">End Date</label>
+          <div class="datefield">
+            <input
+              class="form-control"
+              placeholder="dd/mm/yyyy"
+              name="enddp"
+              ngbDatepicker
+              #enddp="ngbDatepicker"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              [footerTemplate]="endDateFooter"
+              formControlName="enddate"
+              readonly
+              [ngClass]="{
+                'is-invalid':
+                  (f.enddate.errors && f.enddate.touched) ||
+                  (f.enddate.errors && submitted)
+              }"
+            />
+            <button type="button" (click)="enddp.toggle()" class="datebutton">
+              <mat-icon>calendar_today</mat-icon>
+            </button>
+          </div>
+          <ng-template #endDateFooter>
+            <hr class="my-0" />
+            <button
+              class="btn btn-success btn-sm m-2 float-left"
+              (click)="
+                statementRequestForm.controls['enddate'].setValue(today); enddp.close()
+              "
+            >
+              Today
+            </button>
+            <button
+              class="btn btn-secondary btn-sm m-2 float-right"
+              (click)="enddp.close()"
+            >
+              Close
+            </button>
+          </ng-template>
+          <div
+            *ngIf="
+              (f.enddate.errors && f.enddate.touched) ||
+              (f.enddate.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.enddate.errors.required">End date is required</div>
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-2">
+          <label for="enddate">&nbsp;</label>
+          <button class="btn btn-success btn-block" [disabled]="statementRequestForm.invalid">Submit</button>
+        </div>
+      </div>
+    </form>
+  </fieldset>
+</div>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

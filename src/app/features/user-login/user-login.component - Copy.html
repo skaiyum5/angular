@@ -1,0 +1,236 @@
+<!-- <div class="container">
+  <div class="col-sm-5 mx-auto mt-4">
+    <div class="card">
+      <h4 class="card-header text-center">Login</h4>
+      <div class="card-body">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="username">User Name</label>
+            <input type="text" formControlName="username" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+              <div *ngIf="f.username.errors.required">Username is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" formControlName="password" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">Password is required</div>
+            </div>
+          </div>
+          <button [disabled]="loading" [disabled]="loginForm.invalid" class="btn btn-success btn-block">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Login
+          </button>
+          <div *ngIf="error" class="alert alert-danger mt-3 mb-0">
+            {{ error }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div *ngIf="isOtpShow">  *ngIf="isOtpShow"-->
+<div class="form_bg">
+  <div class="container">
+    <div class="text-center login-header">
+      <!-- <h2>Rajshahi Krishi Unnayan Bank</h2> -->
+      <h2>ফার্স্ট সিকিউরিটি ইসলামী ব্যাংক লিমিটেড</h2>
+    </div>
+    <div class="row justify-content-center login-page">
+      <div class="col-11 col-sm-11 col-md-10 col-lg-8 col-xl-7">
+        <!-- <div class="col-4"> -->
+        <div class="row login-container">
+          <div class="col-md-6 col-sm-6 col-12 logo-image-container">
+            <img
+              [src]="'assets/images/Login_Image.jpg'"
+              alt=""
+              class="logo-image"
+            />
+            <!-- <img
+              [src]="'assets/images/logo-mob.jpg'"
+              alt=""
+              class="logo-image-mob"
+            /> -->
+          </div>
+          <form
+            class="form-container col-md-6 col-sm-6 col-12 py-md-5 py-sm-3"
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+            autocomplete="off"
+          >
+            <h1 class="text-center form-header">
+              <span>LOG IN</span>
+            </h1>
+            <div class="my-2 text-center">
+              <!-- <span class="content">A verification code has been sent to you via SMS.</span>
+                    <br />
+                    <span class="content">Please verify that 6 digit code below to continue.</span> -->
+              <span class="content" style="color: darkgreen; font-size: 12px">{{
+                !usernameProvided
+                  ? "Enter user id to login"
+                  : "Enter password to login"
+              }}</span>
+            </div>
+            <div class="mb-4" *ngIf="!usernameProvided">
+              <div class="form-group position-relative margin-none">
+                <!-- <label for="username">User Name</label> -->
+                <mat-icon class="position-absolute input-icon-left"
+                  >person</mat-icon
+                >
+                <input
+                  [type]="usernameVisibility ? 'text' : 'password'"
+                  formControlName="username"
+                  class="form-control form-text-input"
+                  placeholder="Username"
+                  [ngClass]="{
+                    'is-invalid':
+                      (f.username.errors && f.username.touched) ||
+                      (f.username.errors && submitted)
+                  }"
+                />
+                <mat-icon
+                  *ngIf="!usernameVisibility"
+                  class="visibility-icon position-absolute"
+                  (click)="changeUsernameVisibility()"
+                >
+                  visibility_off
+                </mat-icon>
+                <mat-icon
+                  *ngIf="usernameVisibility"
+                  class="visibility-icon position-absolute"
+                  (click)="changeUsernameVisibility()"
+                >
+                  visibility
+                </mat-icon>
+              </div>
+              <div
+                *ngIf="
+                  (f.username.errors && f.username.touched) ||
+                  (f.username.errors && submitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.username.errors.required">
+                  Username is required
+                </div>
+              </div>
+            </div>
+            <div class="mb-4" *ngIf="usernameProvided">
+              <div class="form-group position-relative margin-none">
+                <!-- <label for="password">Password</label> -->
+                <mat-icon class="position-absolute input-icon-left"
+                  >lock</mat-icon
+                >
+                <input
+                  [type]="passwordVisibility ? 'text' : 'password'"
+                  formControlName="password"
+                  class="form-control form-text-input"
+                  placeholder="Password"
+                  [ngClass]="{
+                    'is-invalid':
+                      (f.password.errors && f.password.touched) ||
+                      (f.password.errors && submitted)
+                  }"
+                />
+                <mat-icon
+                  *ngIf="!passwordVisibility"
+                  class="visibility-icon position-absolute"
+                  (click)="changePassVisibility()"
+                >
+                  visibility_off
+                </mat-icon>
+                <mat-icon
+                  *ngIf="passwordVisibility"
+                  class="visibility-icon position-absolute"
+                  (click)="changePassVisibility()"
+                >
+                  visibility
+                </mat-icon>
+              </div>
+              <div
+                *ngIf="
+                  (f.password.errors && f.password.touched) ||
+                  (f.password.errors && submitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.password.errors.required">
+                  Password is required
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center pt-3">
+              <button
+                [disabled]="loading"
+                class="btn btn-success login-button mr-3"
+              >
+                <span
+                  *ngIf="loading"
+                  class="spinner-border spinner-border-sm mr-1"
+                ></span>
+                Log In
+              </button>
+              <button
+                class="btn btn-refresh login-button ml-3"
+                type="button"
+                (click)="onReset()"
+              >
+                Refresh
+              </button>
+            </div>
+            <div
+              class="
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-center
+                mt-4
+                pt-3
+                w-100
+              "
+            >
+              <a
+                class="login-items mb-1"
+                type="button"
+                routerLink="/selfregistration"
+              >
+                <span class="w-100 text-center">Self-Registration</span>
+              </a>
+
+              <a
+                class="login-items mb-1"
+                type="button"
+                routerLink="/passwordrecovery"
+              >
+                <span class="w-100 text-center">Password Recovery</span>
+              </a>
+
+              <a
+                class="login-items mb-3"
+                type="button"
+                routerLink="/useridrecovery"
+              >
+                <span class="w-100 text-center">Forgotten your User ID?</span>
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

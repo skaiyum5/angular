@@ -1,0 +1,59 @@
+table {
+  width: 98%;
+}
+
+.cust-link {
+  color: green;
+}
+
+.cust-link:hover {
+  color: green;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.invalid-feedback {
+  display: block;
+  color: red;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+  border: 1px solid green;
+}
+
+.transaction-buttons button {
+  outline: none;
+  flex: auto;
+  min-height: 64px;
+}
+
+.col-12
+{
+  padding-left: 0px;
+}
+.col-md-6
+{
+  padding-left: 0px;
+}
+
+@media only screen and (max-width: 450px) {
+  .benf-table-container {
+    overflow-x: scroll;
+  }
+}
+
+.mat-option.mat-active
+{
+  background-color: lightgrey;
+}
+
+::ng-deep .mat-raised-button:active, 
+.mat-raised-button:focus{
+  /* border: 2px solid #283A82 !important; */
+  
+  outline: 0px solid transparent;
+}

@@ -1,0 +1,76 @@
+.form_bg {
+  margin-top: 10%;
+  display: flex;
+  align-items: center;
+}
+
+.form-container {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px 0 #888888;
+}
+
+.content {
+  font-size: smaller;
+  text-indent: -2em;
+}
+
+.resendCode {
+  cursor: pointer;
+}
+
+.resendCode :hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.transaction-buttons button {
+    outline: none;
+    flex: auto;
+    min-height: 64px;
+}
+
+.amount-buttons button {
+  flex: auto;
+}
+
+.cust-link {
+  color: green;
+}
+
+.cust-link:hover {
+  color: green;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.invalid-feedback {
+  display: block;
+  color: red;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+  border: 1px solid green;
+}
+
+.mat-option.mat-active
+  {
+    background-color: lightgrey;
+  }
+
+.btn-refresh
+{
+  background-color: #3C398F;
+  color:white;
+}
+::ng-deep .mat-raised-button:active, 
+.mat-raised-button:focus{
+  /* border: 2px solid #004A9F !important; */
+  
+  outline: 0px solid transparent;
+}

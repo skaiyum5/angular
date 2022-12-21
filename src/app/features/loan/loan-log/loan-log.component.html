@@ -1,0 +1,68 @@
+<div class="container my-3">
+  <!-- <button class="btn btn-success mb-4 float-right" (click)="downloadAsPDF()">
+      Export To PDF
+    </button> -->
+  <div class="acc-table-container col-12">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="loanrequestid">
+        <th mat-header-cell *matHeaderCellDef>Investment Req ID</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-button
+            color="primary"
+            matTooltip="Click For Investment Details"
+            [routerLink]="['/investment/details/', element.loanrequestid]"
+          >
+            <b>{{ element.loanrequestid }}</b>
+          </button>
+          <!-- {{ element.loanrequestid }} -->
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="userId">
+        <th mat-header-cell *matHeaderCellDef>User ID</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.userId }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="userNm">
+        <th mat-header-cell *matHeaderCellDef>User Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.userNm | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="productNm">
+        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          {{ element.productNm | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="branchId">
+        <th mat-header-cell *matHeaderCellDef>Branch ID</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.branchId }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="branchNm">
+        <th mat-header-cell *matHeaderCellDef>Branch Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.branchNm }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="authStatus">
+        <th mat-header-cell *matHeaderCellDef>Authorization Status</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.authStatus === 'P' ? 'Pending' : 'O' ? 'On Process' : 'A' ? 'Approved' : 'Declined' }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    #tablePaginator
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 15, 25]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

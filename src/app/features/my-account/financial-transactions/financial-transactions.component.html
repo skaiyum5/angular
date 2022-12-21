@@ -1,0 +1,190 @@
+<div class="container my-3">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px" class="mb-3">
+    <legend style="font-size: 12px; width: auto">Transaction Details</legend>
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="ddlPayOutAccount">Account Number</label>
+          <mat-select id="ddlPayOutAccount" name="ddlPayOutAccount" formControlName="accountNumber"
+            (selectionChange)="getAccount($event)" class="form-control signupInput" [ngClass]="{
+            'is-invalid':
+              (f.accountNumber.errors && f.accountNumber.touched) ||
+              (f.accountNumber.errors && submitted)
+          }">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+              class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="">-- Select --</mat-option>
+            <mat-option *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+              value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}" class="signupInput">
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </mat-option>
+          </mat-select>
+          <!-- <select
+            id="ddlPayOutAccount"
+            class="form-control"
+            formControlName="accountNumber"
+            (change)="getAccount($event)"
+            [ngClass]="{
+              'is-invalid':
+                (f.accountNumber.errors && f.accountNumber.touched) ||
+                (f.accountNumber.errors && submitted)
+            }"
+          >
+            <option value="" selected>---Select---</option>
+            <option
+              *ngFor="let acc of userAccountList"
+              value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}"
+            >
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </option>
+          </select> -->
+          <div *ngIf="
+              (f.accountNumber.errors && f.accountNumber.touched) ||
+              (f.accountNumber.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.accountNumber.errors.required">
+              Account number is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-2">
+          <label for="ddlPayOutAccount">Transaction Type</label>
+          <select id="ddlPayOutAccount" class="form-control" formControlName="transactionType" [ngClass]="{
+              'is-invalid':
+                (f.transactionType.errors && f.transactionType.touched) ||
+                (f.transactionType.errors && submitted)
+            }">
+            <option value="" selected>---Select---</option>
+            <option value="0">All</option>
+            <!-- <option value="1">Fund Transfer</option>
+            <option value="2">Utility Bill</option> -->
+          </select>
+          <div *ngIf="
+              (f.transactionType.errors && f.transactionType.touched) ||
+              (f.transactionType.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.accountNumber.errors.required">
+              Transaction type is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-md-4 mb-2" *ngIf="disabled">
+          <label for="ddlPayOutAccount">Transaction Type</label>
+          <select id="ddlPayOutAccount" class="form-control" formControlName="transactionType" [ngClass]="{
+              'is-invalid':
+                (f.transactionType.errors && f.transactionType.touched) ||
+                (f.transactionType.errors && submitted)
+            }">
+            <option value="" selected>---Select---</option>
+            <option value="0">All</option>
+            <option value="1">Fund Transfer</option>
+            <option value="2">Utility Bill</option>
+          </select>
+          <div *ngIf="
+              (f.transactionType.errors && f.transactionType.touched) ||
+              (f.transactionType.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.accountNumber.errors.required">
+              Transaction type is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="startdate">Start Date</label>
+          <div class="datefield">
+            <input class="form-control" placeholder="dd/mm/yyyy" name="startdp" ngbDatepicker [minDate]="minDate"
+              [maxDate]="maxDate" #startdp="ngbDatepicker" [footerTemplate]="startDateFooter"
+              formControlName="startdate" readonly [ngClass]="{
+                'is-invalid':
+                  (f.startdate.errors && f.startdate.touched) ||
+                  (f.startdate.errors && submitted)
+              }" />
+            <button type="button" (click)="startdp.toggle()" class="datebutton">
+              <mat-icon>calendar_today</mat-icon>
+            </button>
+          </div>
+          <ng-template #startDateFooter>
+            <hr class="my-0" />
+            <button class="btn btn-success btn-sm m-2 float-left" (click)="
+                transactionForm.controls['startdate'].setValue(today);
+                startdp.close()
+              ">
+              Today
+            </button>
+            <button class="btn btn-secondary btn-sm m-2 float-right" (click)="startdp.close()">
+              Close
+            </button>
+          </ng-template>
+          <div *ngIf="
+              (f.startdate.errors && f.startdate.touched) ||
+              (f.startdate.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.startdate.errors.required">
+              Start date is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="enddate">End Date</label>
+          <div class="datefield">
+            <input class="form-control" placeholder="dd/mm/yyyy" name="enddp" ngbDatepicker #enddp="ngbDatepicker"
+              [minDate]="minDate" [maxDate]="maxDate" [footerTemplate]="endDateFooter" formControlName="enddate"
+              readonly [ngClass]="{
+                'is-invalid':
+                  (f.enddate.errors && f.enddate.touched) ||
+                  (f.enddate.errors && submitted)
+              }" />
+            <button type="button" (click)="enddp.toggle()" class="datebutton">
+              <mat-icon>calendar_today</mat-icon>
+            </button>
+          </div>
+          <ng-template #endDateFooter>
+            <hr class="my-0" />
+            <button class="btn btn-success btn-sm m-2 float-left" (click)="
+                transactionForm.controls['enddate'].setValue(today);
+                enddp.close()
+              ">
+              Today
+            </button>
+            <button class="btn btn-secondary btn-sm m-2 float-right" (click)="enddp.close()">
+              Close
+            </button>
+          </ng-template>
+          <div *ngIf="
+              (f.enddate.errors && f.enddate.touched) ||
+              (f.enddate.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.enddate.errors.required">End date is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row mt-3">
+        <div class="col-md-2 mb-2">
+          <button class="btn btn-success btn-block" type="submit" [disabled]="transactionForm.invalid">
+            Submit
+          </button>
+        </div>
+        <div class="col-md-2 mb-2">
+          <button type="button" class="btn btn-refresh btn-block" (click)="onReset()">
+            Refresh
+          </button>
+        </div>
+      </div>
+    </form>
+  </fieldset>
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px" class="mb-3">
+    <!-- <legend style="font-size: 12px; width: auto">Transaction Details</legend> -->
+    <app-fnc-trans-dtls [financialTransactions]="financialTransactions"></app-fnc-trans-dtls>
+  </fieldset>
+</div>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText"></app-popup>

@@ -1,0 +1,133 @@
+<div class="container my-3">
+  <fieldset style="
+      border: 1px solid gray;
+      padding: 10px;
+      border-radius: 5px;
+    ">
+    <form [formGroup]="chqueBookRequestForm">
+      <div class="form-row">
+        <div class="col-md-3 mb-2">
+          <label for="ddlAccount">Account</label>
+          <mat-select id="ddlAccount" name="ddlAccount" formControlName="ddlAccount"
+            (selectionChange)="getDefinition($event)" class="form-control signupInput" [ngClass]="{
+              'is-invalid':
+                (f.ddlAccount.errors && f.ddlAccount.touched) ||
+                (f.ddlAccount.errors && submitted)
+            }">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+              class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="">-- Select --</mat-option>
+            <mat-option *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+              value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}_{{ acc.accounT_TITLE }}" class="signupInput">
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </mat-option>
+          </mat-select>
+          <!-- <select id="ddlAccount" name="ddlAccount" class="form-control" formControlName="ddlAccount"
+            (change)="getDefinition($event)" [ngClass]="{
+                            'is-invalid':
+                              (f.ddlAccount.errors && f.ddlAccount.touched) ||
+                              (f.ddlAccount.errors && submitted)
+                          }">
+            <option value="" selected>--Select--</option>
+            <option *ngFor="let acc of userAccountList" value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}_{{
+                  acc.accounT_TITLE
+                }}">
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </option>
+          </select> -->
+          <div *ngIf="
+                      (f.ddlAccount.errors && f.ddlAccount.touched) ||
+                      (f.ddlAccount.errors && submitted)
+                    " class="invalid-feedback">
+            <div *ngIf="f.ddlAccount.errors.required">
+              Please Select Account
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-6 mb-2">
+          <label for="ddlDefinition">Definition</label>
+          <select id="ddlDefinition" name="ddlDefinition" formControlName="ddlDefinition"
+            (change)="getDefinitionDetails($event)" [ngClass]="{
+            'is-invalid':
+              (f.ddlDefinition.errors && f.ddlDefinition.touched) ||
+              (f.ddlDefinition.errors && submitted)
+          }" class="form-control">
+            <option value="" selected>Select</option>
+            <option *ngFor="let def of definitionDetails" value="{{ def.insT_DEF_ID }}">
+              {{ def.insT_DEF_NM }}
+            </option>
+          </select>
+          <div *ngIf="
+                      (f.ddlDefinition.errors && f.ddlDefinition.touched) ||
+                      (f.ddlDefinition.errors && submitted)
+                    " class="invalid-feedback">
+            <div *ngIf="f.ddlDefinition.errors.required">
+              Please Select Definition
+            </div>
+          </div>
+          <p class="mt-2">
+            <mat-list>
+              <mat-list-item *ngFor="let charge of chargeList; let i = index;" class="chargeList">
+                {{i+1}}. {{ charge.narration }} - {{ charge.tranS_AMOUNT }} TK
+              </mat-list-item>
+            </mat-list>
+          </p>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-6 mb-2">
+          <label for="ddlDeliveryBranch">Delivery Branch</label>
+          <mat-select id="ddlDeliveryBranch" formControlName="ddlDeliveryBranch"
+            class="form-control signupInput" [ngClass]="{
+                                        'is-invalid':
+                                          (f.ddlDeliveryBranch.errors && f.ddlDeliveryBranch.touched) ||
+                                          (f.ddlDeliveryBranch.errors && submitted)
+                                      }">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchDDLBranch" placeholder="Search Here"
+              class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="">Select Branch</mat-option>
+            <mat-option *ngFor="let branch of homeBankBranchList | search : 'brancH_NM' : f.txtSearchDDLBranch.value"
+              value="{{ branch.brancH_ID }}" class="signupInput">
+              {{ branch.brancH_NM }}
+            </mat-option>
+          </mat-select>
+          <!-- <select id="ddlDeliveryBranch" formControlName="ddlDeliveryBranch" class="form-control" [ngClass]="{
+              'is-invalid':
+                (f.ddlDeliveryBranch.errors && f.ddlDeliveryBranch.touched) ||
+                (f.ddlDeliveryBranch.errors && submitted)
+            }">
+            <option value="">---Select---</option>
+            <option *ngFor="let branch of homeBankBranchList" value="{{ branch.brancH_ID }}">
+              {{ branch.brancH_NM }}
+            </option>
+          </select> -->
+          <div *ngIf="
+                      (f.ddlDeliveryBranch.errors && f.ddlDeliveryBranch.touched) ||
+                      (f.ddlDeliveryBranch.errors && submitted)
+                    " class="invalid-feedback">
+            <div *ngIf="f.ddlDeliveryBranch.errors.required">
+              Please Select Delivery Branch
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-md-6 mb-3"></div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-2 mb-2">
+          <button [disabled]="chqueBookRequestForm.invalid" class="btn btn-success btn-block" type="submit"
+            (click)="onSubmit()">Submit</button>
+        </div>
+        <div class="col-md-2 mb-2">
+          <button class="btn btn-refresh btn-block" (click)="onReset()">Refresh</button>
+        </div>
+      </div>
+    </form>
+  </fieldset>
+</div>
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText"></app-popup>

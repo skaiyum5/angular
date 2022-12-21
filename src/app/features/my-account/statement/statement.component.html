@@ -1,0 +1,244 @@
+<div class="container my-3">
+  <fieldset
+    style="border: 1px solid gray; padding: 10px; border-radius: 5px"
+    class="mb-3"
+  >
+    <legend style="font-size: 12px; width: auto">Generate Statement</legend>
+    <form
+      [formGroup]="statementForm"
+      (ngSubmit)="getUserStatement()"
+      #myForm="ngForm"
+    >
+      <div class="form-row">
+        <div class="col-md-3 mb-1">
+          <label for="ddlAccountNumber">Account Number</label>
+          <!-- <select
+            id="ddlAccountNumber"
+            name="ddlAccountNumber"
+            formControlName="ddlAccountNumber"
+            class="form-control"
+            (change)="getAccountAndBranch($event)"
+            [ngClass]="{
+              'is-invalid':
+                (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                (f.ddlAccountNumber.errors && submitted)
+            }"
+          >
+            <option value="" selected>---Select---</option>
+            <option
+              *ngFor="let acc of userAccountList"
+              value="{{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}"
+            >
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </option>
+          </select> -->
+          <mat-select id="ddlAccountNumber" name="ddlAccountNumber" placeholder="Select Account"
+            formControlName="ddlAccountNumber" (selectionChange)="getAccountAndBranch($event)" class="form-control signupInput" [ngClass]="{
+                                                  'is-invalid':
+                                                    (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                                                    (f.ddlAccountNumber.errors && submitted)
+                                                }">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here" class="form-control signupInput"
+              (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+          
+            <mat-option *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+              value="{{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}" class="signupInput">
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </mat-option>
+          </mat-select>
+          <div
+            *ngIf="
+              (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+              (f.ddlAccountNumber.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.ddlAccountNumber.errors.required">
+              Account number is required
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-1 date">
+          <label for="startdate">Start Date</label>
+          <div class="datefield">
+            <input
+              class="form-control"
+              placeholder="dd/mm/yyyy"
+              name="startdp"
+              ngbDatepicker
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              #startdp="ngbDatepicker"
+              [footerTemplate]="startDateFooter"
+              formControlName="startdate"
+              readonly
+              [ngClass]="{
+                'is-invalid':
+                  (f.startdate.errors && f.startdate.touched) ||
+                  (f.startdate.errors && submitted)
+              }"
+            />
+            <button type="button" (click)="startdp.toggle()" class="datebutton">
+              <mat-icon>calendar_today</mat-icon>
+            </button>
+          </div>
+          <ng-template #startDateFooter>
+            <hr class="my-0" />
+            <button
+              class="btn btn-success btn-sm m-2 float-left"
+              (click)="
+                statementForm.controls['startdate'].setValue(today);
+                startdp.close()
+              "
+            >
+              Today
+            </button>
+            <button
+              class="btn btn-secondary btn-sm m-2 float-right"
+              (click)="startdp.close()"
+            >
+              Close
+            </button>
+          </ng-template>
+          <div
+            *ngIf="
+              (f.startdate.errors && f.startdate.touched) ||
+              (f.startdate.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.startdate.errors.required">
+              Start date is required
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-1">
+          <label for="enddate">End Date</label>
+          <div class="datefield">
+            <input
+              class="form-control"
+              placeholder="dd/mm/yyyy"
+              name="enddp"
+              ngbDatepicker
+              #enddp="ngbDatepicker"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              [footerTemplate]="endDateFooter"
+              formControlName="enddate"
+              readonly
+              [ngClass]="{
+                'is-invalid':
+                  (f.enddate.errors && f.enddate.touched) ||
+                  (f.enddate.errors && submitted)
+              }"
+            />
+            <button type="button" (click)="enddp.toggle()" class="datebutton">
+              <mat-icon>calendar_today</mat-icon>
+            </button>
+          </div>
+          <ng-template #endDateFooter>
+            <hr class="my-0" />
+            <button
+              class="btn btn-success btn-sm m-2 float-left"
+              (click)="
+                statementForm.controls['enddate'].setValue(today); enddp.close()
+              "
+            >
+              Today
+            </button>
+            <button
+              class="btn btn-secondary btn-sm m-2 float-right"
+              (click)="enddp.close()"
+            >
+              Close
+            </button>
+          </ng-template>
+          <div
+            *ngIf="
+              (f.enddate.errors && f.enddate.touched) ||
+              (f.enddate.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.enddate.errors.required">End date is required</div>
+          </div>
+        </div>
+        <div class="col-md-1 mb-1">
+          <label>&nbsp;</label>
+          <button class="btn btn-success btn-block" [disabled]="statementForm.invalid">
+            Show
+          </button>         
+        </div>
+        <div class="col-md-2 mb-1">
+          <label>&nbsp;</label>          
+          <button class="btn btn-success btn-block" style="width:75%;" [disabled]="statementForm.invalid" (click)="generateStatement()">Download</button>
+        </div>
+      </div>
+      <!-- <div class="form-row">
+        <div class="mb-2 col-md-3 col-sm-3">
+          <label>&nbsp;</label>
+          <select id="ddlExportType" name="ddlExportType" formControlName="ddlExportType" class="form-control">
+            <option value="1" selected>PDF</option>
+            <option value="2" selected>Excel</option>
+          </select>
+        </div>
+        <div class="mb-1 col-md-2 col-sm-3">
+          <label>&nbsp;</label>
+          
+        </div>
+      </div> -->
+    </form>
+  </fieldset>
+
+  <div class="statement-table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="tranS_DATE">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.tranS_DATE }}</td>
+      </ng-container>
+      <ng-container matColumnDef="narration">
+        <th mat-header-cell *matHeaderCellDef>Narration</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.narration | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="dR_AMOUNT">
+        <th mat-header-cell *matHeaderCellDef>Debit</th>
+        <td mat-cell *matCellDef="let element" style="text-align: right;">
+          {{ element.dR_AMOUNT }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="cR_AMOUNT">
+        <th mat-header-cell *matHeaderCellDef>Credit</th>
+        <td mat-cell *matCellDef="let element" style="text-align: right;">{{ element.cR_AMOUNT }}</td>
+      </ng-container>
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef>Balance</th>
+        <td mat-cell *matCellDef="let element" style="text-align: right;">
+          {{ element.balance}}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 15, 25]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
+
+<app-loader *ngIf="loading"></app-loader>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

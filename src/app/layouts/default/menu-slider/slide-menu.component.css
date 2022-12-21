@@ -1,0 +1,488 @@
+:host {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+}
+
+p {
+  margin: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+}
+
+.toolbar img {
+  margin: 0 16px;
+}
+
+.toolbar #twitter-logo {
+  height: 40px;
+  margin: 0 8px;
+}
+
+.toolbar #youtube-logo {
+  height: 40px;
+  margin: 0 16px;
+}
+
+.toolbar #twitter-logo:hover,
+.toolbar #youtube-logo:hover {
+  opacity: 0.8;
+}
+
+.content {
+  display: flex;
+  margin: 82px auto 32px;
+  padding: 0 16px;
+  max-width: 960px;
+  flex-direction: column;
+  align-items: center;
+}
+
+svg.material-icons {
+  height: 24px;
+  width: auto;
+}
+
+svg.material-icons:not(:last-child) {
+  margin-right: 8px;
+}
+
+.card svg.material-icons path {
+  fill: #888;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.card {
+  all: unset;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  background-color: #fafafa;
+  height: 80px;
+  width: 80px;
+  margin: 10px 10px;
+  padding: 16px 5px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  line-height: 16px;
+  font-size: 12px;
+}
+
+.active {
+  border-bottom: 3px solid orange;
+}
+
+.card:not(:last-child) {
+  margin-right: 0;
+}
+
+.card.card-small {
+  height: 16px;
+  width: 168px;
+}
+
+.card:not(.highlight-card) {
+  cursor: pointer;
+}
+
+.card:not(.highlight-card):hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+}
+
+.card:not(.highlight-card):hover .material-icons path {
+  fill: rgb(105, 103, 103);
+}
+
+.card.highlight-card {
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+  border: none;
+  width: auto;
+  min-width: 30%;
+  position: relative;
+}
+
+.card.card.highlight-card span {
+  margin-left: 60px;
+}
+
+svg#rocket {
+  width: 80px;
+  position: absolute;
+  left: -10px;
+  top: -24px;
+}
+
+svg#rocket-smoke {
+  height: calc(100vh - 95px);
+  position: absolute;
+  top: 10px;
+  right: 180px;
+  z-index: -10;
+}
+
+a,
+a:visited,
+a:hover {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #125699;
+}
+
+.terminal {
+  position: relative;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 6px;
+  padding-top: 45px;
+  margin-top: 8px;
+  overflow: hidden;
+  background-color: rgb(15, 15, 16);
+}
+
+.terminal::before {
+  content: "\2022 \2022 \2022";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: rgb(58, 58, 58);
+  color: #c2c3c4;
+  width: 100%;
+  font-size: 2rem;
+  line-height: 0;
+  padding: 14px 0;
+  text-indent: 4px;
+}
+
+.terminal pre {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  color: white;
+  padding: 0 1rem 1rem;
+  margin: 0;
+}
+
+.circle-link {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  margin: 8px;
+  background-color: white;
+  border: 1px solid #eeeeee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: 1s ease-out;
+}
+
+.circle-link:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  line-height: 20px;
+}
+
+footer a {
+  display: flex;
+  align-items: center;
+}
+
+.github-star-badge {
+  color: #24292e;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 3px 10px;
+  border: 1px solid rgba(27, 31, 35, 0.2);
+  border-radius: 3px;
+  background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+.github-star-badge:hover {
+  background-image: linear-gradient(-180deg, #f0f3f6, #e6ebf1 90%);
+  border-color: rgba(27, 31, 35, 0.35);
+  background-position: -0.5em;
+}
+
+.github-star-badge .material-icons {
+  height: 16px;
+  width: 16px;
+  margin-right: 4px;
+}
+
+svg#clouds {
+  position: fixed;
+  bottom: -160px;
+  left: -230px;
+  z-index: -10;
+  width: 1920px;
+}
+
+.menu-icon {
+  margin-right: 20px;
+}
+
+.logo-img {
+  height: 40px;
+  width: 40px;
+}
+
+/* Responsive Styles */
+/* @media screen and (min-width: 990px) {
+    .card {
+      margin: 10px 40px 10px;
+    }
+  } */
+
+@media screen and (max-width: 989px) and (min-width: 901px) {
+  .card {
+    margin: 10px 30px 10px;
+  }
+}
+
+@media screen and (max-width: 900px) and (min-width: 811px) {
+  .card {
+    margin: 10px 20px 10px;
+  }
+}
+
+@media screen and (max-width: 810px) and (min-width: 768px) {
+  .card {
+    margin: 10px 15px 10px;
+  }
+}
+
+@media screen and (max-width: 767px) and (min-width: 693px) {
+  .card {
+    margin: 10px 12px 10px;
+    /* height: 70px;
+      width: 70px; */
+  }
+
+  /* .logo-img {
+      height: 30px;
+      width: 30px;
+    } */
+}
+
+@media screen and (max-width: 692px) and (min-width: 630px) {
+  .card {
+    margin: 10px 10px 10px;
+    /* height: 110px;
+      width: 110px; */
+  }
+
+  /* .logo-img {
+      height: 70px;
+      width: 70px;
+    } */
+}
+
+@media screen and (max-width: 630px) and (min-width: 575px) {
+  .card {
+    margin: 10px 10px 10px;
+    /* height: 95px;
+      width: 95px; */
+  }
+
+  /* .logo-img {
+      height: 55px;
+      width: 55px;
+    } */
+}
+
+@media screen and (max-width: 575px) and (min-width: 500px) {
+  .card {
+    margin: 10px 20px 10px;
+    height: 70px;
+    width: 75px;
+  }
+
+  /* .logo-img {
+      height: 30px;
+      width: 30px;
+    } */
+}
+
+@media screen and (max-width: 499px) and (min-width: 410px) {
+  .card {
+    margin: 10px 10px 10px;
+    height: 70px;
+    width: 75px;
+  }
+}
+
+@media screen and (max-width: 409px) and (min-width: 340px) {
+  .card {
+    margin: 10px 6px 10px;
+    height: 60px;
+    width: 65px;
+    font-size: 11px;
+  }
+
+  .logo-img {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+@media screen and (max-width: 339px) and (min-width: 306px) {
+  .card {
+    margin: 10px 4px 10px;
+    height: 70px;
+    height: 60px;
+    width: 65px;
+    font-size: 11px;
+  }
+
+  .logo-img {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+@media screen and (max-width: 305px) {
+  .card {
+    margin: 10px 6px 10px;
+    height: 70px;
+    /* width: 78px;
+      font-size: 11px; */
+  }
+
+  .logo-img {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+.submenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.submenu-container {
+  position: relative;
+  height: 80vh;
+  width: 80vw;
+  background-color: white;
+  border: 1px solid rgba(27, 31, 35, 0.2);
+  border-radius: 3px;
+  background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.submenu-items {
+  height: 85%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+/* header */
+.page-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: fit-content;
+  margin: 0;
+  white-space: nowrap;
+  padding-bottom: 13px;
+  position: relative;
+}
+.page-title:before {
+  background-color: green;
+  content: "";
+  display: block;
+  height: 3px;
+  width: 75px;
+  margin-bottom: 5px;
+}
+.page-title:after {
+  background-color: green;
+  content: "";
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  width: 75px;
+  margin-bottom: 0.25em;
+}

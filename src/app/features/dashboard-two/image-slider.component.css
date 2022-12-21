@@ -1,0 +1,31 @@
+.prev-custom {
+  z-index: 0;
+}
+
+.next-custom {
+  z-index: 0;
+}
+
+#imageSlider {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.slider-img {
+    height: 178px;
+    width:100%;
+}
+
+@media screen and (max-width: 567px) {
+    #imageSlider {
+        height: 150px;
+    }
+
+    .slider-img {
+        height: 150px;
+    }
+}
+
+/* .item {
+    transition: 2s ease-in-out left;
+} */

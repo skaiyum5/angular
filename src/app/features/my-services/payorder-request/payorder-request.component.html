@@ -1,0 +1,115 @@
+<div class="container my-3">
+    <fieldset style="
+        border: 1px solid gray;
+        padding: 10px;
+        border-radius: 5px;
+      ">
+      <legend style="font-size: 12px; width: auto">Pay Order Details</legend>
+        <form [formGroup]="payorderRequestForm">
+            <div class="form-row">
+                <div class="col-md-4 mb-2">
+                    <label for="ddlAccountNumber">Account Number</label>
+                    <mat-select id="ddlAccountNumber" name="ddlAccountNumber" formControlName="ddlAccountNumber"
+                        (selectionChange)="getAccountAndBranch($event)" class="form-control signupInput" [ngClass]="{
+                                      'is-invalid':
+                                        (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                                        (f.ddlAccountNumber.errors && submitted)
+                                    }">
+                        <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+                            class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                            autocomplete="off">
+                        <mat-option value="">-- Select --</mat-option>
+                        <mat-option
+                            *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+                            value="{{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}" class="signupInput">
+                            {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+                        </mat-option>
+                    </mat-select>
+                    <div *ngIf="
+                              (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                              (f.ddlAccountNumber.errors && submitted)
+                            " class="invalid-feedback">
+                        <div *ngIf="f.ddlAccountNumber.errors.required" class="validationMessage">
+                            Please Select Account Number
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-2">
+                    <label for="txtAmount">Amount</label>
+                    <input type="text" id="txtAmount" formControlName="txtAmount" class="form-control" [ngClass]="{
+                            'is-invalid':
+                              (f.txtAmount.errors && f.txtAmount.touched) ||
+                              (f.txtAmount.errors && submitted)
+                          }" (keyup)="getPayOrderAmountInWords($event)" />
+
+                    <div *ngIf="
+                        (f.txtAmount.errors && f.txtAmount.touched) ||
+                        (f.txtAmount.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtAmount.errors.required">
+                            Amount is Required
+                        </div>
+                    </div>                    
+                </div>
+                <div class="col-md-3 mb-2">
+                    <label for="txtAmount">&nbsp;</label>
+                    <p>{{ PayOrderAmountInWords | titlecase }}</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                    <label for="txtBeneficiary">Beneficiary Name</label>
+                    <input type="text" id="txtBeneficiary" formControlName="txtBeneficiary" class="form-control"
+                        [ngClass]="{
+                            'is-invalid':
+                              (f.txtBeneficiary.errors && f.txtBeneficiary.touched) ||
+                              (f.txtBeneficiary.errors && submitted)
+                          }" />
+
+                    <div *ngIf="
+                        (f.txtBeneficiary.errors && f.txtBeneficiary.touched) ||
+                        (f.txtBeneficiary.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtBeneficiary.errors.required">
+                            Beneficiary Name is Required
+                        </div>
+                    </div>
+                </div>
+            </div>          
+            
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                    <label for="txtReferenceNo">Reference No</label>
+                    <input type="text" id="txtReferenceNo" formControlName="txtReferenceNo" class="form-control"
+                        [ngClass]="{
+                            'is-invalid':
+                              (f.txtReferenceNo.errors && f.txtReferenceNo.touched) ||
+                              (f.txtReferenceNo.errors && submitted)
+                          }" />
+
+                    <div *ngIf="
+                        (f.txtReferenceNo.errors && f.txtReferenceNo.touched) ||
+                        (f.txtReferenceNo.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtReferenceNo.errors.required">
+                            Reference No is Required
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="form-row">
+                <div class="col-md-2 mb-2">
+                    <button [disabled]="payorderRequestForm.invalid" class="btn btn-success btn-block" type="submit"
+                        (click)="onSubmit()">Submit</button>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button class="btn btn-refresh btn-block" (click)="onReset()">Refresh</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+    [btnText]="btnText"></app-popup>

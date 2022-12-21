@@ -1,0 +1,245 @@
+<div class="container my-3">
+  <fieldset style="border: 1px solid gray; padding: 10px; padding-right: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">
+      Bank Guarantee Issue Information
+    </legend>
+    <div class="row mb-2">
+      <div class="col-md-4 mb-3">
+        <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+          <legend style="font-size: 12px; width: auto">
+            General Information
+          </legend>
+          <form>
+            <div class="form-row mb-2 mr-1">
+              <label for="ddlBGCategory">Gaurantee Category</label>
+              <select id="ddlBGCategory" name="ddlBGCategory" class="form-control" (change)="getInformationByCategory($event)">
+                <option value="" selected>--Select--</option>
+                <option
+                    *ngFor="let ctg of bgCategoryList"
+                    value="{{ ctg.id }}"
+                  >
+                    {{ ctg.name }}
+                  </option>
+              </select>
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="ddlBGType">Guarantee Type</label>
+              <select id="ddlBGType" name="ddlBGType" class="form-control">
+                <option value="" selected>--Select--</option>
+                <option
+                    *ngFor="let type of bgTypeList"
+                    value="{{ type.id }}"
+                  >
+                    {{ type.name }}
+                  </option>
+              </select>
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="ddlBGCurrency">Currency Type</label>
+              <select id="ddlBGCurrency" name="ddlBGCurrency" class="form-control">
+                <option value="" selected>--Select--</option>
+                <option
+                    *ngFor="let currency of bgCurrencyTypeList"
+                    value="{{ currency.id }}"
+                  >
+                    {{ currency.name }}
+                  </option>
+              </select>
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="txtIssueDate">Issue Date</label>
+              <input class="form-control" placeholder="mm/dd/yyyy" name="txtIssueDate" ngbDatepicker
+                #txtIssueDate="ngbDatepicker" type="text" (click)="txtIssueDate.toggle()" />
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="txtEffectiveDate">Effective Date</label>
+              <input class="form-control" placeholder="mm/dd/yyyy" name="txtEffectiveDate" ngbDatepicker
+                #txtEffectiveDate="ngbDatepicker" type="text" (click)="txtEffectiveDate.toggle()" />
+            </div>
+            <div class="form-row">
+              <div class="mb-1 mr-1">
+                <label for="txtPeriod">Period</label>
+                <input class="form-control" id="txtPeriod" name="txtPeriod" />
+              </div>
+              <div class="mb-1 mr-1">
+                <label>&nbsp;</label>
+                <select id="ddlPeriod" name="ddlPeriod" class="form-control">
+                  <option value="" selected>--Select--</option>
+                  <option *ngFor="let period of bgPeriodList" value="{{ period.id }}">
+                    {{ period.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="txtExpiryDate">Expiry Date</label>
+              <input class="form-control" placeholder="mm/dd/yyyy" name="txtExpiryDate" ngbDatepicker
+                #txtExpiryDate="ngbDatepicker" type="text" (click)="txtExpiryDate.toggle()" />
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="stchAccountNumber">Amount</label>
+              <input type="number" class="form-control" />
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="stchAccountNumber">Cash Margin (%)</label>
+              <input type="number" class="form-control" />
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="txtIssuingAuthority">W.O. Issuing Authority</label>
+              <input type="text" class="form-control" id="txtIssuingAuthority" />
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="stchAccountNumber">W.O. Value</label>
+              <input type="number" class="form-control" />
+            </div>
+            <div class="form-row mb-2 mr-1">
+              <label for="txtWoValidityDate">W.O. Validity date</label>
+              <input class="form-control" placeholder="mm/dd/yyyy" name="txtWoValidityDate" ngbDatepicker
+                #txtWoValidityDate="ngbDatepicker" type="text" (click)="txtWoValidityDate.toggle()" />
+            </div>
+          </form>
+        </fieldset>
+      </div>
+      <div class="col-md-4 mb-3">
+        <fieldset style="border: 1px solid gray; padding: 10px; padding-right: 10px; border-radius: 5px">
+          <legend style="font-size: 12px; width: auto">
+            Beneficiary Information
+          </legend>
+          <form>
+            <div class="form-row mb-2">
+              <label for="stchAccountNumber">Beneficiary Type</label>
+              <select class="form-control">
+                <option value="" selected>--Select--</option>
+                <option
+                    *ngFor="let type of bgBeneficiaryTypeList"
+                    value="{{ type.id }}"
+                  >
+                    {{ type.name }}
+                  </option>
+              </select>
+            </div>
+            <div class="form-row mb-2">
+              <label for="txtBeneficiaryName">Beneficiary Name</label>
+              <input type="text" class="form-control" id="txtBeneficiaryName" />
+            </div>
+            <div class="form-row mb-2">
+              <label for="txtBeneficiaryAddress1">Address1</label>
+              <input type="text" class="form-control" id="txtBeneficiaryAddress1" />
+            </div>
+            <div class="form-row mb-2">
+              <label for="txtBeneficiaryAddress2">Address2</label>
+              <input type="text" class="form-control" id="txtBeneficiaryAddress2" />
+            </div>
+            <div class="form-row mb-2">
+              <label for="stchAccountNumber">Country</label>
+              <select class="form-control">
+                <option value="0" selected>--Select--</option>
+                <!-- <option
+                    *ngFor="let acc of userAccountList"
+                    value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}_{{
+                      acc.accounT_TITLE
+                    }}"
+                  >
+                    {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+                  </option> -->
+              </select>
+            </div>
+            <div class="form-row mb-2">
+              <label for="txtBeneficiaryPhone">Phone</label>
+              <input type="text" class="form-control" id="txtBeneficiaryPhone" />
+            </div>
+            <div class="form-row mb-2">
+              <label for="txtBeneficiaryEmail">E-Mail</label>
+              <input type="text" class="form-control" id="txtBeneficiaryEmail" />
+            </div>
+          </form>
+        </fieldset>
+      </div>
+      <div class="col-md-4 mb-3">
+        <fieldset style="border: 1px solid gray; padding: 10px; padding-right: 10px; border-radius: 5px">
+          <legend style="font-size: 12px; width: auto">
+            Applicant Information
+          </legend>
+          <form>
+            <div class="form-row mb-2">
+              <label for="stchAccountNumber">Customer ID</label>
+              <input type="number" class="form-control" />
+            </div>
+            <div class="form-row mb-2">
+              <label for="stchAccountNumber">Branch</label>
+              <select class="form-control">
+                <option value="0" selected>--Select--</option>
+                <!-- <option
+                      *ngFor="let acc of userAccountList"
+                      value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}_{{
+                        acc.accounT_TITLE
+                      }}"
+                    >
+                      {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+                    </option> -->
+              </select>
+            </div>
+            <div class="form-row mb-2">
+              <label for="txtApplicantAddres1">Address1</label>
+              <input type="text" class="form-control" id="txtApplicantAddres1" />
+            </div>
+            <div class="form-row mb-2">
+              <label for="txtApplicantAddres2">Address2</label>
+              <input type="text" class="form-control" id="txtApplicantAddres2" />
+            </div>
+            <div class="form-row mb-2">
+              <label for="stchAccountNumber">Country</label>
+              <select class="form-control">
+                <option value="0" selected>--Select--</option>
+                <!-- <option
+                      *ngFor="let acc of userAccountList"
+                      value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}_{{
+                        acc.accounT_TITLE
+                      }}"
+                    >
+                      {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+                    </option> -->
+              </select>
+            </div>
+            <div class="form-row mb-2">
+              <label for="txtApplicantPhone">Phone</label>
+              <input type="text" class="form-control" id="txtApplicantPhone" />
+            </div>
+            <div class="form-row mb-2">
+              <label for="txtApplicantEmail">E-Mail</label>
+              <input type="text" class="form-control" id="txtApplicantEmail" />
+            </div>
+            <div class="form-row mb-2">
+              <label for="stchAccountNumber">Security Type</label>
+              <select class="form-control">
+                <option value="0" selected>--Select--</option>
+                <!-- <option
+                        *ngFor="let acc of userAccountList"
+                        value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}_{{
+                          acc.accounT_TITLE
+                        }}"
+                      >
+                        {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+                      </option> -->
+              </select>
+            </div>
+          </form>
+        </fieldset>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-2 mb-2">
+        <button class="btn btn-success btn-block">Save</button>
+      </div>
+      <div class="col-md-2 mb-2">
+        <button class="btn btn-refresh btn-block">Refresh</button>
+      </div>
+      <div class="col-md-2 mb-2">
+        <button class="btn btn-success btn-block">View</button>
+      </div>
+      <div class="col-md-2 mb-2">
+        <button class="btn btn-success btn-block">Exit</button>
+      </div>
+    </div>
+  </fieldset>
+</div>

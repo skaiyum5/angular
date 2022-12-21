@@ -1,0 +1,40 @@
+.form_bg {
+  margin-top: 1%;
+  display: flex;
+  align-items: center;
+}
+.padding-bottom{
+  padding-bottom: 27.5px;
+}
+.form-container {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px 0 #888888;
+}
+
+.content {
+  font-size: smaller;
+  text-indent: -2em;
+}
+
+.resendCode {
+  cursor: pointer;
+}
+
+.back-btn {
+  width: fit-content;
+}
+
+.resendCode :hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+  border: 1px solid green;
+}

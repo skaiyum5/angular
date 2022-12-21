@@ -1,0 +1,154 @@
+<div class="container my-3">
+    <!-- <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px" class="mb-3">
+        <legend style="font-size: 12px; width: auto">Search</legend>
+        <form [formGroup]="accountOpeningLogForm" (ngSubmit)="getAccountOpeningLog()" #myForm="ngForm">
+            <div class="form-row">
+                <div class="col-md-3 mb-2">
+                    <label for="ddlAccountType">Account Type</label>
+                    <select id="ddlAccountType" name="ddlAccountType" formControlName="ddlAccountType"
+                        class="form-control" [ngClass]="{
+                'is-invalid':
+                  (f.ddlAccountType.errors && f.ddlAccountType.touched) ||
+                  (f.ddlAccountType.errors && submitted)
+              }">
+                        <option value="" selected>---Select---</option>
+                        <option value="SCHEME" selected>SCHEME</option>
+                        <option value="TIME" selected>TIME</option>
+                    </select>
+                    <div *ngIf="
+                (f.ddlAccountType.errors && f.ddlAccountType.touched) ||
+                (f.ddlAccountType.errors && submitted)
+              " class="invalid-feedback">
+                        <div *ngIf="f.ddlAccountType.errors.required">
+                            Account type is required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3 date">
+                    <label for="txtStartDate">Start Date</label>
+                    <div class="datefield">
+                        <input class="form-control" placeholder="dd/mm/yyyy" name="startdp" ngbDatepicker
+                            [minDate]="minDate" [maxDate]="maxDate" #startdp="ngbDatepicker"
+                            [footerTemplate]="startDateFooter" formControlName="txtStartDate" readonly [ngClass]="{
+                  'is-invalid':
+                    (f.txtStartDate.errors && f.txtStartDate.touched) ||
+                    (f.txtStartDate.errors && submitted)
+                }" />
+                        <button type="button" (click)="startdp.toggle()" class="datebutton">
+                            <mat-icon>calendar_today</mat-icon>
+                        </button>
+                    </div>
+                    <ng-template #startDateFooter>
+                        <hr class="my-0" />
+                        <button class="btn btn-success btn-sm m-2 float-left" (click)="
+                  accountOpeningLogForm.controls['txtStartDate'].setValue(today);
+                  startdp.close()
+                ">
+                            Today
+                        </button>
+                        <button class="btn btn-secondary btn-sm m-2 float-right" (click)="startdp.close()">
+                            Close
+                        </button>
+                    </ng-template>
+                    <div *ngIf="
+                (f.txtStartDate.errors && f.txtStartDate.touched) ||
+                (f.txtStartDate.errors && submitted)
+              " class="invalid-feedback">
+                        <div *ngIf="f.txtStartDate.errors.required">
+                            Start date is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="txtEndDate">End Date</label>
+                    <div class="datefield">
+                        <input class="form-control" placeholder="dd/mm/yyyy" name="enddp" ngbDatepicker
+                            #enddp="ngbDatepicker" [minDate]="minDate" [maxDate]="maxDate"
+                            [footerTemplate]="endDateFooter" formControlName="txtEndDate" readonly [ngClass]="{
+                  'is-invalid':
+                    (f.txtEndDate.errors && f.txtEndDate.touched) ||
+                    (f.txtEndDate.errors && submitted)
+                }" />
+                        <button type="button" (click)="enddp.toggle()" class="datebutton">
+                            <mat-icon>calendar_today</mat-icon>
+                        </button>
+                    </div>
+                    <ng-template #endDateFooter>
+                        <hr class="my-0" />
+                        <button class="btn btn-success btn-sm m-2 float-left" (click)="
+                  accountOpeningLogForm.controls['txtEndDate'].setValue(today); enddp.close()
+                ">
+                            Today
+                        </button>
+                        <button class="btn btn-secondary btn-sm m-2 float-right" (click)="enddp.close()">
+                            Close
+                        </button>
+                    </ng-template>
+                    <div *ngIf="
+                (f.txtEndDate.errors && f.txtEndDate.touched) ||
+                (f.txtEndDate.errors && submitted)
+              " class="invalid-feedback">
+                        <div *ngIf="f.txtEndDate.errors.required">End date is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="mb-1 col-md-2 col-sm-3">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-success btn-block" [disabled]="accountOpeningLogForm.invalid">
+                        Show
+                    </button>
+                </div>               
+            </div>
+        </form>
+    </fieldset> -->
+
+    <div class="account-log-table">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="accountNo">
+                <th mat-header-cell *matHeaderCellDef>Account No</th>
+                <td mat-cell *matCellDef="let element">{{ element.accountNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="branchNm">
+                <th mat-header-cell *matHeaderCellDef>Branch</th>
+                <td mat-cell *matCellDef="let element" style="text-align: left;">
+                    {{ element.branchNm | titlecase }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="accountTitle">
+                <th mat-header-cell *matHeaderCellDef>Title</th>
+                <td mat-cell *matCellDef="let element" style="text-align: left;">
+                    {{ element.accountTitle | titlecase }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="productNm">
+                <th mat-header-cell *matHeaderCellDef>Product</th>
+                <td mat-cell *matCellDef="let element" style="text-align: left;">{{ element.productNm | titlecase }}</td>
+            </ng-container>
+            <ng-container matColumnDef="payeeAccountNo">
+                <th mat-header-cell *matHeaderCellDef>Payee Account</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.payeeBranchId }}-{{ element.payeeAccountNo }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Download">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-raised-button color="primary" (click)="generateReceipt(element, '1')" matTooltip="Click to generate account opening receipt">Download</button>            
+                  <!-- <button mat-raised-button color="primary" (click)="generateReceipt(element, '2')" matTooltip="Click to generate pdf">Excel</button> -->
+                </td>
+              </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+    </div>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15, 25]" showFirstLastButtons></mat-paginator>
+</div>
+
+<app-loader *ngIf="loading"></app-loader>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+    [btnText]="btnText"></app-popup>

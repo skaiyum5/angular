@@ -1,0 +1,30 @@
+<div id="myModal" class="modal fade show custom-modal" style="display: block">
+  <div class="modal-dialog modal-confirm" [style]="custStyle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div [ngClass]="!popupError ? 'icon-box-success' : 'icon-box-failure'">
+          <i class="material-icons" *ngIf="!popupError">&#xE876;</i>
+          <i class="material-icons" *ngIf="popupError">&#xE5CD;</i>
+        </div>
+        <h4 class="modal-title w-100 text-center">{{ header }}</h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">
+          <!-- Your booking has been confirmed. Check your email for detials. -->
+          {{ message }}
+        </p>        
+      </div>
+      <!-- <ng-content></ng-content> -->
+      <div class="modal-footer">
+        <button
+        [ngClass]="!popupError ? 'btn btn-success btn-block' : 'btn btn-danger btn-block'"         
+          data-dismiss="modal"
+          [disabled]="btnDisable"
+          (click)="onClose()"
+        >
+          {{ btnText }}
+        </button>        
+      </div>      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,242 @@
+<div class="container my-3" *ngIf="!otpComponentShow">
+    <fieldset style="
+        border: 1px solid gray;
+        padding: 10px;
+        border-radius: 5px;
+      ">
+        <legend style="font-size: 12px; width: auto">Positive Pay Details</legend>
+        <form [formGroup]="positivePayRequestForm">
+            <div class="form-row">
+                <div class="col-md-4 mb-2">
+                    <label for="ddlAccountNumber">Account Number</label>
+                    <mat-select id="ddlAccountNumber" name="ddlAccountNumber" formControlName="ddlAccountNumber"
+                        (selectionChange)="getChequbookList($event)" class="form-control signupInput" [ngClass]="{
+                                                  'is-invalid':
+                                                    (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                                                    (f.ddlAccountNumber.errors && submitted)
+                                                }">
+                        <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+                            class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                            autocomplete="off">
+                        <mat-option value="">-- Select --</mat-option>
+                        <mat-option
+                            *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+                            value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}" class="signupInput">
+                            {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+                        </mat-option>
+                    </mat-select>
+                    <div *ngIf="
+                                          (f.ddlAccountNumber.errors && f.ddlAccountNumber.touched) ||
+                                          (f.ddlAccountNumber.errors && submitted)
+                                        " class="invalid-feedback">
+                        <div *ngIf="f.ddlAccountNumber.errors.required" class="validationMessage">
+                            Please Select Account Number
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-2">
+                    <label for="ddlChequeBook">Cheque Book</label>
+                    <select id="ddlChequeBook" class="form-control" (change)="getUnusedCheques()"
+                        formControlName="ddlChequeBook" [ngClass]="{
+                                        'is-invalid':
+                                          (f.ddlChequeBook.errors && f.ddlChequeBook.touched) ||
+                                          (f.ddlChequeBook.errors && submitted)
+                                      }">
+                        <option value="" selected>--Select--</option>
+                        <option *ngFor="let cheque of chequeBookList" value="{{ cheque.chQ_PREFIX }}_{{ cheque.starT_LEAF_NO }}_{{
+                                          cheque.enD_LEAF_NO
+                                        }}_{{ cheque.issuE_DATE }}">
+                            {{ cheque.chQ_PREFIX }}-{{ cheque.starT_LEAF_NO }}-{{
+                            cheque.enD_LEAF_NO
+                            }}
+                        </option>
+                    </select>
+                    <div *ngIf="
+                                        (f.ddlChequeBook.errors && f.ddlChequeBook.touched) ||
+                                        (f.ddlChequeBook.errors && submitted)
+                                      " class="invalid-feedback">
+                        <div *ngIf="f.ddlChequeBook.errors.required">
+                            Cheque book is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-2">
+                    <label for="ddlUnusedCheque">Un-used Cheque</label>
+                    <select id="ddlUnusedCheque" class="form-control"
+                        formControlName="ddlUnusedCheque" [ngClass]="{
+                                        'is-invalid':
+                                          (f.ddlUnusedCheque.errors && f.ddlUnusedCheque.touched) ||
+                                          (f.ddlUnusedCheque.errors && submitted)
+                                      }">
+                        <option value="" selected>--Select--</option>
+                        <option *ngFor="let unused of unUsedChequeList" value="{{ unused._CHQ_PREFIX }}-{{ unused._LEAF_NO }}">
+                            {{ unused._CHQ_PREFIX }}-{{ unused._LEAF_NO }}
+                        </option>
+                    </select>
+                    <div *ngIf="
+                                        (f.ddlUnusedCheque.errors && f.ddlUnusedCheque.touched) ||
+                                        (f.ddlUnusedCheque.errors && submitted)
+                                      " class="invalid-feedback">
+                        <div *ngIf="f.ddlUnusedCheque.errors.required">
+                            Un-used cheque is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-2">
+                    <label for="txtAmount">Amount</label>
+                    <input type="text" id="txtAmount" formControlName="txtAmount" class="form-control" [ngClass]="{
+                            'is-invalid':
+                              (f.txtAmount.errors && f.txtAmount.touched) ||
+                              (f.txtAmount.errors && submitted)
+                          }" (keyup)="getAmountInWords($event)" />
+
+                    <div *ngIf="
+                        (f.txtAmount.errors && f.txtAmount.touched) ||
+                        (f.txtAmount.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtAmount.errors.required">
+                            Amount is Required
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-3 mb-2">
+                    <label for="txtAmount">&nbsp;</label>
+                    <p>{{ AmountInWords | titlecase }}</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-2">
+                    <label for="txtStartDate">Start Date</label>
+                    <div class="datefield">
+                        <input class="form-control" placeholder="dd/mm/yyyy" name="startdp" ngbDatepicker
+                            [minDate]="minDate" [maxDate]="maxDate" #startdp="ngbDatepicker"
+                            [footerTemplate]="startDateFooter" formControlName="txtStartDate" readonly [ngClass]="{
+                          'is-invalid':
+                            (f.txtStartDate.errors && f.txtStartDate.touched) ||
+                            (f.txtStartDate.errors && submitted)
+                        }" />
+                        <button type="button" (click)="startdp.toggle()" class="datebutton">
+                            <mat-icon>calendar_today</mat-icon>
+                        </button>
+                    </div>
+                    <ng-template #startDateFooter>
+                        <hr class="my-0" />
+                        <button class="btn btn-success btn-sm m-2 float-left" (click)="
+                          positivePayRequestForm.controls['txtStartDate'].setValue(today);
+                          startdp.close()
+                        ">
+                            Today
+                        </button>
+                        <button class="btn btn-secondary btn-sm m-2 float-right" (click)="startdp.close()">
+                            Close
+                        </button>
+                    </ng-template>
+                    <div *ngIf="
+                        (f.txtStartDate.errors && f.txtStartDate.touched) ||
+                        (f.txtStartDate.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtStartDate.errors.required">
+                            Start date is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-2">
+                    <label for="txtExpiaryDate">Expiary Date</label>
+                    <div class="datefield">
+                        <input class="form-control" placeholder="dd/mm/yyyy" name="enddp" ngbDatepicker
+                            #enddp="ngbDatepicker" [minDate]="minDate" [maxDate]="maxDate"
+                            [footerTemplate]="endDateFooter" formControlName="txtExpiaryDate" readonly [ngClass]="{
+                          'is-invalid':
+                            (f.txtExpiaryDate.errors && f.txtExpiaryDate.touched) ||
+                            (f.txtExpiaryDate.errors && submitted)
+                        }" />
+                        <button type="button" (click)="enddp.toggle()" class="datebutton">
+                            <mat-icon>calendar_today</mat-icon>
+                        </button>
+                    </div>
+                    <ng-template #endDateFooter>
+                        <hr class="my-0" />
+                        <button class="btn btn-success btn-sm m-2 float-left" (click)="
+                          positivePayRequestForm.controls['txtExpiaryDate'].setValue(today); enddp.close()
+                        ">
+                            Today
+                        </button>
+                        <button class="btn btn-secondary btn-sm m-2 float-right" (click)="enddp.close()">
+                            Close
+                        </button>
+                    </ng-template>
+                    <div *ngIf="
+                        (f.txtExpiaryDate.errors && f.txtExpiaryDate.touched) ||
+                        (f.txtExpiaryDate.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtExpiaryDate.errors.required">Expiary date is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <!-- <div class="col-md-4 mb-2">
+                    <label for="txtPurpose">Purpose</label>
+                    <input type="text" id="txtPurpose" formControlName="txtPurpose" class="form-control" [ngClass]="{
+                            'is-invalid':
+                              (f.txtPurpose.errors && f.txtPurpose.touched) ||
+                              (f.txtPurpose.errors && submitted)
+                          }" />
+
+                    <div *ngIf="
+                        (f.txtPurpose.errors && f.txtPurpose.touched) ||
+                        (f.txtPurpose.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtPurpose.errors.required">
+                            Purpose is Required
+                        </div>
+                    </div>
+                    <p class="mt-2">{{ PayOrderAmountInWords | titlecase }}</p>
+                </div> -->
+                <div class="col-md-6 mb-3">
+                    <label for="txtBeneficiaryName">Beneficiary Name</label>
+                    <input type="text" id="txtBeneficiaryName" formControlName="txtBeneficiaryName" class="form-control"
+                        [ngClass]="{
+                            'is-invalid':
+                              (f.txtBeneficiaryName.errors && f.txtBeneficiaryName.touched) ||
+                              (f.txtBeneficiaryName.errors && submitted)
+                          }" />
+
+                    <div *ngIf="
+                        (f.txtBeneficiaryName.errors && f.txtBeneficiaryName.touched) ||
+                        (f.txtBeneficiaryName.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtBeneficiaryName.errors.required">
+                            Beneficiary Name is Required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-2 mb-2">
+                    <button [disabled]="positivePayRequestForm.invalid" class="btn btn-success btn-block" type="submit"
+                        (click)="onSubmit()">Submit</button>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button class="btn btn-refresh btn-block" (click)="onReset()">Refresh</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+
+<app-loader *ngIf="loading"></app-loader>
+
+<app-confirm-otp *ngIf="otpComponentShow" [onSubmit]="otpSubmit" (otpEmitter)="setOtp($event)" [goBack]="goBack"></app-confirm-otp>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+    [btnText]="btnText"></app-popup>

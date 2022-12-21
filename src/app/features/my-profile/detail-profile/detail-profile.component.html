@@ -1,0 +1,613 @@
+<div class="container my-3">
+  <mat-tab-group dynamicHeight>
+    <!-- Account Information Start -->
+    <mat-tab label="Profile">
+      <br />
+      <div class="form-row">
+        <div class="col-md-2 mb-2 text-center">
+          <img [src]="imagePath" width="125px" height="125px">
+
+          <div *ngIf="isShowChangePhotoLink" class="cust-link mt-3 mb-3">
+            <p (click)="changeProfileImage()">
+              Change Photo
+            </p>
+          </div>
+          <div *ngIf="isShowImageUploader" class="mt-3 mb-3">
+            <input type="file" #file style="font-size: 12px;" (change)="onFileChange($event)" />
+            <br><br>
+            <button class="btn btn-success btn-block col-md-8" (click)="saveCustomerProfilePhoto()">Submit</button>
+          </div>
+        </div>
+        <div class="col-md-10 mb-2">
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Customer ID</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.customeR_ID }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Name</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.customeR_FULL_NM }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Customer Type</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.customeR_TYPE_NM }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Father's Name</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.fatheR_NM }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Mother's Name</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.motheR_NM }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>D.O.B/D.O.E</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{
+                    userProfile.birtH_DATE | date: "dd-MMM-y"
+                    }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Home Branch</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.brancH_NM }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>National ID</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.nationaL_ID }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>TIN No</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.tiN_NO }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Smart Card No</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.smarT_CARD_NO }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Birth Reg. No</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.birtH_REG_NO }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Birth Reg. Issue Date</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.birtH_REG_ISSUE_DT | date: "dd/MMM/y" }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Passport No</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.passporT_NO }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-5">
+                  <label><b>Blood Group</b></label>
+                </div>
+                <div class="col-7">
+                  <label><b>:</b>&nbsp;{{ userProfile.blooD_GROUP }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- </fieldset> -->
+    </mat-tab>
+    <mat-tab label="Contact Details">
+      <br>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let address of userAddress;">
+          <mat-expansion-panel-header style="background-color: lightgreen;">
+            <b>{{address.addressType}}</b>
+          </mat-expansion-panel-header>
+          <br>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Address 1</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.address1 }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Address 2</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.address2 }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>City</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.city }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Zip Code</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.zipCode }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Police Station</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.thanaName }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>District</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.districtName }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Division</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.divisionName }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Country</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.countryName }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Phone</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.phone }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Mobile 1</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.mobile }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Mobile 2</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.mobile2 }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Mobile 3</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.mobile3 }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Mobile 4</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.mobile4 }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Mobile 5</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.mobile5 }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Email</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.email }}</label>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-6 mb-2">
+          <div class="row">
+            <div class="col-4">
+              <label><b>Fax</b></label>
+            </div>
+            <div class="col-8">
+              <label><b>:</b>&nbsp;{{ address.fax }}</label>
+            </div>
+          </div>
+        </div> -->
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-6 mb-3 mt-3">
+              <div class="row">
+                <div class="col-12" style="font-size: 18px;">
+                  <label><b><u>Contact Person</u></b></label>
+                </div>
+                <div class="col-6">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Name</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.contact_person_nm }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Designation</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.contact_person_desig }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Phone</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.contact_person_phone }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Mobile</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.contact_person_mobile }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-2">
+              <div class="row">
+                <div class="col-4">
+                  <label><b>Email</b></label>
+                </div>
+                <div class="col-8">
+                  <label><b>:</b>&nbsp;{{ address.contact_person_email }}</label>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-6 mb-2">
+          <div class="row">
+            <div class="col-4">
+              <label><b>Fax</b></label>
+            </div>
+            <div class="col-8">
+              <label><b>:</b>&nbsp;{{ address.fax }}</label>
+            </div>
+          </div>
+        </div> -->
+          </div>
+
+
+          <!-- <mat-list>
+            <mat-list-item>
+              <div style="width:95%; width:50%;">
+              <div style="float:left">
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Address 1 : </span>
+                <span>{{address.address1}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Address 2 : </span>
+                <span>{{address.address2}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">City : </span>
+                <span>{{address.city}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Zip Code : </span>
+                <span>{{address.zipCode}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">District : </span>
+                <span>{{address.districtName}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Division : </span>
+                <span>{{address.divisionName}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Country : </span>
+                <span>{{address.countryName}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Phone : </span>
+                <span>{{address.phone}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Mobile 1: </span>
+                <span>{{address.mobile}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Mobile 2 : </span>
+                <span>{{address.mobile2}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Mobile 3 : </span>
+                <span>{{address.mobile3}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Mobile 4 : </span>
+                <span>{{address.mobile4}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Mobile 5 : </span>
+                <span>{{address.mobile5}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Email : </span>
+                <span>{{address.email}}</span>
+              </p>              
+            </div>
+            <div style="float:right; width:50%;">
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Email : </span>
+                <span>{{address.email}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Email : </span>
+                <span>{{address.email}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Email : </span>
+                <span>{{address.email}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Email : </span>
+                <span>{{address.email}}</span>
+              </p>
+              <p matLine class="mb-1">
+                <span class="font-weight-bold">Email : </span>
+                <span>{{address.email}}</span>
+              </p>
+            </div>
+          </div>
+            </mat-list-item>
+          </mat-list> -->
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <!-- <mat-list>        
+        <mat-list-item *ngFor="let address of userAddress; last as last">
+          <h3 matLine style="font-weight: bold; text-decoration: underline; margin-bottom: 5px;">{{address.addressType}}</h3>
+          
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Address 1 : </span>
+            <span>{{address.address1}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Address 2 : </span>
+            <span>{{address.address2}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">City : </span>
+            <span>{{address.city}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Zip Code : </span>
+            <span>{{address.zipCode}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">District : </span>
+            <span>{{address.districtName}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Division : </span>
+            <span>{{address.divisionName}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Country : </span>
+            <span>{{address.countryName}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Phone : </span>
+            <span>{{address.phone}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Mobile 1: </span>
+            <span>{{address.mobile}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Mobile 2 : </span>
+            <span>{{address.mobile2}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Mobile 3 : </span>
+            <span>{{address.mobile3}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Mobile 4 : </span>
+            <span>{{address.mobile4}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Mobile 5 : </span>
+            <span>{{address.mobile5}}</span>
+          </p>
+          <p matLine class="mb-1">
+            <span class="font-weight-bold">Email : </span>
+            <span>{{address.email}}</span>
+          </p>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+        </mat-list-item>             
+     </mat-list> -->
+
+
+    </mat-tab>
+  </mat-tab-group>
+</div>
+<!-- Loader component -->
+<app-loader *ngIf="loader"></app-loader>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText"></app-popup>

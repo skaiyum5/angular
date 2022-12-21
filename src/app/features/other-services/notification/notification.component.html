@@ -1,0 +1,57 @@
+<div class="container mt-3" *ngIf="!singleNotification">
+  <div class="form-row">
+    <div class="notification-list-container col-12 col-12 mb-2">
+      <mat-list>
+        <mat-list-item class="notification-items"
+          *ngFor="let notification of notificationList; last as last" [routerLink]="[
+          '/otherservices/notifications',
+          { data: notification.notificationID }
+        ]"
+        [ngClass]="{'newNotification': !notification.isRead}"
+        >
+          <p
+            matLine
+            class="notificationTitle"
+            style="
+              text-align: justify;
+              word-break: break-all;
+              white-space: normal;
+            "
+          >
+            <b>{{ notification.NotificationTitle }}</b>
+          </p>
+          <!-- <p matLine><br /></p>
+          <p
+            matLine
+            style="
+              text-align: justify;
+              overflow-wrap: break-word;
+              white-space: normal;
+            "
+          >
+            {{ notification.NotificationBody }}
+          </p> -->
+          <p matLine style="text-align: right; margin-top: 5px">
+            Date : {{ notification.CreatedAt | date }}
+          </p>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</div>
+
+<app-single-notification
+  *ngIf="singleNotification"
+  [notification]="notification"
+></app-single-notification>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

@@ -1,0 +1,242 @@
+<div class="container" *ngIf="!otpComponentShow">
+    <div class="form-row">
+        <div class="col-md-12 mb-2">
+            <div class="MainBox col-md-9">
+                <div class="header col-md-12">
+                    <div class="headerTitle col-md-12"></div>
+                    <div class="headerLogo col-md-12">
+                        <!-- <div class="headerLeft"> -->
+                            <img height="80" src="assets/images/Bank_Logo_Large.jpg">                           
+                        <!-- </div>
+                        <div class="headerRight">
+                            <img src="assets/images/softwareName.gif" style="display:block; width:25%; float:right;">
+                        </div> -->
+                    </div>
+                </div>
+                <div class="content col-md-12">                    
+                    <div class="inputBox col-md-6 mb-2">
+                        <div class="contentTitle mt-4 mb-2">
+                            User ID Recovery
+                        </div>
+                        <form [formGroup]="UserIDRecoveryForm">
+                  
+                            <div class="form-row">
+                                <div class="col-md-12 mb-2">
+                                    <mat-select id="ddlBranch" formControlName="ddlBranch"                                     
+                                    class="form-control passInput"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                          (f.ddlBranch.errors && f.ddlBranch.touched) ||
+                                          (f.ddlBranch.errors && submitted)
+                                      }">
+                                        <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue"  placeholder="Search Here" class="form-control passInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+                                        <mat-option value="">-- Select Branch --</mat-option>
+                                        <mat-option *ngFor="let branch of homeBankBranchList | search : 'brancH_NM' : f.txtSearchValue.value" value="{{ branch.brancH_ID }}" class="passInput">
+                                            {{ branch.brancH_NM }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="
+                                      (f.ddlBranch.errors && f.ddlBranch.touched) ||
+                                      (f.ddlBranch.errors && submitted)
+                                    " class="invalid-feedback">
+                                        <div *ngIf="f.ddlBranch.errors.required" class="validationMessage">
+                                            Please Select Branch
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <!-- <div class="form-row">
+                                <div class="col-md-12 mb-2">                                    
+                                    <select id="ddlBranch" formControlName="ddlBranch" class="form-control"
+                                    style="font-family: 'Times New Roman', Times, serif;"  [ngClass]="{
+                              'is-invalid':
+                                (f.ddlBranch.errors && f.ddlBranch.touched) ||
+                                (f.ddlBranch.errors && submitted)
+                            }">
+                                        <option value="">---Select Branch---</option>
+                                        <option *ngFor="let branch of homeBankBranchList"
+                                            value="{{ branch.brancH_ID }}">
+                                            {{ branch.brancH_NM }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="
+                                      (f.ddlBranch.errors && f.ddlBranch.touched) ||
+                                      (f.ddlBranch.errors && submitted)
+                                    " class="invalid-feedback">
+                                        <div *ngIf="f.ddlBranch.errors.required" class="validationMessage">
+                                            Please Select Branch
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="form-row">
+                                <div class="col-md-12 mb-2">
+                                    <!-- <label for="txtAccountNo">Account No</label> -->
+                                    <input type="text" formControlName="txtAccountNo" placeholder="Account No"
+                                        class="form-control passInput" [ngClass]="{
+                        'is-invalid':
+                          (f.txtAccountNo.errors && f.txtAccountNo.touched) ||
+                          (f.txtAccountNo.errors && submitted)
+                      }" />
+                                    <div *ngIf="
+                        (f.txtAccountNo.errors && f.txtAccountNo.touched) ||
+                        (f.txtAccountNo.errors && submitted)
+                      " class="invalid-feedback">
+                                        <div *ngIf="f.txtAccountNo.errors.required" class="validationMessage">
+                                            Account No is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 mb-2">
+                                    <!-- <label for="txtEmail">Email</label> -->
+                                    <input type="email" formControlName="txtEmail" class="form-control passInput"
+                                        placeholder="Email" [ngClass]="{
+                'is-invalid':
+                  (f.txtEmail.errors && f.txtEmail.touched) ||
+                  (f.txtEmail.errors && submitted)
+              }" />
+                                    <div *ngIf="
+                (f.txtEmail.errors && f.txtEmail.touched) ||
+                (f.txtEmail.errors && submitted)
+              " class="invalid-feedback">
+                                        <div *ngIf="f.txtEmail.errors.required" class="validationMessage">
+                                            Email is required
+                                        </div>
+                                        <div *ngIf="f.txtEmail.errors.pattern || f.txtEmail.errors.email"
+                                            class="validationMessage">
+                                            Invalid Email address.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 mb-2">
+                                    <input type="text" PhoneNumberValidator formControlName="txtMobileNo" placeholder="Mobile No"
+                                        class="form-control passInput" [ngClass]="{
+                        'is-invalid':
+                          (f.txtMobileNo.errors && f.txtMobileNo.touched) ||
+                          (f.txtMobileNo.errors && submitted)
+                      }" />
+                                    <div *ngIf="
+                        (f.txtMobileNo.errors && f.txtMobileNo.touched) ||
+                        (f.txtMobileNo.errors && submitted)
+                      " class="invalid-feedback">
+                                        <div *ngIf="f.txtMobileNo.errors.required" class="validationMessage">
+                                            Mobile No is required
+                                        </div>
+                                        <div *ngIf="f.txtMobileNo.errors.pattern" class="validationMessage">
+                                            Mobile number must be numbers only
+                                        </div>
+                                        <div *ngIf="f.txtMobileNo.errors.minlength" class="validationMessage">
+                                            Mobile number must be at least 11 digit</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 mb-2">
+                                    <!-- <label for="txtBirthDate">Birth Date</label> -->
+                                    <div class="datefield">
+                                        <input class="form-control passInput" placeholder="Birth Date (dd/mm/yyyy)"
+                                            name="txtBirthDate" ngbDatepicker [minDate]="minDate" [maxDate]="maxDate"
+                                            #txtBirthDate="ngbDatepicker" [footerTemplate]="birthDateFooter"
+                                            formControlName="txtBirthDate" readonly [ngClass]="{
+                            'is-invalid':
+                              (f.txtBirthDate.errors && f.txtBirthDate.touched) ||
+                              (f.txtBirthDate.errors && submitted)
+                          }" />
+                                        <button type="button" (click)="txtBirthDate.toggle()" class="datebutton">
+                                            <mat-icon>calendar_today</mat-icon>
+                                        </button>
+                                    </div>
+                                    <ng-template #birthDateFooter>
+                                        <hr class="my-0" />
+                                        <button class="btn btn-success btn-sm m-2 float-left" (click)="
+                                        UserIDRecoveryForm.controls['txtBirthDate'].setValue(today);
+                            txtBirthDate.close()
+                          ">
+                                            Today
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm m-2 float-right"
+                                            (click)="txtBirthDate.close()">
+                                            Close
+                                        </button>
+                                    </ng-template>
+                                    <div *ngIf="
+                (f.txtBirthDate.errors && f.txtBirthDate.touched) ||
+                (f.txtBirthDate.errors && submitted)
+              " class="invalid-feedback">
+                                        <div *ngIf="f.txtBirthDate.errors.required" class="validationMessage">
+                                            Birthdate required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" *ngIf="!isAutoGeneratePassword">
+                                <div class="col-md-12 mb-2">
+                                    <!-- <label for="txtNewPassword">New Password</label> -->
+                                    <input type="text" formControlName="txtNewPassword" class="form-control passInput"
+                                        placeholder="New Password" />
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col-md-4 mb-2">
+                                    <button class="btn btn-success btn-block" type="button"
+                                        [disabled]="UserIDRecoveryForm.invalid" (click)="onSubmit()">Submit</button>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <button class="btn btn-refresh btn-block" type="button"
+                                        (click)="onReset()">Refresh</button>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <button class="btn btn-success btn-block" type="button" routerLink="/login">Login
+                                        Here</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="bottomArea">
+                    <div class="footer">
+                        <div class="footerLink">
+                            <a href="assets/files/RegistrationForm.pdf" id="lnkRegistrationForm" class="footerLink"
+                                tabindex="21" target="_blank">REGISTRATION FORM |</a>
+                            &nbsp;
+                            <a href="assets/files/AdviceForCustomer.pdf" id="lnkAdvice" class="footerLink" tabindex="22"
+                                target="_blank">ADVICES FOR CUSTOMER |</a>
+                            &nbsp;
+                            <a href="assets/files/TermsAndConditions.pdf" id="lnkTermsAndCondition" class="footerLink"
+                                tabindex="23"
+                                target="_blank">TERMS &amp; CONDITIONS |</a>
+                            &nbsp;
+                            <a href="assets/files/ServicesAvailable.pdf" id="lnkServiceAvailable" class="footerLink"
+                                tabindex="24"
+                                target="_blank">SERVICES AVAILABLE |</a>
+                        </div>
+                        <div class="footerImg">
+                            <img id="imge" src="assets/images/Norton-Secured-Seal.jpg"
+                                alt="Norton Secured Seal">
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="copyright">
+                        <p>Copyright © {{today.year}} First Security Islami Bank Limited. All rights reserved.</p>
+                        <div class="footerLogo">
+                            <img src="assets/images/leads_logo.png" alt="leads_logo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-loader *ngIf="loading"></app-loader>
+
+<app-confirm-otp *ngIf="otpComponentShow" [onSubmit]="otpSubmit" [goBack]="goBack" (otpEmitter)="setOtp($event)">
+</app-confirm-otp>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+    [btnText]="btnText"></app-popup>

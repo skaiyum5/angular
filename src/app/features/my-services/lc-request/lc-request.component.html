@@ -1,0 +1,338 @@
+<div class="container my-3">
+  <!-- <form> -->
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">General Information</legend>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="ddlBeneficiaryName">Beneficiary Name</label>
+        <select
+          id="ddlBeneficiaryName"
+          name="ddlBeneficiaryName"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-6">
+        <label for="txtAddress">Address</label>
+        <input type="text" class="form-control" id="txtAddress" disabled />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="txtTinNo">TIN Certificate No.</label>
+        <input type="text" class="form-control" id="txtTinNo" disabled />
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="txtTradeLicenseNo">Trade License No.</label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtTradeLicenseNo"
+          disabled
+        />
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="txtLicenseExpiryDate">Trade License Expiry Date</label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtLicenseExpiryDate"
+          disabled
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="txtIrcNo">IRC No.</label>
+        <input type="text" class="form-control" id="txtIrcNo" disabled />
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="txtIrcExpiryDate">IRC Expiry Date</label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtIrcExpiryDate"
+          disabled
+        />
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="txtIrcLimit">IRC Available Limit</label>
+        <input type="text" class="form-control" id="txtIrcLimit" disabled />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="ddlProduct">Product(LC Type)</label>
+        <select id="ddlProduct" name="ddlProduct" class="form-control" required>
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="ddlShipMode">Mode of Ship</label>
+        <select
+          id="ddlShipMode"
+          name="ddlShipMode"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="ddlPayMode">Pay Mode</label>
+        <select id="ddlPayMode" name="ddlPayMode" class="form-control" required>
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="ddlShipmentCountry">Country Of Shipment</label>
+        <select
+          id="ddlShipmentCountry"
+          name="ddlShipmentCountry"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="ddlShipmentPort">Port Of Shipment</label>
+        <select
+          id="ddlShipmentPort"
+          name="ddlShipmentPort"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="ddlCurrency">Currency</label>
+        <select
+          id="ddlCurrency"
+          name="ddlCurrency"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="ddlDestinationCountry">Country Of Destination</label>
+        <select
+          id="ddlDestinationCountry"
+          name="ddlDestinationCountry"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="ddlDestinationPort">Port Of Destination</label>
+        <select
+          id="ddlDestinationPort"
+          name="ddlDestinationPort"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="txtOutstandingLiability">Outstanding LC Liability</label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtOutstandingLiability"
+          disabled
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-2 mb-2">
+        <label for="txtAbpLiability">ABP Liability</label>
+        <input type="text" class="form-control" id="txtAbpLiability" disabled />
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="txtPadLiability">PAD Liability</label>
+        <input type="text" class="form-control" id="txtPadLiability" disabled />
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="txtShipingGuarantee">Shipping Guarantee Liability</label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtShipingGuarantee"
+          disabled
+        />
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="txtTotalLiability">Total Liability</label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtTotalLiability"
+          disabled
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="ddlLcafNo">LCAF No</label>
+        <select id="ddlLcafNo" name="ddlLcafNo" class="form-control" required>
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="ddlIncoTerm">INCO Term</label>
+        <select
+          id="ddlIncoTerm"
+          name="ddlIncoTerm"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="ddlConfirmation">Add Confirmation</label>
+        <select
+          id="ddlConfirmation"
+          name="ddlConfirmation"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+    </div>
+  </fieldset>
+  <br />
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">Financial Information</legend>
+    <div class="form-row">
+      <div class="col-md-1 mb-1">
+        <label for="txtMarginPercent">Margin (%)</label>
+        <input type="text" class="form-control" id="txtMarginPercent" />
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="txtMarginAmount">Margin (amount)</label>
+        <input type="text" class="form-control" id="txtMarginAmount" disabled />
+      </div>
+      <div class="col-md-3 mb-3">
+        <!-- <label for="shipmentdatepicker">Last Shipment Date</label>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="shipmentdatepicker" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="shipmentdatepicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #shipmentdatepicker></mat-datepicker>
+        </mat-form-field> -->
+        <label for="txtLastShipmentDate">Last Shipment Date</label>
+        <input
+          class="form-control"
+          placeholder="mm/dd/yyyy"
+          name="txtLastShipmentDate"
+          ngbDatepicker
+          #txtLastShipmentDate="ngbDatepicker"
+          type="text"
+          (click)="txtLastShipmentDate.toggle()"
+        />
+      </div>
+      <div class="col-md-3 mb-3">
+        <!-- <label for="expirydatepicker">Expiry Date</label>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="expirydatepicker">
+                        <mat-datepicker-toggle matSuffix [for]="expirydatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #expirydatepicker></mat-datepicker>
+                    </mat-form-field> -->
+        <label for="txtExpiryDate">Expiry Date</label>
+        <input
+          class="form-control"
+          placeholder="mm/dd/yyyy"
+          name="txtExpiryDate"
+          ngbDatepicker
+          #txtExpiryDate="ngbDatepicker"
+          type="text"
+          (click)="txtExpiryDate.toggle()"
+        />
+      </div>
+    </div>
+  </fieldset>
+  <br />
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">Comodity Information</legend>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="txtHsCode">HS Code</label>
+        <input type="text" class="form-control" id="txtHsCode" />
+        <a href="">Click here for list</a>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="txtComodity">Comodity</label>
+        <input type="text" class="form-control" id="txtComodity" disabled />
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="ddlOriginCountry">Country of Origin</label>
+        <select
+          id="ddlOriginCountry"
+          name="ddlOriginCountry"
+          class="form-control"
+          required
+        >
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label for="ddlUnit">Unit</label>
+        <select id="ddlUnit" name="ddlUnit" class="form-control" required>
+          <option value="0" selected>Select</option>
+        </select>
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="txtUnitPrice">HS Code</label>
+        <input type="text" class="form-control" id="txtUnitPrice" />
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="txtQuantity">Quantity</label>
+        <input type="text" class="form-control" id="txtQuantity" />
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="txtTotalPrice">Total Price</label>
+        <input type="text" class="form-control" id="txtTotalPrice" />
+      </div>
+      <div class="col-md-1 mb-1">
+        <label for="txtTotalPrice">&nbsp;</label>
+        <button class="btn btn-success btn-block">Add</button>
+      </div>
+    </div>
+  </fieldset>
+  <br />
+  <fieldset
+    style="border: 1px solid gray; padding: 10px; border-radius: 5px"
+  ></fieldset>
+  <br />
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <div class="form-row">
+      <div class="col-md-2">
+        <button class="btn btn-success btn-block">Submit</button>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-refresh btn-block">Refresh</button>
+      </div>
+    </div>
+  </fieldset>
+  <!-- </form> -->
+</div>

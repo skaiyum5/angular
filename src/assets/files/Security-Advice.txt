@@ -1,0 +1,12 @@
+<b>1.</b> Type your bank URL every time instead of using email links.<br>
+<b>2.</b> Refrain from using public computers or Wi-Fi when banking online<br>
+<b>3.</b> Clear your browser's cache on a regular basis so that your account information is removed. This is particularly important if you are using a shared PC, in which case you should clear it after each session.<br>
+<b>4.</b> Do not disclose your User ID or Password to anyone.<br>
+<b>5.</b> Change your password regularly.<br>
+<b>6.</b> Do not choose a password that is easily identifiable, such as your personal telephone number, birthday or other personal information.<br>
+<b>7.</b> Disable Auto-complete/Password storage in-browser.<br>
+<b>8.</b> Check your bank statement regularly.<br>
+<b>9.</b> Remember to log out of the system and close your browser whenever you leave your computer, even for a short while.<br>
+<b>10.</b> Always use the latest recommended Internet browser that is equipped with the up to date security features.<br>
+<b>11.</b> Update your PC with latest anti-virus software, personal firewall and security updates for browsers.<br>
+

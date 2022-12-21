@@ -1,0 +1,61 @@
+<div class="acc-table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="sl">
+      <th mat-header-cell *matHeaderCellDef>Sl.</th>
+      <td mat-cell *matCellDef="let element; let i = index;"> 
+        {{paginator.pageIndex * paginator.pageSize + i + 1}} 
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="transactioN_DATE">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.transactioN_DATE }}
+        <!-- {{ element.transactioN_DATE | date: "dd MMM yyyy hh:mm:ss a" }} -->
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="transfeR_TYPE">
+      <th mat-header-cell *matHeaderCellDef>Transfer Type</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.transfeR_TYPE }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="froM_ACCOUNT_NO">
+      <th mat-header-cell *matHeaderCellDef>From Account</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.froM_BRANCH_ID }}-{{ element.froM_ACCOUNT_NO }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="tO_ACCOUNT_NO">
+      <th mat-header-cell *matHeaderCellDef>To Account</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-template [ngIf]="element.tO_BRANCH_ID">
+          {{ element.tO_BRANCH_ID }}-{{ element.tO_ACCOUNT_NO }}
+        </ng-template>
+        <ng-template [ngIf]="!element.tO_BRANCH_ID">
+          {{ element.tO_ACCOUNT_NO }}
+        </ng-template>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="receiveR_NM">
+      <th mat-header-cell *matHeaderCellDef>Receiver Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.receiveR_NM }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="amounT_CCY">
+      <th mat-header-cell *matHeaderCellDef>Amount</th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        {{ element.amounT_CCY | number: "1.2" }}
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>    
+    <tr mat-row *matRowDef="let row; let even = even; columns: displayedColumns" [ngClass]="{gray: even}"></tr>
+  </table>
+</div>
+
+<mat-paginator
+  #tablePaginator
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 15, 25]"
+  showFirstLastButtons
+></mat-paginator>

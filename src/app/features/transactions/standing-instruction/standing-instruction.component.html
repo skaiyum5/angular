@@ -1,0 +1,189 @@
+<div class="container mt-3" *ngIf="isInstructionListShow">
+  <div class="form-row">
+    <div class="acc-table-container col-12 col-12 mb-2">
+      <button mat-raised-button color="primary" (click)="addInstruction()">
+        New Instruction
+      </button>
+      <br><br>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let instruction of instructionList">
+          <mat-expansion-panel-header>
+            Payee AC No : {{instruction.accountNo}} &nbsp;&nbsp;({{ instruction.beneficiaries.length }} Instructions)
+          </mat-expansion-panel-header>
+          <mat-list>
+            <mat-list-item *ngFor="let benificiary of instruction.beneficiaries; last as last">
+              <!-- <p matLine>Payee Account : {{benificiary.paye_acc_no}} </p> -->
+              <p matLine>Beneficiary Account : {{benificiary.benf_acc_no}}</p>
+              <p matLine>Branch Name : {{benificiary.branch_name}}</p>
+              <p matLine>Rule Name : {{benificiary.inst_rule_name}}</p>
+              <p matLine>Total Term Number : {{benificiary.trm_tot_no}}</p>
+              <p matLine>Active term Number : {{benificiary.trm_tot_on}}</p>
+              <p matLine>Term Frequency : {{getFrequencyTitle(benificiary.trm_freq)}}</p>
+              <p matLine>Installment Amount : {{benificiary.trm_instl_amt | number: "1.2"}}</p>
+              <p matLine>Total Amount : {{benificiary.trm_tot_amt | number: "1.2"}}</p>
+              <p matLine>Start Date : {{benificiary.st_pay_dt | date: "dd/MMM/y"}}</p>
+              <p matLine>End Date : {{benificiary.end_pay_dt | date: "dd/MMM/y"}}</p>
+              <p matLine>Last Pay Date : {{benificiary.lst_pay_dt | date: "dd/MMM/y"}}</p>
+              <p matLine>Next Pay Date : {{benificiary.next_pay_dt | date: "dd/MMM/y"}}</p>
+              <p matLine>Installment Status : {{getStatusTitle(benificiary.inst_status)}}</p>
+              <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3" *ngIf="isInstructionInputShow">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">Standing Instruction</legend>
+    <form [formGroup]="standingInstructionForm" (submit)="createNewInstruction()">
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="ddlPayeeAccount">Payee(Source) Account No.</label>
+          <mat-select id="ddlPayeeAccount" name="ddlPayeeAccount" formControlName="ddlPayeeAccount"
+            class="form-control signupInput" [ngClass]="{
+            'is-invalid':
+              (f.ddlPayeeAccount.errors && f.ddlPayeeAccount.touched) ||
+              (f.ddlPayeeAccount.errors && submitted)
+          }">
+            <input matInput type="text" id="txtSearchPayeeAccount" formControlName="txtSearchPayeeAccount" placeholder="Search Here"
+              class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="">-- Select --</mat-option>
+            <mat-option *ngFor="let acc of userAccountList | search : 'accounT_NUMBER' : f.txtSearchPayeeAccount.value"
+              value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}" class="signupInput">
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </mat-option>
+          </mat-select>
+          <!-- <select id="ddlPayeeAccount" name="ddlPayeeAccount" formControlName="ddlPayeeAccount" class="form-control"
+            [ngClass]="{
+            'is-invalid':
+              (f.ddlPayeeAccount.errors && f.ddlPayeeAccount.touched) ||
+              (f.ddlPayeeAccount.errors && submitted)
+          }">
+            <option value="" selected>--Select--</option>
+            <option *ngFor="let acc of userAccountList" value="{{ acc.brancH_ID }}_{{ acc.accounT_NUMBER }}">
+              {{ acc.brancH_ID }}-{{ acc.accounT_NUMBER }}
+            </option>
+          </select> -->
+          <div *ngIf="
+                  (f.ddlPayeeAccount.errors && f.ddlPayeeAccount.touched) ||
+                  (f.ddlPayeeAccount.errors && submitted)
+                " class="invalid-feedback">
+            <div *ngIf="f.ddlPayeeAccount.errors.required">
+              Please Select Payee Account Number
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="ddlBeneficiaryAccount">Benificiary(Destination) Account No.</label>
+          <mat-select id="ddlBeneficiaryAccount" name="ddlBeneficiaryAccount" formControlName="ddlBeneficiaryAccount"
+            class="form-control signupInput" (selectionChange)="getBeneficiaryDetails($event)" [ngClass]="{
+            'is-invalid':
+              (f.ddlBeneficiaryAccount.errors && f.ddlBeneficiaryAccount.touched) ||
+              (f.ddlBeneficiaryAccount.errors && submitted)
+          }">
+            <input matInput type="text" id="txtSearchBeneficiaryAccount" formControlName="txtSearchBeneficiaryAccount" placeholder="Search Here"
+              class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="" *ngIf="!this.beneficiaryList == null || this.beneficiaryList?.length > 0">-- Select --</mat-option>
+            <mat-option value="" *ngIf="this.beneficiaryList == null || this.beneficiaryList?.length == 0">Please Add Your Beneficiary First</mat-option>
+            <mat-option
+              *ngFor="let benf of beneficiaryList | search : 'benf_acc_no' : f.txtSearchBeneficiaryAccount.value"
+              value="{{ benf.branchID }}_{{ benf.benf_acc_no }}_{{benf.trm_freq }}_{{benf.trm_tot_no}}_{{benf.trm_tot_on}}_{{benf.trm_instl_amt}}_{{benf.trm_tot_amt}}_{{benf.trm_instl_amt_paid}}_{{benf.rule_no}}">
+              {{ benf.branchID }}-{{ benf.benf_acc_no }} ({{benf.benf_acc_type}})
+            </mat-option>
+          </mat-select>
+          <!-- <select id="ddlBeneficiaryAccount" name="ddlBeneficiaryAccount" formControlName="ddlBeneficiaryAccount"
+            class="form-control" (change)="getBeneficiaryDetails($event)" [ngClass]="{
+            'is-invalid':
+              (f.ddlBeneficiaryAccount.errors && f.ddlBeneficiaryAccount.touched) ||
+              (f.ddlBeneficiaryAccount.errors && submitted)
+          }">
+            <option value="" selected>--Select--</option>
+            <option *ngFor="let benf of beneficiaryList"
+              value="{{ benf.branchID }}_{{ benf.benf_acc_no }}_{{
+                                  benf.trm_freq }}_{{benf.trm_tot_no}}_{{benf.trm_tot_on}}_{{benf.trm_instl_amt}}_{{benf.trm_tot_amt}}_{{benf.trm_instl_amt_paid}}">
+              {{ benf.branchID }}-{{ benf.benf_acc_no }} ({{benf.benf_acc_type}})
+            </option>
+          </select> -->
+          <div *ngIf="
+                              (f.ddlBeneficiaryAccount.errors && f.ddlBeneficiaryAccount.touched) ||
+                              (f.ddlBeneficiaryAccount.errors && submitted)
+                            " class="invalid-feedback">
+            <div *ngIf="f.ddlBeneficiaryAccount.errors.required">
+              Please Select Beneficiary Account Number
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="lblTermFrequency">Term Frequency</label>
+          <div>
+            <label id="lblTermFrequency" name="lblTermFrequency" style="font-weight: bold;"></label>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="lblTotalTerm">Total Term</label>
+          <div>
+            <label id="lblTotalTerm" name="lblTotalTerm" style="font-weight: bold;"></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="lblTermPaid">Term Paid</label>
+          <div>
+            <label id="lblTermPaid" name="lblTermPaid" style="font-weight: bold;"></label>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="lblInstallmentAmount">Installment Amount</label>
+          <div>
+            <label id="lblInstallmentAmount" name="lblInstallmentAmount" style="font-weight: bold;"></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="lblTotalInstallmentAmount">Total Installment Amount</label>
+          <div>
+            <label id="lblTotalInstallmentAmount" name="lblTotalInstallmentAmount" style="font-weight: bold;"></label>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="lblPaidInstallmentAmount">Paid Installment Amount</label>
+          <div>
+            <label id="lblPaidInstallmentAmount" name="lblPaidInstallmentAmount" style="font-weight: bold;"></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="ddlPriority">Priority</label>
+          <select id="ddlPriority" name="ddlPriority" formControlName="ddlPriority" class="form-control">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-md-1 mb-2">
+          <button class="btn btn-success btn-block" [disabled]="standingInstructionForm.invalid">Submit</button>
+        </div>
+        <div class="col-md-1 mb-2">
+          <button type="button" class="btn btn-success btn-block" (click)="goBackToList()">Back</button>
+        </div>
+      </div>
+    </form>
+  </fieldset>
+</div>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText"></app-popup>

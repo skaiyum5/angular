@@ -1,0 +1,42 @@
+<div class="p-4 mb-3 asset-card" *ngFor="let asset of loanAssets">
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Asset Details</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ asset.assetDetails }}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Present Market Value</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ asset.presentMarketValue }}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Location Description</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ asset.locationDescription }}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Liabilities</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ asset.liabilities }}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-md-3">
+      <label><b>Encumbered/Unencumbered</b></label>
+    </div>
+    <div class="col-7 col-md-9">
+      <label><b>:</b>&nbsp;{{ asset.encumberedUnencumbered }}</label>
+    </div>
+  </div>
+</div>

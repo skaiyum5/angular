@@ -1,0 +1,74 @@
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlBeneficiary">Beneficiary List</label>
+        <select id="ddlBeneficiary" name="ddlBeneficiary" class="form-control">
+            <option value="0" selected>--Select--</option>
+            <option *ngFor="let beneficiary of beneficiaryList" value="{{beneficiary.beneficiaryId}}-{{beneficiary.beneficiaryAlias}}">
+                {{beneficiary.beneficiaryId}}-{{beneficiary.beneficiaryAlias}}
+            </option>
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlBankName">Bank Name</label>
+        <select id="ddlBankName" name="ddlBankName" class="form-control" (change)="getRTGSBranchList($event)">
+            <option value="0" selected>--Select--</option>
+            <option *ngFor="let bank of rtgsBankList" value="{{bank.rtgS_BANK_ID}}">
+                {{bank.rtgS_BANK_NM}}
+            </option>
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlBranch">Branch</label>
+        <select id="ddlBranch" name="ddlBranch" class="form-control" (change)="getSelectedRTGSBranch($event)">
+            <option value="0" selected>--Select--</option>
+            <option *ngFor="let branch of rtgsBranchList" value="{{branch.rtgS_BRANCH_ID}}">
+                {{branch.rtgS_BRANCH_NM}}
+            </option>
+        </select>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="txtReceiverAccount">Account No</label>
+        <input type="text" class="form-control" id="txtReceiverAccount" (change)="getRTGSAccountDetails($event)">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-3">
+        <label for="txtReceiverName">Receiver Name</label>
+        <input type="text" class="form-control" id="txtReceiverName" (change)="getRTGSReceiverName($event)">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-3">
+        <label for="txtReceiverAddress">Receiver Address</label>
+        <input type="text" class="form-control" id="txtReceiverAddress" (change)="getRTGSAddress($event)">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-3">
+        <label for="txtReceiverCity">Receiver City</label>
+        <input type="text" class="form-control" id="txtReceiverCity" (change)="getRTGSCityName($event)">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3 mb-2">
+        <label for="ddlReceiverCountry">Receiver Country</label>
+        <select id="ddlReceiverCountry" name="ddlReceiverCountry" class="form-control" (change)="getSelectedRTGSCountry($event)">
+            <option value="0" selected>--Select--</option>
+            <option *ngFor="let country of rtgsCountryList" value="{{country.countrY_CODE}}">
+                {{country.country}}
+            </option>
+        </select>
+    </div>
+</div>
+<!-- <div class="form-row">
+    <div class="col-md-3 mb-3">
+      <label for="txtPurpose">Purpose of Transaction</label>
+      <input type="text" class="form-control" id="txtPurpose">
+    </div>
+  </div> -->

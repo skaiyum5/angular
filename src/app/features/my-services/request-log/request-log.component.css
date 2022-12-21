@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+.mat-button {
+  color: green;
+}
+
+@media only screen and (max-width: 450px) {
+  .table-container {
+    overflow-x: scroll;
+  }
+}
+::ng-deep .mat-button:active, 
+.mat-button:focus{
+  /* border: 2px solid #283A82 !important; */
+  
+  outline: 0px solid transparent;
+}

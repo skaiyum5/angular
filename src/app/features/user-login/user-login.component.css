@@ -1,0 +1,279 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap'); */
+/* @import url('http://fonts.googleapis.com/css2?family=Roboto&display=swap'); */
+
+/* @font-face {
+  font-family: 'Roboto', sans-serif;
+  src: url('../../../assets/font/Roboto-Regular.ttf');
+} */
+
+.invalid-feedback {
+  display: block;
+  color: red;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+  border: 1px solid green;
+}
+
+.login-header > h2 {
+  text-align: center;
+  color: darkgreen;
+  text-transform: uppercase;
+  /* font-size: 60px; */
+  font-size: 38px;
+  padding-bottom: 20px;
+  /* border-bottom: 2px solid #74a7ba; */
+  border-bottom: 2px solid green;
+  display: inline-block;
+  margin-bottom: 35px;
+  /* font-family: "BebasNeueBold"; */
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-style: normal;
+}
+
+.form-header {
+  color: green;
+  /* font-family: "BebasNeueBold"; */
+  font-family: 'Roboto', sans-serif;
+  font-size: 28px;
+  margin-bottom: 15px;
+  margin-top: 17px;
+}
+
+.form_bg {
+  background-color: white;  
+  padding: 40px 0px 20px 0px;
+  justify-content: center;
+  /* background: #e5e5e5; */
+}
+
+.login-page {
+  /* padding: 0 35px; */
+  padding: 0;
+}
+
+.form-container {
+  background: #ffffff;
+  /* padding: 35px; */
+  padding: 20px;
+}
+
+.resendCode {
+  cursor: pointer;
+}
+
+.resendCode :hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.logo-image-container {
+  padding: 0;
+}
+
+.login-container {
+  overflow: hidden;
+  border-radius: 5px;  
+  box-shadow: 13px 18px 24px -16px #888888; 
+  font-family: 'Roboto', sans-serif;  
+  float: left;
+  /* margin-top: 20px; */
+  opacity: 0.95;  
+  background-color: white;
+  margin-top: 10px;
+  height:95%;
+  width: 98%;
+}
+
+.logo-image {
+  width: 100%;
+  height: 100%;
+}
+
+.logo-image-mob {
+  display: none;
+}
+
+.login-button {
+  width: 120px;
+  border-radius: 20px;
+  font-size: 14px;
+  /* background-color: #005baa; */
+  /* border: 1px solid #005baa; */
+  /* font-weight: bold; */
+}
+
+.form-text-input {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #888687;
+  padding: 0 40px;
+  font-size: 13px;
+}
+
+.input-icon-left {
+  left: 5px;
+  bottom: 7px;
+}
+
+.visibility-icon {
+  right: 5px;
+  bottom: 7px;
+  cursor: pointer;
+}
+
+.margin-none {
+  margin-bottom: 0;
+}
+
+.login-items {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  /* display: inline-block; */
+  color: green;
+}
+
+.btn-refresh
+{
+  background-color: #3C398F;
+  color:white;
+}
+@media only screen and (max-width: 767px) {
+  .login-header > h2 {
+    font-size: 50px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .logo-image-container {
+    max-height: 200px;
+    overflow: hidden;
+  }
+
+  .logo-image {
+    display: none;
+  }
+
+  .logo-image-mob {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  :host ::ng-deep mat-tab-header{
+    padding: 0px 15% !important;
+  }
+}
+
+@media only screen and (max-width: 516px) {
+  .login-header > h2 {
+    font-size: 45px;
+  }
+
+  .login-page {
+    padding: 0;
+  }
+
+  .form_bg {
+    height: fit-content;
+  }
+}
+
+@media only screen and (max-width: 487px) {
+  .login-header > h2 {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 396px) {
+  .login-header > h2 {
+    font-size: 30px;
+  }
+}
+
+@media only screen and (min-height: 800px) {
+  .form_bg {
+    height: 100vh;
+  }
+  .login_ui
+  {
+    background-size: 100% 100%;
+  }
+}
+
+
+.login_ui
+{
+  background-image: url("../../../assets/images/loginpage.jpg");
+  background-repeat: no-repeat !important;
+  display: flex;
+  flex-direction: column;
+  /* background-size: contain; */
+  background-size: 100% 100%;
+  /* height:80%; */
+  /* background-color: #ffffff;  
+  height: 100%;
+  width:100%;
+  display: flex;  
+  padding-top: 45px;
+  justify-content: center;
+  background: #e5e5e5; */  
+  text-align: center;
+  width:100%;
+  height: 100%;
+}
+
+
+/* Styles for tab labels */
+.mat-tab-label {
+  /* min-width: 50px; */
+  height: 40px !important;
+  border-radius: 15px 15px 0 0 !important;
+  padding: 5px !important;
+  background-color: #4440aa !important;
+  color: white !important;
+}
+
+/* Styles for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+  /* min-width: 50px; */
+  padding: 5px !important;
+  background-color: #3C398F !important;
+  color: white !important;
+}
+
+/* Styles for the ink bar */
+.mat-ink-bar {
+  background-color: blue !important;
+}
+
+.container
+{
+  text-align: center;
+}
+
+.login_bank_logo
+{
+  margin-top: 10px; 
+  float: left;
+  width:100%;
+  text-align: left;
+}
+
+.icon{
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* material overwrite */
+:host ::ng-deep mat-tab-header{
+  padding-left: 12px;
+  margin-bottom: 5px !important;
+}
+:host ::ng-deep .mat-ink-bar{
+  background-color: #18ee48 !important;
+}

@@ -1,0 +1,44 @@
+table {
+  width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+  .empty-label {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .activity-table {
+    overflow-x: scroll;
+  }
+}
+
+th.mat-header-cell {
+  text-align: center;
+  background-color: #3C398F;
+  color: white;
+  /* font-weight: bold; */
+  font-size: 14px;
+  /* border: 1px solid rgba(0,0,0,.12); */
+  border: 1px solid white;
+}
+
+th.mat-header-cell:first-of-type
+{
+padding-left:0px !important;
+}
+
+.mat-cell {
+  padding: 0 10px;
+  text-align: left;
+  border: 1px solid rgba(0,0,0,.12);
+}
+
+.btn-refresh
+{
+  background-color: #3C398F;
+  color:white;
+}
+
+.gray { background-color: lightgrey; }

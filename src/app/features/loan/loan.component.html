@@ -1,0 +1,441 @@
+<div class="container my-3">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px" *ngIf="showLoanInfoForm">
+    <legend style="font-size: 16px; width: auto">Loan Information</legend>
+    <form [formGroup]="loanForm">
+      <div class="form-row">
+        <div class="col-md-4 mt-1">
+          <label for="ddlBranch">Preferred Branch</label>
+          <mat-select id="ddlBranch" formControlName="branch" (selectionChange)="getLoanProductsList()"
+            class="form-control">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" class="form-control"
+              (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            <mat-option value="">-- Select --</mat-option>
+            <mat-option *ngFor="let branch of homeBranchList | search : 'brancH_NM' : f.txtSearchValue.value"
+              value="{{ branch.brancH_ID }}">
+              {{ branch.brancH_NM }}
+            </mat-option>
+          </mat-select>
+          <!-- <select
+            id="ddlBranch"
+            class="form-control"
+            formControlName="branch"
+            (change)="getLoanProductsList()"
+          >
+            <option value="" selected>---Select---</option>
+            <option
+              *ngFor="let branch of homeBranchList"
+              [value]="branch.brancH_ID"
+            >
+              {{ branch.brancH_NM }}
+            </option>
+          </select> -->
+        </div>
+        <!-- <div class="col-md-4 mt-1" *ngIf="loanProductList && loanProductList.length > 0"> -->
+        <div class="col-md-4 mt-1">
+          <label for="ddProduct">Type of Product</label>
+          <select id="ddProduct" class="form-control" formControlName="product" (change)="getLoanProductDocumentList()">
+            <option value="" selected>---Select---</option>
+            <option *ngFor="let product of loanProductList" [value]="product.product_id">
+              {{ product.product_nm }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!-- <div class="form-row mt-1" *ngIf="productDocumentList && productDocumentList.length > 0"> -->
+      <div class="form-row mt-1">
+        <div class="col-md-4 mt-1">
+          Tenure (Month) <label for="txtTenure" *ngIf="isDisplayTenureMinMax">
+            (Min: {{ selectedProduct.term_period_min }}, Max:
+            {{ selectedProduct.term_period_max }})</label>
+          <input type="text" class="form-control" id="txtTenure" formControlName="tenure" [ngClass]="{
+              'is-invalid':
+                (f.tenure.errors && f.tenure.touched) ||
+                (f.tenure.errors && submitted)
+            }" (keyup)="checkTenureValidation()" />
+          <div *ngIf="
+              (f.tenure.errors && f.tenure.touched) ||
+              (f.tenure.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.tenure.errors.required">Tenure is required</div>
+            <div *ngIf="f.tenure.errors.pattern">
+              Tenure should be numerical
+            </div>
+            <div *ngIf="f.tenure.errors.minMax">
+              Tenure should be between
+              {{ selectedProduct.term_period_min }} Day(s) to
+              {{ selectedProduct.term_period_max }} Day(s)
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mt-1">
+          Amount <label for="txtAmount" *ngIf="isDisplayAmountMinMax">
+            (Min: {{ selectedProduct.limit_minimum }}, Max:
+            {{ selectedProduct.limit_maximum }})</label>
+          <input type="text" class="form-control" id="txtAmount" formControlName="amount" [ngClass]="{
+              'is-invalid':
+                (f.amount.errors && f.amount.touched) ||
+                (f.amount.errors && submitted)
+            }" (change)="checkAmountValidation()" (keyup)="getLoanAmountInWords($event)" />
+          <div *ngIf="
+              (f.amount.errors && f.amount.touched) ||
+              (f.amount.errors && submitted)
+            " class="invalid-feedback">
+            <div *ngIf="f.amount.errors.required">Amount is required</div>
+            <div *ngIf="f.amount.errors.pattern">
+              Amount should be numerical
+            </div>
+            <div *ngIf="f.amount.errors.minMax">
+              Tenure should be between
+              {{ selectedProduct.limit_minimum }} Tk. to
+              {{ selectedProduct.limit_maximum }} Tk.
+            </div>
+          </div>
+          <p class="mt-2">{{ LoanAmountInWords | titlecase }}</p>
+        </div>
+      </div>
+      <!-- <button
+        type="button"
+        *ngIf="loanForm.valid"
+        (click)="onNext()"
+        class="btn btn-success mt-3"
+        [disabled]="loanForm.invalid"
+      >
+        Next
+      </button> -->
+    </form>
+  </fieldset> 
+</div>
+<div class="container my-3">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <mat-tab-group dynamicHeight animationDuration="1000ms">
+      <mat-tab label="Reference">
+        <br />
+        <form [formGroup]="referenceForm">
+          <div class="form-row">
+            <div class="col-md-4 mb-2">
+              <label for="txtReferenceName">Name</label>
+              <input type="text" id="txtReferenceName" class="form-control" formControlName="txtReferenceName" />
+            </div>
+            <div class="col-md-4 mb-2">
+              <label for="txtReferenceRelation">Relation</label>
+              <input type="text" id="txtReferenceRelation" class="form-control"
+                formControlName="txtReferenceRelation" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-4 mb-2">
+              <label for="txtProfession">Profession</label>
+              <input type="text" id="txtProfession" class="form-control" formControlName="txtProfession" />
+            </div>
+            <div class="col-md-4 mb-2">
+              <label for="txtEducation">Educational Qualification</label>
+              <input type="text" id="txtEducation" class="form-control" formControlName="txtEducation" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-4 mb-2">
+              <label for="txtEmail">Email</label>
+              <input type="email" id="txtEmail" formControlName="txtEmail" placeholder="Email" class="form-control"
+                email="true" [ngClass]="{
+                        'is-invalid':
+                          (ref.txtEmail.errors && ref.txtEmail.touched) ||
+                          (ref.txtEmail.errors && submitted)
+                      }" />
+              <div *ngIf="
+                        (ref.txtEmail.errors && ref.txtEmail.touched) ||
+                        (ref.txtEmail.errors && submitted)
+                      " class="invalid-feedback">
+                <div *ngIf="ref.txtEmail.errors.required" class="validationMessage">
+                  Email is required
+                </div>
+                <div *ngIf="ref.txtEmail.errors.pattern || ref.txtEmail.errors.email" class="validationMessage">
+                  Invalid Email address.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-2">
+              <label for="txtMobileNo">Mobile</label>
+              <input type="text" id="txtMobileNo" formControlName="txtMobileNo" placeholder="Mobile No"
+                class="form-control" [ngClass]="{
+                                    'is-invalid':
+                                      (ref.txtMobileNo.errors && ref.txtMobileNo.touched) ||
+                                      (ref.txtMobileNo.errors && submitted)
+                                  }" />
+              <div *ngIf="
+                                    (ref.txtMobileNo.errors && ref.txtMobileNo.touched) ||
+                                    (ref.txtMobileNo.errors && submitted)
+                                  " class="invalid-feedback">
+                <div *ngIf="ref.txtMobileNo.errors.required" class="validationMessage">
+                  Mobile No is required
+                </div>
+                <div *ngIf="ref.txtMobileNo.errors.pattern" class="validationMessage">
+                  Mobile number must be numbers only
+                </div>
+                <div *ngIf="ref.txtMobileNo.errors.minlength" class="validationMessage">
+                  Mobile number must be at least 11 digit</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-4 mb-2">
+              <button type="submit" class="btn btn-success" [disabled]="referenceForm.invalid"
+                (click)="onAddReference()">
+                Add
+              </button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="asset-table-container col-12">
+              <table mat-table [dataSource]="referenceDataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Name</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.ReferenceName }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="relation">
+                  <th mat-header-cell *matHeaderCellDef>Relation</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.ReferenceRelation }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="profession">
+                  <th mat-header-cell *matHeaderCellDef>Profession</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.ReferenceProfession }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="eduQualification">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Education
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="text-center">
+                    {{ element.ReferenceEduQualification }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef>Email</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.ReferenceEmail }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="mobile">
+                  <th mat-header-cell *matHeaderCellDef>Mobile</th>
+                  <td mat-cell *matCellDef="let element" class="text-center">
+                    {{ element.ReferenceMobile }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Action</th>
+                  <td mat-cell *matCellDef="let element" class="text-center">
+                    <button type="button" class="btn btn-danger" (click)="onDeleteReference(element)">
+                      Delete
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="referenceDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: referenceDisplayedColumns"></tr>
+                <!-- <tr mat-footer-row *matFooterRowDef="assetDisplayedColumns"></tr> -->
+              </table>
+            </div>
+          </div>
+        </form>
+
+
+
+
+        <!-- <app-loan-references *ngIf="showReferenceForm" [success]="loanAppSuccess" [loanReferenceList]="loanReferences"
+            (referencesEmitter)="getReferences($event)" (showReferenceEmitter)="onReferenceBack($event)">
+          </app-loan-references> -->
+      </mat-tab>
+      <mat-tab label="Document">
+        <br />
+        <div class="mt-2" *ngIf="showFileUploadForm">
+          <!-- <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+              <legend style="font-size: 16px; width: auto">Upload documents</legend> -->
+          <div class="col-md-9">
+            <div class="px-3 form-row">
+              <div class="doc-list" *ngFor="let product of productDocumentList; let i = index">
+                <!-- active -->
+                <button *ngIf="i === currentDocumentIndex" mat-raised-button class="py-2 px-4" color="primary"
+                  (click)="selectIndex(i)">
+                  <mat-icon *ngIf="
+                          !fileAttached(product.doc_id) && product.doc_option === 'M'
+                        " style="color: red; margin-right: 5px">error</mat-icon>
+                  <mat-icon *ngIf="fileAttached(product.doc_id)" style="color: #32cd32; margin-right: 5px">
+                    check_circle</mat-icon>
+                  <b>{{ product.doc_name }}</b>
+                </button>
+                <!-- inactive -->
+                <button *ngIf="i !== currentDocumentIndex" mat-stroked-button class="py-2 px-4"
+                  (click)="selectIndex(i)">
+                  <mat-icon *ngIf="
+                          !fileAttached(product.doc_id) && product.doc_option === 'M'
+                        " style="color: red; margin-right: 5px">error</mat-icon>
+                  <mat-icon *ngIf="fileAttached(product.doc_id)" style="color: green; margin-right: 5px">
+                    check_circle</mat-icon>
+                  <b>{{ product.doc_name }}</b>
+                </button>
+              </div>
+            </div>
+            <div class="col-md-4 mt-1">
+              <label for="ddProduct"><b>{{ productDocumentList[currentDocumentIndex].doc_name }}</b>
+                <span *ngIf="
+                        productDocumentList[currentDocumentIndex].doc_option === 'O'
+                      ">(Optional)</span>:<span *ngIf="uploadedDocs.length > 0">
+                  {{
+                  currDoc() ? currDoc().doc.name : ''
+                  }}
+                </span>
+              </label>
+              <input type="file" #file (change)="onFileChange($event)" style="display: none" />
+            </div>
+            <!-- <div class="my-3 px-3 col-md-10 form-row justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    [disabled]="currentDocumentIndex <= 0"
+                    (click)="prevDoc()"
+                  >
+                    Previous Document
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    [disabled]="currentDocumentIndex >= productDocumentList.length - 1"
+                    (click)="nextDoc()"
+                  >
+                    Next Document
+                  </button>
+                </div> -->
+          </div>
+          <!-- </fieldset> -->
+        </div>
+      </mat-tab>
+      <mat-tab label="Assets">
+        <br />
+        <form [formGroup]="assetForm">
+          <div class="form-row">
+            <div class="col-md-4 mb-2">
+              <label for="txtAssetDetails">Asset Details</label>
+              <input type="text" id="txtAssetDetails" class="form-control" formControlName="txtAssetDetails" />
+            </div>
+            <div class="col-md-4 mb-2">
+              <label for="txtPresentMarketValue">Present Market Value</label>
+              <input type="text" id="txtPresentMarketValue" class="form-control"
+                formControlName="txtPresentMarketValue" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-4 mb-2">
+              <label for="txtLocation">Location Description</label>
+              <input type="text" id="txtLocation" class="form-control" formControlName="txtLocation" />
+            </div>
+            <div class="col-md-4 mb-2">
+              <label for="txtLiabilities">Liabilities</label>
+              <input type="text" id="txtLiabilities" class="form-control" formControlName="txtLiabilities" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-4 mb-2">
+              <br />
+              <input type="checkbox" id="chkEncumbered" formControlName="chkEncumbered" checked />
+              &nbsp;
+              <label for="chkEncumbered">Encumbered</label>
+            </div>
+            <div class="col-md-4 mb-2">
+              <button type="submit" class="btn btn-success" [disabled]="assetForm.invalid" (click)="onAddAsset()">
+                Add
+              </button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="asset-table-container col-12">
+              <table mat-table [dataSource]="assetDataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="details">
+                  <th mat-header-cell *matHeaderCellDef>Asset Details</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.AssetDetails }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="marketValue">
+                  <th mat-header-cell *matHeaderCellDef>Present Market Value</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.PresentMarketValue }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="location">
+                  <th mat-header-cell *matHeaderCellDef>Location Description</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.LocationDescription }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="liabilities">
+                  <th mat-header-cell *matHeaderCellDef>Liabilities</th>
+                  <td mat-cell *matCellDef="let element" class="text-center">
+                    {{ element.Liabilities }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="encumbered">
+                  <th mat-header-cell *matHeaderCellDef>Encumbered</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.EncumberedUnencumbered }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Action</th>
+                  <td mat-cell *matCellDef="let element" class="text-center">
+                    <button type="button" class="btn btn-danger" (click)="onDeleteAsset(element)">
+                      Delete
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="assetDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: assetDisplayedColumns"></tr>
+                <!-- <tr mat-footer-row *matFooterRowDef="assetDisplayedColumns"></tr> -->
+              </table>
+            </div>
+          </div>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+  </fieldset>
+
+  <div class="form-row mt-4" *ngIf="showFileUploadForm">
+    <button type="button" (click)="onSubmit()" class="btn btn-success ml-1"
+      [disabled]="!mandatoryFiles || loanForm.invalid">
+      Submit
+    </button>
+    <!-- <button
+      type="button"
+      (click)="onReferenceFormShow()"
+      class="btn btn-success ml-2"
+    >
+      Back
+    </button> -->
+    <button type="button" (click)="resetForm()" class="btn btn-refresh ml-2">
+      Refresh
+    </button>
+  </div>
+</div>
+
+<!-- Loader component -->
+<app-loader *ngIf="loader"></app-loader>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText" [custStyle]="docResponse && docResponse.length > 3 ? 'margin-top: 10vh;' : ''">
+  <div *ngIf="docResponse && docResponse.length > 0">
+    <div class="form-row justify-content-between align-items-center py-2 px-3 bg-light"
+      *ngFor="let response of docResponse">
+      <div class="doc-response">
+        <p class="text-dark" style="font-size: 16px">{{ response.doc_name }}</p>
+        <p class="text-muted">{{ response.fileName }}</p>
+      </div>
+      <mat-icon *ngIf="response.status === 'OK'" style="color: green; margin-right: 5px">check_circle</mat-icon>
+      <mat-icon *ngIf="response.status !== 'OK'" style="color: red; margin-right: 5px">error</mat-icon>
+    </div>
+  </div>
+</app-popup>

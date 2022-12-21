@@ -1,0 +1,301 @@
+<div class="container my-3"  *ngIf="!otpComponentShow">
+    <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+        <legend style="font-size: 12px; width: auto">Bangla QR Payment</legend>
+
+        <div class="form-row" *ngIf="isShowSelectionButton">
+            <div class="col-md-6 mb-2">
+                <div class="form-row transaction-buttons">
+                    <button type="button" mat-raised-button color="primary" class="mt-2 mx-1"
+                        (click)="selectProcess('AddCard')">
+                        Add Card
+                    </button>
+                    <button type="button" mat-raised-button color="primary" class="mt-2 mx-1"
+                        (click)="selectProcess('ScanQR');">
+                        Tap to Scan
+                    </button>
+                    <!-- <button type="button" mat-raised-button color="primary" class="mt-2 mx-1"
+                        (click)="selectProcess('History')">
+                        History
+                    </button> -->
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!isShowSelectionButton">
+            <div>
+                <form [formGroup]="paymentForm">
+                    <div *ngIf="isShowQrScanner">
+                        <div class="form-row justify-content-center col-12 col-md-12 col-sm-12 col-lg-12 mb-5">
+                            <!-- <div class="col-4 col-md-4 col-lg-4 col-sm-4"></div> -->
+                            <div id="camera" class="col-12 col-md-4 col-lg-4 col-sm-12" style="height: 50%;">                        
+                                <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="getQrCodeResult($event)">                        
+                                </zxing-scanner>
+                        
+                            </div>
+                            <!-- <div class="col-4 col-md-4 col-lg-4 col-sm-4">
+                                                    </div> -->
+                        </div>
+                    </div>
+
+                    <div *ngIf="isShowPaymentComponent">
+                        <div class="form-row col-md-4 mb-3">
+                            <label for="txtMerchantName">Merchant Name</label>
+                            <input class="form-control" id="txtMerchantName" name="txtMerchantName"
+                                formControlName="txtMerchantName" readonly />
+                        </div>
+                        <div class="form-row col-md-4 mb-3">
+                            <label for="txtMerchantCardNumber">Merchant Card Number</label>
+                            <input class="form-control" id="txtMerchantCardNumber" name="txtMerchantCardNumber"
+                                formControlName="txtMerchantCardNumber" readonly />
+                        </div>
+
+                        <div class="form-row col-md-4 mb-3">
+                            <label for="ddlPaymentCardNumber">Payment Card Number</label>
+                            <select id="ddlPaymentCardNumber" name="ddlPaymentCardNumber" formControlName="ddlPaymentCardNumber"
+                                class="form-control signupInput" [ngClass]="{
+                                        'is-invalid':
+                                          (payment.ddlPaymentCardNumber.errors && payment.ddlPaymentCardNumber.touched) ||
+                                          (payment.ddlPaymentCardNumber.errors && submitted)
+                                      }">                                
+                                <option value="">-- Select --</option>
+                                <option *ngFor="let card of registeredCardList"
+                                    value="{{ card.id }}">
+                                    {{ card.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                                                          (payment.ddlPaymentCardNumber.errors && payment.ddlPaymentCardNumber.touched) ||
+                                                          (payment.ddlPaymentCardNumber.errors && submitted)
+                                                        " class="invalid-feedback">
+                                <div *ngIf="payment.ddlPaymentCardNumber.errors.required">
+                                    Please Select Card Number
+                                </div>
+                            </div>                          
+                        </div>
+                        <div class="form-row col-md-4 mb-3">
+                            <label for="txtAmount">Amount</label>
+                            <input class="form-control" id="txtAmount" name="txtAmount" formControlName="txtAmount"
+                                [ngClass]="{
+                                        'is-invalid':
+                                          (payment.txtAmount.errors && payment.txtAmount.touched) ||
+                                          (payment.txtAmount.errors && submitted)
+                                      }" placeholder="Amount" (keyup)="getAmountInWords($event)" />
+
+                            <div *ngIf="
+                                              (payment.txtAmount.errors && payment.txtAmount.touched) ||
+                                              (payment.txtAmount.errors && submitted)
+                                            " class="invalid-feedback">
+                                <div *ngIf="payment.txtAmount.errors.required" class="validationMessage">
+                                    Amount required
+                                </div>
+                                <div *ngIf="payment.txtAmount.errors.pattern" class="validationMessage">
+                                    Invalid Amount
+                                </div>
+                            </div>
+                            <p class="mt-2">{{ amountInWords | titlecase }}</p>
+                        </div>
+                        <!-- <div class="form-row col-md-4 mb-3">
+                            <label for="txtReason">Reason</label>
+                            <textarea matInput id="txtReason" formControlName="txtReason" class="form-control"
+                                placeholder="Reason" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                                cdkAutosizeMinRows="2" cdkAutosizeMaxRows="3" [ngClass]="{
+                                                                                'is-invalid':
+                                                                                  (payment.txtReason.errors && payment.txtReason.touched) ||
+                                                                                  (payment.txtReason.errors && submitted)
+                                                                              }"></textarea>
+
+                            <div *ngIf="
+                                                                      (payment.txtReason.errors && payment.txtReason.touched) ||
+                                                                      (payment.txtReason.errors && submitted)
+                                                                    " class="invalid-feedback">
+                            </div>
+                        </div> -->
+                        <div class="form-row col-md-6 mb-3">
+                            <div class="col-md-3">
+                                <button class="btn btn-success btn-block" (click)="createPaymentRequest()">Submit</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-refresh btn-block" (click)="reScanQrCode()">Re-Scan</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-refresh btn-block" (click)="backToMain()">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="isShowAddCardComponent">
+                <form [formGroup]="addCardForm">
+                    <div class="form-row col-md-4 mt-2 mb-3">
+                        <h2>Please complete your registration...</h2>
+                    </div>
+                    <div class="form-row col-md-4 mb-3">
+                        <div style="width: 100%;">
+                            <div style="float: left;"><label for="txtRegCardNumber">Card Number</label></div>
+                            <div style="float:right;">{{inputCardLength}} / {{cardNumberLength}}</div>
+                        </div>
+                        <input class="form-control" id="txtRegCardNumber" name="txtRegCardNumber"
+                            formControlName="txtRegCardNumber"(onchange)="validateCardLength($event)" (keyup)="validateCardLength($event)" [ngClass]="{
+                                        'is-invalid':
+                                          (addCard.txtRegCardNumber.errors && addCard.txtRegCardNumber.touched) ||
+                                          (addCard.txtRegCardNumber.errors && submitted)
+                                      }" placeholder="16 digit card number" />
+
+                        <div *ngIf="
+                                              (addCard.txtRegCardNumber.errors && addCard.txtRegCardNumber.touched) ||
+                                              (addCard.txtRegCardNumber.errors && submitted)
+                                            " class="invalid-feedback">
+                            <div *ngIf="addCard.txtRegCardNumber.errors.required" class="validationMessage">
+                                Card Number required
+                            </div>
+                            <div *ngIf="addCard.txtRegCardNumber.errors.pattern" class="validationMessage">
+                                Invalid Card Number
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class=" col-md-4 mb-3 ml-2">
+                            <label for="">Expiry Date</label>
+                            <div class="row">
+                                <div class="col-6 col-md-6 col-lg-6 col-sm-6" style="padding-right: 5px;">
+                                    <select id="ddlExpiryMonth" name="ddlExpiryMonth" formControlName="ddlExpiryMonth"
+                                        class="form-control signupInput">
+                                        <option *ngFor="let month of expiryMonth" value="{{month.id}}"
+                                            class="signupInput">
+                                            {{month.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-5 col-md-5 col-lg-5 col-sm-5" style="padding-right: 5px;">
+                                    <select id="ddlExpiryYear" name="ddlExpiryYear" formControlName="ddlExpiryYear"
+                                        class="form-control signupInput">
+                                        <option *ngFor="let year of expiryYear" value="{{year}}" class="signupInput">
+                                            {{year}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class=" col-md-4 mb-3 ml-2">
+                            <label for="txtBirthdate">Birth Date</label>
+                            <div class="datefield">
+                                <input class="form-control" placeholder="dd/mm/yyyy" name="txtBirthdate" ngbDatepicker
+                                    [minDate]="minDate" [maxDate]="maxDate" #txtBirthdate="ngbDatepicker"
+                                    [footerTemplate]="startDateFooter" id="txtBirthdate" formControlName="txtBirthdate"
+                                    readonly [ngClass]="{
+                              'is-invalid':
+                                (addCard.txtBirthdate.errors && addCard.txtBirthdate.touched) ||
+                                (addCard.txtBirthdate.errors && submitted)
+                            }" />
+                                <button type="button" (click)="txtBirthdate.toggle()" class="datebutton">
+                                    <mat-icon>calendar_today</mat-icon>
+                                </button>
+                            </div>
+                            <ng-template #startDateFooter>
+                                <hr class="my-0" />
+                                <button class="btn btn-success btn-sm m-2 float-left" (click)="
+                                addCardForm.controls['txtBirthdate'].setValue(today);
+                            txtBirthdate.close()
+                            ">
+                                    Today
+                                </button>
+                                <button class="btn btn-secondary btn-sm m-2 float-right" (click)="txtBirthdate.close()">
+                                    Close
+                                </button>
+                            </ng-template>
+                            <div *ngIf="
+                            (addCard.txtBirthdate.errors && addCard.txtBirthdate.touched) ||
+                            (addCard.txtBirthdate.errors && submitted)
+                          " class="invalid-feedback">
+                                <div *ngIf="addCard.txtBirthdate.errors.required">
+                                    Birth date is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row col-md-4 mb-3">
+                        <label for="txtPhone">Phone</label>
+                        <input type="text" class="form-control" id="txtPhone" name="txtPhone"
+                        PhoneNumberValidator formControlName="txtPhone"
+                            [ngClass]="{
+                                'is-invalid':
+                                  (addCard.txtPhone.errors && addCard.txtPhone.touched) ||
+                                  (addCard.txtPhone.errors && submitted)
+                              }" placeholder="Phone number" />
+                        <div *ngIf="
+                                                          (addCard.txtPhone.errors && addCard.txtPhone.touched) ||
+                                                          (addCard.txtPhone.errors && submitted)
+                                                        " class="invalid-feedback">
+                            <div *ngIf="addCard.txtPhone.errors.required" class="validationMessage">
+                                Phone Number is required
+                            </div>
+
+                            <!-- <div *ngIf="addCard.txtPhone.errors.pattern || addCard.txtPhone.errors.email"
+                                class="validationMessage">
+                                Invalid Phone Number.
+                            </div> -->
+                            <div
+                            *ngIf="
+                              (addCard.txtPhone.errors.pattern && addCard.txtPhone.touched) ||(addCard.txtPhone.errors && addCard.txtPhone.errors.phoneNOMinMaxlength)||(addCard.txtPhone.errors && addCard.txtPhone.errors.phoneNumberInvalid)"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="addCard.txtPhone.errors.required">
+                              Mobile Number is required
+                            </div>
+                            <div *ngIf="addCard.txtPhone.errors.pattern">
+                              Mobile Number must contain only numbers
+                            </div>
+                            <div *ngIf="addCard.txtPhone.touched && addCard.txtPhone.errors.phoneNOMinMaxlength">
+                              Only 11 digit mobile number is allowed
+                            </div>
+                            <div *ngIf="!addCard.txtPhone.errors.pattern && !(addCard.txtPhone.errors.minlength || addCard.txtPhone.errors.maxlength) && addCard.txtPhone.touched && addCard.txtPhone.errors.phoneNumberInvalid">
+                              Mobile Number is Invalid.
+                            </div>
+                          </div>  
+                        </div>
+                    </div>
+                    <div class="form-row col-md-4 mb-3">
+                        <label for="txtEmail">E-Mail</label>
+                        <input type="text" class="form-control" id="txtEmail" name="txtEmail" formControlName="txtEmail"
+                            [ngClass]="{
+                                                            'is-invalid':
+                                                              (addCard.txtEmail.errors && addCard.txtEmail.touched) ||
+                                                              (addCard.txtEmail.errors && submitted)
+                                                          }" placeholder="E-Mail" />
+                        <div *ngIf="
+                                                          (addCard.txtEmail.errors && addCard.txtEmail.touched) ||
+                                                          (addCard.txtEmail.errors && submitted)
+                                                        " class="invalid-feedback">
+                            <div *ngIf="addCard.txtEmail.errors.required" class="validationMessage">
+                                Email is required
+                            </div>
+                            <div *ngIf="addCard.txtEmail.errors.pattern || addCard.txtEmail.errors.email"
+                                class="validationMessage">
+                                Invalid Email address.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row col-md-4 mb-3">
+                        <div class="col-md-6">
+                            <button class="btn btn-success btn-block" (click)="cardRegistration()">Submit</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-refresh btn-block" (click)="backToMain()">Back</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<app-confirm-otp *ngIf="otpComponentShow" [onSubmit]="otpSubmit" [goBack]="goBack" [title]="title" (otpEmitter)="setOtp($event)">
+</app-confirm-otp>
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText"></app-popup>
+
+  <app-loader *ngIf="loader"></app-loader>

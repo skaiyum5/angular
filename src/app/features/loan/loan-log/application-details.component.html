@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-4 col-md-3">
+    <label><b>Product ID</b></label>
+  </div>
+  <div class="col-8">
+    <label><b>:</b>&nbsp;{{ loanApplicationDetail.productId }}</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-4 col-md-3">
+    <label><b>Product Name</b></label>
+  </div>
+  <div class="col-8">
+    <label
+      ><b>:</b>&nbsp;{{ loanApplicationDetail.productNm | titlecase }}</label
+    >
+  </div>
+</div>
+<div class="row">
+  <div class="col-4 col-md-3">
+    <label><b>Branch</b></label>
+  </div>
+  <div class="col-8">
+    <label><b>:</b>&nbsp;{{ loanApplicationDetail.branchNm }}</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-4 col-md-3">
+    <label><b>Tenure</b></label>
+  </div>
+  <div class="col-8">
+    <label><b>:</b>&nbsp;{{ loanApplicationDetail.tenure }}</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-4 col-md-3">
+    <label><b>Amount</b></label>
+  </div>
+  <div class="col-8">
+    <label
+      ><b>:</b>&nbsp;{{ loanApplicationDetail.amount | number: "1.2" }}</label
+    >
+  </div>
+</div>
+<div class="row">
+  <div class="col-4 col-md-3">
+    <label><b>User Id</b></label>
+  </div>
+  <div class="col-8">
+    <label><b>:</b>&nbsp;{{ loanApplicationDetail.userId }}</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-4 col-md-3">
+    <label><b>User Name</b></label>
+  </div>
+  <div class="col-8">
+    <label><b>:</b>&nbsp;{{ loanApplicationDetail.userNm }}</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-4 col-md-3">
+    <label><b> Make Date</b></label>
+  </div>
+  <div class="col-8">
+    <label
+      ><b>:</b>&nbsp;{{
+        loanApplicationDetail.makeDt | date: "dd/MMM/y"
+      }}</label
+    >
+  </div>
+</div>
+<div class="row">
+  <div class="col-4 col-md-3">
+    <label><b>Authorization Status</b></label>
+  </div>
+  <div class="col-8">
+    <label><b>:</b>&nbsp;{{ loanApplicationDetail.authStatus }}</label>
+  </div>
+</div>

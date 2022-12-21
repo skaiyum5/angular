@@ -1,0 +1,44 @@
+table {
+    width: 100%;
+  }
+      
+  .invalid-feedback {
+    display: block;
+    color: red;
+  }
+  
+  .form-control.ng-touched.ng-invalid {
+    border: 1px solid red;
+  }
+  
+  .form-control.ng-touched.ng-valid {
+    border: 1px solid green;
+  }
+  
+  .datefield {
+    position: relative;
+  }
+  
+  .datebutton {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: 1px solid #ced4da;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 00.25rem;
+  }
+  
+  :host /deep/ ngb-datepicker {
+    top: 35px !important;
+    transform: translate(0, 0) !important;
+  }
+  
+  @media only screen and (max-width: 450px) {
+    .account-log-table {
+      overflow-x: scroll;
+    }
+  }
+  

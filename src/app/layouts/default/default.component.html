@@ -1,0 +1,40 @@
+<app-header></app-header>
+
+<app-menu-slider *ngIf="routerUrl !== '/'" [menus]="menus"></app-menu-slider>
+
+<!-- <nav class="breadcrumb-nav" *ngIf="routerUrl !== '/'">
+  <ol class="breadcrumb custom-bc">
+    <li
+      [ngClass]="
+        i == breadcrumbs.length - 1
+          ? 'breadcrumb-item active'
+          : 'breadcrumb-item'
+      "
+      *ngFor="let breadcrumb of breadcrumbs; let i = index"
+    >
+      {{ breadcrumb }}
+    </li>
+  </ol>
+</nav> -->
+
+<mat-drawer-container>
+  <mat-drawer-content>
+    <div class="container-fluid">
+      <div class="container mt-3" *ngIf="routerUrl !== '/'">
+        <h2 class="page-title"><strong>{{title | titlecase}}</strong></h2>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+  
+</mat-drawer-container>
+<app-footer></app-footer> 
+
+<app-loader *ngIf="loading"></app-loader>
+
+
+<!-- <app-dashboard-one></app-dashboard-one> -->
+
+<!-- <app-header></app-header> -->
+<!-- <app-left-sidebar></app-left-sidebar> -->
+

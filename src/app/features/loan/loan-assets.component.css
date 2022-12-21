@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+}
+
+.mat-footer-cell {
+  padding: 0 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.encumbered-input {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.asset-table-container {
+  padding: 0;
+}
+
+@media only screen and (max-width: 450px) {
+  .asset-table-container {
+    overflow-x: scroll;
+  }
+}

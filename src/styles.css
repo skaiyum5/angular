@@ -1,0 +1,64 @@
+/* You can add global styles to this file, and also import other style files */
+/* @import url('http://fonts.googleapis.com/css2?family=Roboto&display=swap'); */
+
+/* @font-face {
+  font-family: 'Roboto', sans-serif;
+  src: url('../../../assets/font/Roboto-Regular.ttf');
+} */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  /* font-family: 'Roboto', sans-serif; */
+  overflow: overlay !important;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+th.mat-header-cell {
+  text-align: center !important;
+  background-color: #3C398F;
+  color: white; 
+  font-size: 14px;
+  border: 1px solid white;
+}
+
+th.mat-header-cell:first-of-type
+{
+padding-left:0px !important;
+}
+
+.mat-cell {
+  padding: 0 10px !important;
+  text-align: left;
+  border: 1px solid rgba(0,0,0,.12);
+}
+
+/* focus style */
+.mat-tab-label
+{  
+  opacity: 1 !important;
+}
+
+.mat-tab-label-active 
+{
+  background-color: #28a745;
+  /* opacity: 0.2; */
+}
+
+.mat-option.mat-active
+{
+  background-color: lightgrey;
+}
+
+.btn-refresh
+{
+  background-color: #3C398F;
+  color:white !important;
+}

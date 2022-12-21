@@ -1,0 +1,114 @@
+<div class="container my-3">
+    <fieldset style="
+        border: 1px solid gray;
+        padding: 10px;
+        border-radius: 5px;
+      ">
+        <legend style="font-size: 12px; width: auto">Lost Card Details</legend>
+        <form [formGroup]="lostcardRequestForm">
+            <div class="form-row">
+                <div class="col-md-3 mb-2">
+                    <label for="ddlBranch">Branch</label>
+                    <mat-select id="ddlBranch" formControlName="ddlBranch" class="form-control signupInput" [ngClass]="{
+                'is-invalid':
+                  (f.ddlBranch.errors && f.ddlBranch.touched) ||
+                  (f.ddlBranch.errors && submitted)
+              }">
+                        <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+                            class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                            autocomplete="off">
+                        <mat-option value="">-- Select Branch --</mat-option>
+                        <mat-option
+                            *ngFor="let branch of homeBankBranchList | search : 'brancH_NM' : f.txtSearchValue.value"
+                            value="{{ branch.brancH_ID }}" class="signupInput">
+                            {{ branch.brancH_NM }}
+                        </mat-option>
+                    </mat-select>
+                    <div *ngIf="
+              (f.ddlBranch.errors && f.ddlBranch.touched) ||
+              (f.ddlBranch.errors && submitted)
+            " class="invalid-feedback">
+                        <div *ngIf="f.ddlBranch.errors.required" class="validationMessage">
+                            Please Select Branch
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label for="ddlCardType">Card Type</label>
+                    <mat-select id="ddlCardType" name="ddlCardType" formControlName="ddlCardType" class="form-control"
+                        [ngClass]="{
+                                      'is-invalid':
+                                        (f.ddlCardType.errors && f.ddlCardType.touched) ||
+                                        (f.ddlCardType.errors && submitted)
+                                    }">
+                        <mat-option value="">-- Select --</mat-option>
+                        <mat-option value="Credit Card">Credit Card</mat-option>
+                        <mat-option value="Debit Card">Debit Card</mat-option>
+                    </mat-select>
+                    <div *ngIf="
+                              (f.ddlCardType.errors && f.ddlCardType.touched) ||
+                              (f.ddlCardType.errors && submitted)
+                            " class="invalid-feedback">
+                        <div *ngIf="f.ddlCardType.errors.required" class="validationMessage">
+                            Please Select Card Type
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <label for="txtCardNo">Card Number</label>
+                    <input type="text" id="txtCardNo" formControlName="txtCardNo" class="form-control" [ngClass]="{
+                            'is-invalid':
+                              (f.txtCardNo.errors && f.txtCardNo.touched) ||
+                              (f.txtCardNo.errors && submitted)
+                          }" />
+
+                    <div *ngIf="
+                        (f.txtCardNo.errors && f.txtCardNo.touched) ||
+                        (f.txtCardNo.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtCardNo.errors.required">
+                            Card number is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                    <label for="txtInstruction">Instruction</label>
+                    <input type="text" id="txtInstruction" formControlName="txtInstruction" class="form-control"
+                        [ngClass]="{
+                            'is-invalid':
+                              (f.txtInstruction.errors && f.txtInstruction.touched) ||
+                              (f.txtInstruction.errors && submitted)
+                          }" />
+
+                    <div *ngIf="
+                        (f.txtInstruction.errors && f.txtInstruction.touched) ||
+                        (f.txtInstruction.errors && submitted)
+                      " class="invalid-feedback">
+                        <div *ngIf="f.txtInstruction.errors.required">
+                            Instruction is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6 mb-3"></div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-2 mb-2">
+                    <button [disabled]="lostcardRequestForm.invalid" class="btn btn-success btn-block" type="submit"
+                        (click)="onSubmit()">Submit</button>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button class="btn btn-refresh btn-block" (click)="onReset()">Refresh</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+    [btnText]="btnText"></app-popup>

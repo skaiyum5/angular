@@ -1,0 +1,25 @@
+.notificationTitle {
+  text-align: center;
+  font-size: 18px;
+}
+
+.notification-list-container {
+  padding: 0 30px;
+}
+
+.notification-items {
+  background-color: white;
+  /* #e9f0f3; */
+}
+
+.notification-items:hover {
+  cursor: pointer;
+  background-color: #cedae0;
+  font-weight: bold;
+  /* color: white; */
+}
+.newNotification
+{
+  background-color: #cedae0;
+  /* font-weight: bold; */
+}

@@ -1,0 +1,64 @@
+<mat-expansion-panel class="mb-3">
+  <mat-expansion-panel-header>
+    <mat-panel-title> Uploaded Documents </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="asset-card" *ngFor="let document of uploadedDocuments">
+    <div class="doc-card-content">
+      <div>
+        <p><b>Document ID :</b>{{ " " + document.doc_id }}</p>
+        <p><b>Document Name :</b>{{ " " + document.doc_name }}</p>
+      </div>
+      <div>
+        <img
+          *ngIf="document.doc_type === 'image'"
+          [src]="document.imageUrl"
+          alt=""
+          width="300"
+        />
+        <iframe
+          *ngIf="document.doc_type === 'pdf'"
+          [src]="document.imageUrl"
+          width="300"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title> Missing Documents </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="asset-card" *ngFor="let document of loanMissingDocuments">
+    <div class="doc-card-content">
+      <div>
+        <p><b>Document ID :</b>{{ " " + document.documentId }}</p>
+        <p><b>Document Name :</b>{{ " " + document.documentNM }}</p>
+        <p>
+          <b>Document Type :</b
+          >{{ document.documentMendatory === "M" ? " Mandatory" : " Optional" }}
+        </p>
+      </div>
+      <div>
+        <input type="file" name="" [id]="'file' + document.documentId" />
+        <button
+          class="btn btn-success"
+          [disabled]="isUploadDisabled('file' + document.documentId)"
+          (click)="uploadLoanDocument('file' + document.documentId, document.loanrequestid)"
+        >
+          Upload
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-expansion-panel>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

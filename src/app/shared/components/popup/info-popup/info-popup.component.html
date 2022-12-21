@@ -1,0 +1,23 @@
+<div id="myModal" class="modal fade show custom-modal" style="display: block">
+    <div class="modal-dialog modal-confirm" [style]="custStyle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- <div [ngClass]="'icon-box-info'">
+                    <i class="material-icons">info</i>                    
+                </div> -->
+                <h4 class="modal-title w-100 text-center">{{ header }}</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">
+                    {{ message }}
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button [ngClass]="'btn btn-info btn-block'" data-dismiss="modal" [disabled]="btnDisable"
+                    (click)="onClose()">
+                    {{ btnText }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

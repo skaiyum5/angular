@@ -1,0 +1,28 @@
+.invalid-feedback {
+  display: block;
+  color: red;
+}
+
+.form-control.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+  border: 1px solid green;
+}
+
+.password-field {
+  position: inherit;
+}
+
+.visibility-icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  min-width: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

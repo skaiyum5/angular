@@ -1,0 +1,337 @@
+<div class="container my-3" *ngIf="isComponentShow">
+    <fieldset style="border:1px solid gray; padding: 10px;border-radius: 5px;">
+        <legend style="font-size: 12px; width: auto;">Beneficiary Information</legend>
+        <form [formGroup]="beneficiaryForm">
+            <div class="form-row">
+                <div class="col-md-8 mb-2">
+                    <label for="transactionType">Transaction Type</label>
+                    <div class="form-row transaction-buttons">
+                        <ng-container *ngFor="let type of transactionTypeList">
+                            <button *ngIf="
+                          selectedTransactionType === type.id ||
+                          selectedTransactionType === ''
+                        " type="button" mat-raised-button class="mt-2 mx-1" (click)="clickTransactionType(type.id)">
+                                <img src="{{ type.logo }}" alt="" />
+                                {{ type.title }}
+                            </button>
+                        </ng-container>
+                    </div>
+                    <p *ngIf="selectedTransactionType !== ''" class="cust-link mt-2" (click)="changeTransType()">
+                        Change Transaction Type
+                    </p>
+                </div>
+            </div>
+
+            <!-- <div class="form-row">
+                <div class="col-md-3 mb-2">
+                    <label for="ddlTransferType">Transaction Type</label>
+                    <select id="ddlTransferType" name="ddlTransferType" formControlName="ddlTransferType"
+                        (change)='changeComponentByType($event)'
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && form.ddlTransferType.errors }">
+                        <option value="" selected>Select</option>
+                        <option value="OWNBANKOTHERACC">Other Account</option>
+                        <option value="EFT">EFT</option>
+                        <option value="RTGS">RTGS</option>
+                        <option value="NPSB">NPSB</option>
+                        <option value="QRCASH">QRCASH</option>
+                        <option value="QRPAY">QRPAY</option>
+                        <option value="NAGAD">NAGAD</option>
+                        <option value="BKASH">BKASH</option>
+                    </select>
+                    <div *ngIf="submitted && form.ddlTransferType.errors" class="invalid-feedback">
+                        <div *ngIf="form.ddlTransferType.errors.required">
+                            Please select Transfer Type
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div *ngIf="isInputShow">
+                <div class="form-row" *ngIf="selectedTransactionType === 'OWNBANKOTHERACC'">
+                    <div class="col-md-3 mb-2">
+                        <label for="ddlOwnBankBranch">Branch Name</label>
+                        <mat-select id="ddlOwnBankBranch" name="ddlOwnBankBranch" formControlName="ddlOwnBankBranch"
+                            (selectionChange)="getAccORCardDetails()" class="form-control signupInput">
+                            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+                                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                                autocomplete="off">
+                            <mat-option value="">--Select Branch--</mat-option>
+                            <mat-option
+                                *ngFor="let homeBranch of homeBankBranchList | search : 'brancH_NM' : form.txtSearchValue.value"
+                                value="{{homeBranch.brancH_ID}}" class="signupInput">
+                                {{homeBranch.brancH_NM}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <div class="form-row" *ngIf="selectedTransactionType === 'EFT'">
+                    <div class="col-md-3 mb-2">
+                        <label for="ddlEftBank">Bank Name</label>
+                        <mat-select id="ddlEftBank" name="ddlEftBank" formControlName="ddlEftBank"
+                            (selectionChange)="getEFTBranchList($event)" class="form-control signupInput">
+                            <input matInput type="text" id="txtSearchEFTBank" formControlName="txtSearchEFTBank" placeholder="Search Here"
+                                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                                autocomplete="off">
+                            <mat-option value="">--Select Bank--</mat-option>
+                            <mat-option
+                                *ngFor="let eftBank of otherBankList | search : 'banK_NM' : form.txtSearchEFTBank.value"
+                                value="{{eftBank.banK_ID}}" class="signupInput">
+                                {{eftBank.banK_NM}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <label for="ddlEftBranch">Branch Name</label>
+                        <mat-select id="ddlEftBranch" name="ddlEftBranch" formControlName="ddlEftBranch"
+                            class="form-control signupInput">
+                            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+                                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                                autocomplete="off">
+                            <mat-option value="">--Select Branch--</mat-option>
+                            <mat-option
+                                *ngFor="let eftBranch of otherBankBranchList | search : 'BANK_BR_NM' : form.txtSearchEFTBranch.value"
+                                value="{{eftBranch.BANK_BR_ID}}" class="signupInput">
+                                {{eftBranch.BANK_BR_NM}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+
+                <div class="form-row" *ngIf="selectedTransactionType === 'RTGS'">
+                    <div class="col-md-3 mb-2">
+                        <label for="ddlRtgsBank">Bank Name</label>
+                        <mat-select id="ddlRtgsBank" name="ddlRtgsBank" formControlName="ddlRtgsBank"
+                            class="form-control signupInput" (selectionChange)="getRTGSBranchList($event)">
+                            <input matInput type="text" id="txtSearchRTGSBank" formControlName="txtSearchRTGSBank" placeholder="Search Here"
+                                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                                autocomplete="off">
+                            <mat-option value="">--Select Bank--</mat-option>
+                            <mat-option
+                                *ngFor="let rtgsBank of rtgsBankList | search : 'rtgS_BANK_NM' : form.txtSearchRTGSBank.value"
+                                value="{{rtgsBank.rtgS_BANK_ID}}" class="signupInput">
+                                {{rtgsBank.rtgS_BANK_NM}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <label for="ddlRtgsBranch">Branch Name</label>
+                        <mat-select id="ddlRtgsBranch" name="ddlRtgsBranch" formControlName="ddlRtgsBranch"
+                            class="form-control signupInput">
+                            <input matInput type="text" id="txtSearchRTGSBranch" formControlName="txtSearchRTGSBranch" placeholder="Search Here"
+                                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                                autocomplete="off">
+                            <mat-option value="">--Select Bank--</mat-option>
+                            <mat-option
+                                *ngFor="let rtgsBranch of rtgsBranchList | search : 'rtgS_BRANCH_NM' : form.txtSearchRTGSBranch.value"
+                                value="{{rtgsBranch.rtgS_BRANCH_ID}}" class="signupInput">
+                                {{rtgsBranch.rtgS_BRANCH_NM}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+
+                <div class="form-row" *ngIf="selectedTransactionType === 'NPSB'">
+                    <div class="col-md-3 mb-2">
+                        <label for="ddlReceiverType">Receiver Type</label>
+                        <select id="ddlReceiverType" name="ddlReceiverType" class="form-control"
+                            formControlName="ddlReceiverType">
+                            <option value="0" selected>--Select--</option>
+                            <option value="Card">Card</option>
+                            <option value="Account">Account</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <label for="ddlNpsbBank">Bank Name</label>
+                        <mat-select id="ddlNpsbBank" name="ddlNpsbBank" formControlName="ddlNpsbBank"
+                            class="form-control signupInput">
+                            <input matInput type="text" id="txtSearchNPSBBank" formControlName="txtSearchNPSBBank" placeholder="Search Here"
+                                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                                autocomplete="off">
+                            <mat-option value="">--Select Bank--</mat-option>
+                            <mat-option
+                                *ngFor="let npsbBank of npsbBankList | search : 'banK_NAME' : form.txtSearchNPSBBank.value"
+                                value="{{npsbBank.acquirinG_BANK_CODE}}" class="signupInput">
+                                {{npsbBank.banK_NAME}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <!--  Credit Card Owther bank -->
+                    <div class="form-row" *ngIf="selectedTransactionType === 'CREDITCARDBILLOTHER'">
+                        <div class="col-md-6 mb-2">
+                            <label for="ddlEftBank">Bank Name</label>
+                            <mat-select id="ddlEftBank" name="ddlEftBank" formControlName="ddlEftBank"
+                                 class="form-control signupInput">
+                                <input matInput type="text" id="txtSearchEFTBank" formControlName="txtSearchEFTBank" placeholder="Search Here"
+                                    class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                                    autocomplete="off">
+                                <mat-option value="" selected>--Select Bank--</mat-option>
+                                <mat-option
+                                    *ngFor="let eftBank of otherBankList | search : 'banK_NM' : form.txtSearchEFTBank.value"
+                                    value="{{eftBank.banK_ID}}" class="signupInput">
+                                    {{eftBank.banK_NM}}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                <div *ngIf="selectedTransactionType != ''">
+                    <div class="form-row">
+                        <div class="col-md-3 mb-2">
+                            <label for="txtReceiverAccount" *ngIf="creditCardBill;else other_content">Credit Card Number </label>
+                            <ng-template #other_content><label for="txtReceiverAccount"> {{ byPhoneNumber?'Receiver Mobile No':'Receiver Account No'}} </label>
+                        </ng-template><input type="text" class="form-control" id="txtReceiverAccount" name="txtReceiverAccount"
+                                formControlName="txtReceiverAccount" (change)="getAccORCardDetails()"
+                                PhoneNumberValidator ="{{byPhoneNumber}}"
+                                [ngClass]="{
+                                    'is-invalid':
+                                      (form.txtReceiverAccount.errors && form.txtReceiverAccount.touched) ||
+                                      (form.txtReceiverAccount.errors && submitted)||(form.txtReceiverAccount.touched && form.txtReceiverAccount.errors && form.txtReceiverAccount.errors.phoneNumberInvalid)
+                                  }"
+                                />
+                                <div
+                                  *ngIf="(submitted && form.txtReceiverAccount.errors)||
+                                    (form.txtReceiverAccount.errors && form.txtReceiverAccount.touched) ||(form.txtReceiverAccount.errors && form.txtReceiverAccount.errors.phoneNumberInvalid)"
+                                  class="invalid-feedback"
+                                >
+                                  <div *ngIf="form.txtReceiverAccount.errors.required && !byPhoneNumber && !creditCardBill">
+                                    Receiver Account is required
+                                  </div>
+                                  <div *ngIf="form.txtReceiverAccount.errors.required && !byPhoneNumber && creditCardBill">
+                                    Receiver Credit Card Number is required
+                                  </div>
+                                  <div *ngIf="(form.txtReceiverAccount.errors.pattern && !byPhoneNumber)||(form.txtReceiverAccount.errors.pattern && creditCardBill)">
+                                    Account must contain only numbers
+                                  </div>
+                                  <div *ngIf="form.txtReceiverAccount.errors.required && byPhoneNumber">
+                                    Mobile Number is required
+                                  </div>
+                                  <div *ngIf="form.txtReceiverAccount.errors.pattern  && byPhoneNumber">
+                                    Mobile Number must contain only numbers
+                                  </div>
+                                  <div *ngIf="form.txtReceiverAccount.touched && form.txtReceiverAccount.errors.maxlength  && !byPhoneNumber">
+                                    Only 15 digit Account number is allowed
+                                  </div>
+                                  <div *ngIf="!form.txtReceiverAccount.errors.required && form.txtReceiverAccount.touched && form.txtReceiverAccount.errors.phoneNOMinMaxlength  && byPhoneNumber">
+                                    Only 11 digit mobile number is allowed
+                                  </div>
+                                  <div *ngIf="!form.txtReceiverAccount.errors.pattern && byPhoneNumber && !form.txtReceiverAccount.errors.phoneNOMinMaxlength && form.txtReceiverAccount.touched && form.txtReceiverAccount.errors.phoneNumberInvalid">
+                                    Mobile Number is Invalid.
+                                  </div>
+                                </div>
+                            <!-- <div *ngIf="submitted && form.txtReceiverAccount.errors" class="invalid-feedback">
+                                <div *ngIf="form.txtReceiverAccount.errors.required">
+                                    Please enter receiver account number
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-md-3 mb-2 pr-1" *ngIf="isReceiverNameShow">
+                            <label for="txtReceiverName">{{ creditCardBill?'Card Holder Name':'Receiver Name'}}</label>
+                            <input type="text" class="form-control" id="txtReceiverName" name="txtReceiverName"
+                                formControlName="txtReceiverName"
+                                [ngClass]="{ 'is-invalid': submitted && form.txtReceiverName.errors }" [readonly]="selectedTransactionType === 'CREDITCARDBILLOWN'">
+                                <div *ngIf="(form.txtReceiverName.errors && form.txtReceiverName.touched)||(submitted && form.txtReceiverName.errors)" class="invalid-feedback">
+                                    <div *ngIf="form.txtReceiverName.errors.required">
+                                        Please enter {{ creditCardBill?'Card Holder Name':'Receiver Name'}}
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class=" col-md-6 mb-2 ml-1">
+                            <label for="txtBeneficiaryName">Save Beneficiary Name As</label>
+                            <input type="text" class="form-control" id="txtBeneficiaryName" name="txtBeneficiaryName"
+                                formControlName="txtBeneficiaryName"
+                                [ngClass]="{ 'is-invalid': submitted && form.txtBeneficiaryName.errors }">
+                            <div *ngIf="(form.txtBeneficiaryName.errors && form.txtBeneficiaryName.touched)||(submitted && form.txtBeneficiaryName.errors)" class="invalid-feedback">
+                                <div *ngIf="form.txtBeneficiaryName.errors.required">
+                                    Please enter beneficiary alias
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-1 mb-1">
+                            <button class="btn btn-success btn-block"
+                                (click)="SaveorUpdateBeneficiary()">Submit</button>
+                        </div>
+                        <div class="col-md-1 mb-1">
+                            <button class="btn btn-refresh btn-block" (click)="backFromCreateOrEdit()">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+    <br>
+</div>
+
+<div class="container my-3" *ngIf="isListShow">
+    <fieldset style="border:1px solid gray; padding: 10px;border-radius: 5px;">
+        <legend style="font-size: 12px; width: auto;">Beneficiary List</legend>
+        <div style="margin-bottom: 10px;">
+            <button mat-raised-button color="primary" *ngIf="selectedTransactionType != ''"
+                (click)="createNewBeneficiary()">
+                New Beneficiary
+            </button>
+        </div>
+        <div class="benf-table-container col-12 col-12 mb-2">
+            <table mat-table [dataSource]="beneficiaryList" class="mat-elevation-z8">
+                <ng-container matColumnDef="receiverName">
+                    <th mat-header-cell *matHeaderCellDef> Receiver Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.receiverName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="toBankCode">
+                    <th mat-header-cell *matHeaderCellDef> Bank Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.toBankCode}} </td>
+                </ng-container>
+                <ng-container matColumnDef="toBranchCode">
+                    <th mat-header-cell *matHeaderCellDef> Branch Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.toBranchCode}} </td>
+                </ng-container>
+                <ng-container matColumnDef="toAccountNo" *ngIf="isCreditCard()">
+                    <th mat-header-cell *matHeaderCellDef> Card Number </th>
+                        <td  mat-cell *matCellDef="let element"> {{maskCharacter(element.toAccountNo,4)}} </td>
+                </ng-container>
+                <ng-container matColumnDef="toAccountNo" *ngIf="!isCreditCard()">
+                    <th mat-header-cell *matHeaderCellDef>Account Number</th>
+                        <td  mat-cell *matCellDef="let element"> {{element.toAccountNo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="receiverType">
+                    <th mat-header-cell *matHeaderCellDef> Receiver Type </th>
+                    <td mat-cell *matCellDef="let element"> {{element.receiverType}} </td>
+                </ng-container>
+                <ng-container matColumnDef="beneficiaryAlias">
+                    <th mat-header-cell *matHeaderCellDef> Beneficiary Alias </th>
+                    <td mat-cell *matCellDef="let element"> {{element.beneficiaryAlias}} </td>
+                </ng-container>
+                <!-- <ng-container matColumnDef="toRoutingNum">
+                <th mat-header-cell *matHeaderCellDef> Routing Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.toRoutingNum}} </td>
+            </ng-container> -->
+                <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element" class="rightalign">
+                        <button mat-icon-button color="" (click)="onEditBeneficiary(element)" title="Edit">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        &nbsp;
+                        <button mat-icon-button color="" (click)="onDeleteBeneficiary(element)" title="Delete">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <br>
+    </fieldset>
+</div>
+<app-confirm-otp *ngIf="isOtpShow" [onSubmit]="otpSubmit"[goBack]="goBack" [title]="title" (otpEmitter)="setOtp($event)"></app-confirm-otp>
+
+<!-- Loader component -->
+<app-loader *ngIf="loader"></app-loader>
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+    [btnText]="btnText"></app-popup>

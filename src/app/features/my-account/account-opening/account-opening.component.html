@@ -1,0 +1,353 @@
+<div class="container my-3" *ngIf="!schemeAccComponent && !timeAccComponent">
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 16px; width: auto">Account Opening</legend>
+    <form [formGroup]="accOpeningForm">
+      <div class="form-row">
+        <div class="col-md-6 mb-2">
+          <label for="transferFromType">Payee Account No.</label>
+          <mat-select id="transferFromType" name="transferFromType" formControlName="ddlPayeeAccNo"
+            (selectionChange)="getAccountDetails($event)" class="form-control signupInput">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here" class="form-control signupInput"
+              (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+            
+            <mat-option value="">Select Account</mat-option>
+            <mat-option *ngFor="let userAccount of userAccounts | search : 'accounT_NUMBER' : f.txtSearchValue.value"
+              value="{{userAccount.brancH_ID}}-{{userAccount.accounT_NUMBER}}" class="signupInput">
+              {{ userAccount.brancH_ID }}-{{ userAccount.accounT_NUMBER }}
+            </mat-option>          
+          </mat-select>
+       
+          <!-- <select
+            id="transferFromType"
+            class="form-control"
+            formControlName="ddlPayeeAccNo"
+            (change)="getAccountDetails($event)"
+          >
+            <option value="" selected>---Select---</option>
+            <option
+              *ngFor="let userAccount of userAccounts"
+              value="{{ userAccount.brancH_ID }}_{{
+                userAccount.accounT_NUMBER
+              }}"
+            >
+              {{ userAccount.brancH_ID }}-{{ userAccount.accounT_NUMBER }}
+            </option>
+          </select> -->
+          
+        </div>
+      </div>
+      <div class="form-row" *ngIf="payeeAccProvided">
+        <div class="col-md-6">
+          <div class="row">
+            <label for="staticEmail" class="col-4 col-form-label"
+              ><b>Available Balance :</b></label
+            >
+            <div class="col-6">
+              <label for="" class="form-control-plaintext text-primary">{{
+                accountBalanceResult
+              }}</label>
+            </div>
+          </div>
+          <label>{{ availableBalanceInWords | titlecase }}</label>
+        </div>
+      </div>
+      <div class="form-row mt-2" *ngIf="payeeAccProvided">
+        <div class="col-md-6 mb-2">
+          <label for="transferFromType">Product Type</label>
+          <select
+            id="transferFromType"
+            class="form-control"
+            formControlName="ddlProductType"
+            (change)="selectProduct($event)"
+          >
+            <option value="" selected>---Select---</option>
+            <option
+              *ngFor="let item of schemeTimeProductGroup"
+              value="{{ item.grouP_SL_NO }}"
+            >
+              {{ item.group }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </fieldset>
+  <fieldset
+    *ngIf="prodTypeProvided"
+    class="mt-3 mb-4"
+    style="border: 1px solid gray; padding: 10px; border-radius: 5px"
+  >
+    <!-- <legend style="font-size: 16px; width: auto">Account Opening</legend> -->
+    <form
+      [formGroup]="schemeAccForm"
+      *ngIf="schemeDepForm"
+      (submit)="getSchemeAccountDetails()"
+    >
+    <div class="form-row mb-2">
+      <div class="col-md-6 mb-2">
+        <label for="ddlOwnBankBranch">Branch Name</label>
+        <mat-select id="ddlOwnBankBranch" name="ddlOwnBankBranch" [(value)]="branchSelected"
+        (selectionChange)="onChangeBranch($event)" class="form-control signupInput">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                autocomplete="off">
+            <mat-option value="">--Select Branch--</mat-option>
+            <mat-option
+                *ngFor="let homeBranch of homeBankBranchList | search : 'brancH_NM' : s.txtSearchValue.value"
+                value="{{homeBranch.brancH_ID+'_'+homeBranch.brancH_NM}}" class="signupInput">
+                {{homeBranch.brancH_NM}}
+            </mat-option>
+        </mat-select>
+    </div>
+    </div>
+      <div class="form-row mb-2">
+        <div class="col-md-6 mb-2">
+          <label for="transferFromType">Product</label>
+          <select
+            id="transferFromType"
+            class="form-control"
+            formControlName="productId"
+            (change)="getSchemeTerms()"
+          >
+            <option value="">---Select---</option>
+            <option
+              *ngFor="let product of schemeTimeProductList"
+              [value]="product.key"
+            >
+              {{ product.value }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div
+        class="form-row mb-2"
+        *ngIf="schemeTerm && schemeTerm.termTextBoxShowFlag"
+      >
+        <div class="col-md-6">
+          <label>Term</label>
+          <input
+            class="form-control"
+            formControlName="terms"
+            [readonly]="schemeTerm.termTextBoxReadonly"
+          />
+        </div>
+      </div>
+      <div
+        class="form-row mb-2"
+        *ngIf="schemeTerm && schemeTerm.termDropdownShowFlag"
+      >
+        <div class="col-md-6 mb-2">
+          <label>Term</label>
+          <select
+            class="form-control"
+            formControlName="terms"
+            (change)="getSchemeInstallment()"
+          >
+            <option value="" selected>---Select---</option>
+            <option
+              *ngFor="let term of schemeTerm.termsDropdownData"
+              [value]="term"
+            >
+              {{ term }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div
+        class="form-row mb-2"
+        *ngIf="schemeTerm && schemeTerm.depositamountTextBoxShowFlag"
+      >
+        <div class="col-md-6 mb-2">
+          <label>Deposit Amount</label>
+          <input
+            class="form-control"
+            formControlName="depositAmount"
+            (change)="getSchemeInstallment()"
+          />
+        </div>
+      </div>
+      <div class="form-row mb-2" *ngIf="schemeInstallment">
+        <div class="col-md-6 mb-2">
+          <label>Installment Amount</label>
+          <input
+            class="form-control"
+            formControlName="installmentAmount"
+            [readonly]="schemeInstallment.instlmntTextBoxReadonly"
+            *ngIf="schemeInstallment.instlmntTextBoxShowFlag"
+          />
+          <select
+            class="form-control"
+            formControlName="installmentAmount"
+            *ngIf="schemeInstallment.instlmntDropdownShowFlag"
+          >
+            <option value="" selected>---Select---</option>
+            <option
+              *ngFor="let installment of schemeInstallment.instlmntDropdownData"
+              [value]="installment"
+            >
+              {{ installment }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <button
+        *ngIf="schemeInstallment"
+        class="btn btn-success"
+        [disabled]="!s.installmentAmount.value"
+      >
+        Next
+      </button>
+    </form>
+    <form
+      [formGroup]="timeAccForm"
+      *ngIf="timeDepForm"
+      (submit)="getTimeAccDetails()"
+      class="mb-2"
+    >
+    <div class="form-row mb-2">
+      <div class="col-md-6 mb-2">
+        <label for="ddlOwnBankBranch">Branch Name</label>
+        <mat-select id="ddlOwnBankBranch" name="ddlOwnBankBranch" [(value)]="branchSelected" (selectionChange)="onChangeBranch($event)"
+             class="form-control signupInput">
+            <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                autocomplete="off">
+            <mat-option value="">--Select Branch--</mat-option>
+            <mat-option
+                *ngFor="let homeBranch of homeBankBranchList | search : 'brancH_NM' : t.txtSearchValue.value"
+                value="{{homeBranch.brancH_ID+'_'+homeBranch.brancH_NM}}" class="signupInput">
+                {{homeBranch.brancH_NM}}
+            </mat-option>
+        </mat-select>
+    </div>
+    </div>
+      <div class="form-row mb-2">
+        <div class="col-md-6 mb-2">
+          <label for="transferFromType">Product</label>
+          <select
+            id="transferFromType"
+            formControlName="productId"
+            class="form-control"
+            (change)="getTimeInfo()"
+          >
+            <option value="">---Select---</option>
+            <option
+              *ngFor="let product of schemeTimeProductList"
+              [value]="product.key"
+            >
+              {{ product.value }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row mb-2" *ngIf="timeInfo">
+        <div class="col-md-6">
+          <label>Term</label>
+          <input
+            class="form-control"
+            formControlName="terms"
+            [readonly]="timeInfo.termReadonly"
+            (keyup)="checkTermValidation()"
+            [ngClass]="{
+              'is-invalid':
+                (t.terms.errors && t.terms.touched) ||
+                (t.terms.errors && submitted)
+            }"
+          />
+          <div
+            *ngIf="
+              (t.terms.errors && t.terms.touched) ||
+              (t.terms.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="t.terms.errors.minMax">
+              Terms should be between {{ timeInfo.termMinvalue }} Day(s) to
+              {{ timeInfo.termMaxValue }} Day(s)
+            </div>
+            <div *ngIf="t.terms.errors.required">Term is required</div>
+            <div *ngIf="t.terms.errors.pattern">
+              Term should only contain numbers
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-2" *ngIf="timeInfo">
+        <div class="col-md-6">
+          <label>Principal Amount</label>
+          <!-- [readonly]="timeInfo.termReadonly" -->
+          <input
+            class="form-control"
+            formControlName="principalAmnt"            
+            (keyup)="checkPrincipalAmntValidation()"
+            [ngClass]="{
+              'is-invalid':
+                (t.principalAmnt.errors && t.principalAmnt.touched) ||
+                (t.principalAmnt.errors && submitted)
+            }"
+          />
+          <div
+            *ngIf="
+              (t.principalAmnt.errors && t.principalAmnt.touched) ||
+              (t.principalAmnt.errors && submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="t.principalAmnt.errors.minMax">
+              Principal Amount should be between
+              {{ timeInfo.principalAmountMinValue }} Tk. to
+              {{ timeInfo.principalAmountMaxValue }} Tk.
+            </div>
+            <div *ngIf="t.principalAmnt.errors.required">
+              Principal Amount is required
+            </div>
+            <div *ngIf="t.principalAmnt.errors.pattern">
+              Principal Amount should only contain numbers upto 2 decimal places
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        *ngIf="timeInfo"
+        class="btn btn-success"
+        [disabled]="timeAccForm.invalid"
+      >
+        Next
+      </button>
+    </form>
+  </fieldset>
+</div>
+
+<app-scheme-account
+  *ngIf="schemeAccComponent"
+  [schemeDetails]="schemeDetails"
+  [productId]="s.productId.value"
+  [branchId]="branchId"
+  [branchName]="branchName"
+  [accountNumber]="accountNumber"
+  [paymentBranchID]="paymentBranchID"
+  (cancelEmitter)="cancelSchemeAccOpening($event)"
+  (refreshEmitter)="refreshForm()"
+></app-scheme-account>
+
+<app-time-account
+  *ngIf="timeAccComponent"
+  [timeAccDetails]="timeAccDetails"
+  [productId]="t.productId.value"
+  [branchId]="branchId"
+  [branchName]="branchName"
+  [accountNumber]="accountNumber"
+  [paymentBranchID]="paymentBranchID"
+  (cancelEmitter)="cancelTimeAccOpening($event)"
+  (refreshEmitter)="refreshForm()"
+></app-time-account>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>

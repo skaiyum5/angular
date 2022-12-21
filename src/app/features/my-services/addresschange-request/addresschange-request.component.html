@@ -1,0 +1,420 @@
+<div class="container my-3">
+  <fieldset style="
+      border: 1px solid gray;
+      padding: 10px;
+      padding-right: 10px;
+      border-radius: 5px;
+    ">
+    <legend style="font-size: 12px; width: auto">Address Details</legend>
+    <div *ngIf="isAddressListShow">
+      <table mat-table [dataSource]="addressDataSource" class="mat-elevation-z8" style="width: 100%;">
+        <ng-container matColumnDef="addressType">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.addressType | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="address1">
+          <th mat-header-cell *matHeaderCellDef>Address1</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.address1 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="address2">
+          <th mat-header-cell *matHeaderCellDef>Address2</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.address2 }}
+          </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="countryName">
+          <th mat-header-cell *matHeaderCellDef>Country</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.countryName}}
+          </td>
+        </ng-container> -->
+        <ng-container matColumnDef="divisionName">
+          <th mat-header-cell *matHeaderCellDef>Division</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.divisionName}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="districtName">
+          <th mat-header-cell *matHeaderCellDef>District</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.districtName}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="thanaName">
+          <th mat-header-cell *matHeaderCellDef>Thana</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.thanaName}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef>Phone</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.phone}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="mobile">
+          <th mat-header-cell *matHeaderCellDef>Mobile</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.mobile}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.email}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element" class="rightalign">
+            <button mat-raised-button color="primary" (click)="updateAddress(element)"
+              matTooltip="Click to update {{ element.addressType}}">
+              Update
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <div *ngIf="isAddressEditUIShow">
+      <form [formGroup]="changeAddressForm" (ngSubmit)="createAddressChangeRequest()">
+        <!-- <div class="form-row mt-3">
+              <div class="col-md-9">
+                <mat-card>
+                  <mat-card-title>Address Details</mat-card-title>
+                </mat-card>
+              </div>
+            </div> -->
+
+        <div class="form-row">
+          <div class="col-md-5">
+            <label for="txtAddress1">Address1</label>
+            <textarea matInput id="txtAddress1" formControlName="txtAddress1" class="form-control" cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="5" [ngClass]="{
+              'is-invalid':
+                (f.txtAddress1.errors && f.txtAddress1.touched) ||
+                (f.txtAddress1.errors && submitted)
+            }"></textarea>
+            <div *ngIf="
+              (f.txtAddress1.errors && f.txtAddress1.touched) ||
+              (f.txtAddress1.errors && submitted)
+            " class="invalid-feedback">
+              <div *ngIf="f.txtAddress1.errors.required">
+                Address1 is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-5">
+            <label for="txtAddress2">Address2</label>
+            <textarea matInput id="txtAddress2" formControlName="txtAddress2" class="form-control" cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="5" [ngClass]="{
+              'is-invalid':
+                (f.txtAddress2.errors && f.txtAddress2.touched) ||
+                (f.txtAddress2.errors && submitted)
+            }"></textarea>
+            <div *ngIf="
+              (f.txtAddress2.errors && f.txtAddress2.touched) ||
+              (f.txtAddress2.errors && submitted)
+            " class="invalid-feedback">
+              <div *ngIf="f.txtAddress2.errors.required">
+                Address2 is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-row mt-3">
+              
+            </div> -->
+        <div class="form-row mt-3">
+          <div class="col-md-5 mb-2">
+            <label for="txtCity">City</label>
+            <input type="text" class="form-control" id="txtCity" formControlName="txtCity" />
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-5 mb-2">
+            <label for="txtZipcode">Zip Code</label>
+            <input type="text" class="form-control" id="txtZipcode" formControlName="txtZipcode" />
+          </div>
+        </div>
+        <!-- <div class="form-row mt-3">
+          <div class="col-md-4 mb-2">
+            <label for="txtCountry">Country</label>
+            <input type="text" class="form-control" id="txtCountry" formControlName="txtCountry" />
+          </div>
+          <div class="col-md-4 mb-2">
+            <label for="txtState">State</label>
+            <input type="text" class="form-control" id="txtState" formControlName="txtState" />
+          </div>
+        </div> -->
+
+        <div class="form-row mt-3">
+          <div class="col-md-3 mb-2">
+            <label for="ddlDivision">Division</label>
+            <mat-select id="ddlDivision" name="ddlDivision" formControlName="ddlDivision"
+              (selectionChange)="getDistrictList($event)" class="form-control" [ngClass]="{
+                                      'is-invalid':
+                                        (f.ddlDivision.errors && f.ddlDivision.touched) ||
+                                        (f.ddlDivision.errors && submitted)
+                                    }">
+              <input matInput type="text" id="txtSearchDivision" formControlName="txtSearchDivision" placeholder="Search Here"
+                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+              <mat-option value="">-- Select --</mat-option>
+              <mat-option *ngFor="let div of divisionList | search : 'name' : f.txtSearchDivision.value"
+                value="{{ div.id }}" class="signupInput">
+                {{ div.name }}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="
+                              (f.ddlDivision.errors && f.ddlDivision.touched) ||
+                              (f.ddlDivision.errors && submitted)
+                            " class="invalid-feedback">
+              <div *ngIf="f.ddlDivision.errors.required" class="validationMessage">
+                Please Select Division
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-3 mb-2">
+            <label for="ddlDistrict">District</label>
+            <mat-select id="ddlDistrict" name="ddlDistrict" formControlName="ddlDistrict"
+              (selectionChange)="onChangeDistrict($event)" class="form-control" [ngClass]="{
+                          'is-invalid':
+                            (f.ddlDistrict.errors && f.ddlDistrict.touched) ||
+                            (f.ddlDistrict.errors && submitted)
+                        }">
+              <input matInput type="text" id="txtSearchDistrict" formControlName="txtSearchDistrict" placeholder="Search Here"
+                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+              <mat-option value="">-- Select --</mat-option>
+              <mat-option *ngFor="let dist of districtList | search : 'name' : f.txtSearchDistrict.value"
+                value="{{ dist.id }}" class="signupInput">
+                {{ dist.name }}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="
+                  (f.ddlDistrict.errors && f.ddlDistrict.touched) ||
+                  (f.ddlDistrict.errors && submitted)
+                " class="invalid-feedback">
+              <div *ngIf="f.ddlDistrict.errors.required" class="validationMessage">
+                Please Select District
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-3 mb-2">
+            <label for="ddlThana">Thana</label>
+            <mat-select id="ddlThana" name="ddlThana" formControlName="ddlThana" class="form-control"
+              (selectionChange)="onChangeThana($event)" [ngClass]="{
+                                      'is-invalid':
+                                        (f.ddlThana.errors && f.ddlThana.touched) ||
+                                        (f.ddlThana.errors && submitted)
+                                    }">
+              <input matInput type="text" id="txtSearchThana" formControlName="txtSearchThana" placeholder="Search Here"
+                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+              <mat-option value="">-- Select --</mat-option>
+              <mat-option *ngFor="let thana of thanaList | search : 'name' : f.txtSearchThana.value"
+                value="{{ thana.id }}" class="signupInput">
+                {{ thana.name }}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="
+                              (f.ddlThana.errors && f.ddlThana.touched) ||
+                              (f.ddlThana.errors && submitted)
+                            " class="invalid-feedback">
+              <div *ngIf="f.ddlThana.errors.required" class="validationMessage">
+                Please Select Police Station
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="form-row mt-3">
+          <div class="col-md-3 mb-2">
+            <label for="ddlUpozila">Upozila/City Corporation</label>
+            <mat-select id="ddlUpozila" name="ddlUpozila" formControlName="ddlUpozila"
+              (selectionChange)="getUnionMunicipalityList($event)" class="form-control" [ngClass]="{
+                          'is-invalid':
+                            (f.ddlUpozila.errors && f.ddlUpozila.touched) ||
+                            (f.ddlUpozila.errors && submitted)
+                        }">
+              <input matInput type="text" id="txtSearchUpozila" formControlName="txtSearchUpozila" placeholder="Search Here"
+                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+              <mat-option value="">-- Select --</mat-option>
+              <mat-option *ngFor="let upozila of upozilaList | search : 'name' : f.txtSearchUpozila.value"
+                value="{{ upozila.id }}" class="signupInput">
+                {{ upozila.name }}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="
+                  (f.ddlUpozila.errors && f.ddlUpozila.touched) ||
+                  (f.ddlUpozila.errors && submitted)
+                " class="invalid-feedback">
+              <div *ngIf="f.ddlUpozila.errors.required" class="validationMessage">
+                Please Select Upozila / City Corporation
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-3 mb-2">
+            <label for="ddlUnion">Union/Municipality</label>
+            <mat-select id="ddlUnion" name="ddlUnion" formControlName="ddlUnion"
+              (selectionChange)="getVillageWardList($event)" class="form-control" [ngClass]="{
+                                      'is-invalid':
+                                        (f.ddlUnion.errors && f.ddlUnion.touched) ||
+                                        (f.ddlUnion.errors && submitted)
+                                    }">
+              <input matInput type="text" id="txtSearchUnion" formControlName="txtSearchUnion" placeholder="Search Here"
+                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+              <mat-option value="">-- Select --</mat-option>
+              <mat-option *ngFor="let union of unionList | search : 'name' : f.txtSearchUnion.value"
+                value="{{ union.id }}" class="signupInput">
+                {{ union.name }}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="
+                              (f.ddlUnion.errors && f.ddlUnion.touched) ||
+                              (f.ddlUnion.errors && submitted)
+                            " class="invalid-feedback">
+              <div *ngIf="f.ddlUnion.errors.required" class="validationMessage">
+                Please Select Union / Municipality
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-3 mb-2">
+            <label for="ddlVillage">Village/Ward</label>
+            <mat-select id="ddlVillage" name="ddlVillage" formControlName="ddlVillage" class="form-control"
+              (selectionChange)="onChangeVillage($event)" [ngClass]="{
+                          'is-invalid':
+                            (f.ddlVillage.errors && f.ddlVillage.touched) ||
+                            (f.ddlVillage.errors && submitted)
+                        }">
+              <input matInput type="text" id="txtSearchVillage" formControlName="txtSearchVillage" placeholder="Search Here"
+                class="form-control signupInput" (keydown.Space)="$event.stopPropagation()" autocomplete="off">
+              <mat-option value="">-- Select --</mat-option>
+              <mat-option *ngFor="let vill of villageList | search : 'name' : f.txtSearchVillage.value"
+                value="{{ vill.id }}" class="signupInput">
+                {{ vill.name }}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="
+                  (f.ddlVillage.errors && f.ddlVillage.touched) ||
+                  (f.ddlVillage.errors && submitted)
+                " class="invalid-feedback">
+              <div *ngIf="f.ddlVillage.errors.required" class="validationMessage">
+                Please Select Village / Ward
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="form-row mt-3">
+          <div class="col-md-3 mb-2">
+            <label for="txtPhone">Phone</label>
+            <input type="text" class="form-control" id="txtPhone" formControlName="txtPhone" />
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-3 mb-2">
+            <label for="txtMobile">Mobile Number 1</label>
+            <input type="text" id="txtMobile" formControlName="txtMobile" class="form-control" [ngClass]="{
+              'is-invalid':
+                (f.txtMobile.errors && f.txtMobile.touched) ||
+                (f.txtMobile.errors && submitted)
+            }" />
+            <div *ngIf="
+              (f.txtMobile.errors && f.txtMobile.touched) ||
+              (f.txtMobile.errors && submitted)
+            " class="invalid-feedback">
+              <div *ngIf="f.txtMobile.errors.required">Mobile number is required</div>
+              <div *ngIf="f.txtMobile.errors.pattern">Mobile number should be numbers only</div>
+            </div>
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-3 mb-2">
+            <label for="txtMobile2">Mobile Number 2</label>
+            <input type="text" id="txtMobile2" formControlName="txtMobile2" class="form-control" />
+          </div>
+        </div>
+        <div class="form-row mt-3">
+          <div class="col-md-3 mb-2">
+            <label for="txtEmail">Email</label>
+            <input type="text" class="form-control" id="txtEmail" formControlName="txtEmail" />
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-3 mb-2">
+            <!-- <label for="txtFax">Fax</label>
+            <input type="text" class="form-control" id="txtFax" formControlName="txtFax" /> -->
+            <br>
+            <label for="chkIsCityCorporation">&nbsp;</label>
+            <mat-checkbox id="chkIsCityCorporation" formControlName="chkIsCityCorporation" color="primary">Under City
+              Corporation</mat-checkbox>
+
+          </div>
+          <div class="col-md-1 mb-2"></div>
+          <div class="col-md-3 mb-2">
+            <!-- <label for="txtTelex">Telex</label>
+            <input type="text" class="form-control" id="txtTelex" formControlName="txtTelex" /> -->
+          </div>
+        </div>
+
+        <!-- </mat-tab>
+          <mat-tab label="Contact Person"> -->
+        <div class="form-row mt-3" *ngIf="isContactPersonUIShow">
+          <div class="col-md-9">
+            <mat-card>
+              <mat-card-title>Contact Person</mat-card-title>
+            </mat-card>
+          </div>
+        </div>
+        <div class="form-row mt-3" *ngIf="isContactPersonUIShow">
+          <div class="col-md-5 mb-2">
+            <label for="txtContactPersonName">Name</label>
+            <input type="text" class="form-control" id="txtContactPersonName" formControlName="txtContactPersonName" />
+          </div>
+          <div class="col-md-4 mb-2">
+            <label for="txtContactPersonDesignation">Designation</label>
+            <input type="text" class="form-control" id="txtContactPersonDesignation"
+              formControlName="txtContactPersonDesignation" />
+          </div>
+        </div>
+        <div class="form-row mt-3" *ngIf="isContactPersonUIShow">
+          <div class="col-md-3 mb-2">
+            <label for="txtContactPersonPhone">Phone</label>
+            <input type="text" class="form-control" id="txtContactPersonPhone"
+              formControlName="txtContactPersonPhone" />
+          </div>
+          <div class="col-md-3 mb-2">
+            <label for="txtContactPersonMobile">Mobile</label>
+            <input type="text" class="form-control" id="txtContactPersonMobile"
+              formControlName="txtContactPersonMobile" />
+          </div>
+          <div class="col-md-3 mb-2">
+            <label for="txtContactPersonEmail">Email</label>
+            <input type="text" class="form-control" id="txtContactPersonEmail"
+              formControlName="txtContactPersonEmail" />
+          </div>
+        </div>
+        <!-- </mat-tab>
+        </mat-tab-group> -->
+        <div class="form-row mt-3">
+          <div class="col-sm-3 col-md-2 mb-2">
+            <button class="btn btn-success btn-block" [disabled]="changeAddressForm.invalid">
+              Submit
+            </button>
+          </div>
+          <div class="col-sm-3 col-md-2 mb-2">
+            <button type="button" class="btn btn-success btn-block" (click)="goBackToList()">Back</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </fieldset>
+</div>
+
+<!-- Popup component -->
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+  [btnText]="btnText"></app-popup>

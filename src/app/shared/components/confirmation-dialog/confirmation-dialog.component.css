@@ -1,0 +1,95 @@
+::ng-deep .mat-typography h4 {
+  margin: 0px !important;
+}
+::ng-deep.modal-header .close{
+  padding: 0px;
+  margin: 0px;
+}
+.modal-header{
+  padding-top: 1px !important;
+}
+::ng-deep .close{
+  border: 3px solid white !important;
+  /* Firefox */
+  -moz-transition: all 1s ease-in;
+  /* WebKit */
+  -webkit-transition: all 1s ease-in;
+  /* Opera */
+  -o-transition: all 1s ease-in;
+  /* Standard */
+  transition: all 1s ease-in;
+}
+::ng-deep .close:hover{
+  border: 3px solid white !important;
+  /* Firefox */
+  -moz-transition: all 1s ease-in;
+  /* WebKit */
+  -webkit-transition: all 1s ease-in;
+  /* Opera */
+  -o-transition: all 1s ease-in;
+  /* Standard */
+  transition: all 1s ease-in;
+}
+.modal-confirm {
+    color: #636363;
+    width: 325px;
+    margin: 30px auto;
+  }
+  .modal-confirm .modal-content {
+    padding: 20px;
+    border-radius: 15px;
+    border: none;
+  }
+  .modal-confirm .modal-header {
+    border-bottom: none;
+    position: relative;
+    border-bottom: 1px solid #0d4177;
+  }
+  .modal-confirm h4 {
+    text-align: left !important;
+    font-size: 20px;
+    /* margin: 30px 0 -15px; */
+  }
+  .modal-confirm .form-control,
+  .modal-confirm .btn {
+    min-height: 40px;
+    border-radius: 3px;
+  }
+  .modal-confirm .close {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }
+  .modal-confirm .modal-footer {
+    border: none;
+    text-align: center !important;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+  .trigger-btn {
+    display: inline-block;
+    margin: 100px auto;
+  }
+  
+  .custom-modal {
+    background-color: rgb(0 0 0 / 30%);
+  }
+  
+  .account-info div {
+    padding: 0;
+  }
+
+  
+    .link {
+    /* margin-left: 36px; */
+    
+        margin-left:auto;
+        margin-right: auto;
+    }
+    .link a {
+    color:  #444247;
+    text-decoration: none;
+    }
+    .link a:hover {
+    color:  #777579;
+    }

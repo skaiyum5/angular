@@ -1,0 +1,98 @@
+<div class="container my-3">
+    <fieldset style="
+        border: 1px solid gray;
+        padding: 10px;
+        border-radius: 5px;
+      ">
+      <legend style="font-size: 12px; width: auto">Complain Details</legend>
+        <form [formGroup]="complainRequestForm">
+            <div class="form-row">
+                <div class="col-md-4 mb-2">
+                    <label for="ddlBranch">Branch</label>
+                    <mat-select id="ddlBranch" formControlName="ddlBranch" class="form-control signupInput" [ngClass]="{
+                'is-invalid':
+                  (f.ddlBranch.errors && f.ddlBranch.touched) ||
+                  (f.ddlBranch.errors && submitted)
+              }">
+                        <input matInput type="text" id="txtSearchValue" formControlName="txtSearchValue" placeholder="Search Here"
+                            class="form-control signupInput" (keydown.Space)="$event.stopPropagation()"
+                            autocomplete="off">
+                        <mat-option value="">--Select Branch--</mat-option>
+                        <mat-option
+                            *ngFor="let branch of homeBankBranchList | search : 'brancH_NM' : f.txtSearchValue.value"
+                            value="{{ branch.brancH_ID }}" class="signupInput">
+                            {{ branch.brancH_NM }}
+                        </mat-option>
+                    </mat-select>
+                    <div *ngIf="
+              (f.ddlBranch.errors && f.ddlBranch.touched) ||
+              (f.ddlBranch.errors && submitted)
+            " class="invalid-feedback">
+                        <div *ngIf="f.ddlBranch.errors.required" class="validationMessage">
+                            Please Select Branch
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                    <label for="ddlSubject">Subject</label>
+                    <mat-select id="ddlSubject" formControlName="ddlSubject" class="form-control signupInput" [ngClass]="{
+                        'is-invalid':
+                          (f.ddlSubject.errors && f.ddlSubject.touched) ||
+                          (f.ddlSubject.errors && submitted)
+                      }">                                
+                                <mat-option value="">--Select Subject--</mat-option>
+                                <mat-option
+                                    *ngFor="let sub of subjectList"
+                                    value="{{ sub.id }}" class="signupInput">
+                                    {{ sub.name }}
+                                </mat-option>
+                            </mat-select>
+                            <div *ngIf="
+                      (f.ddlSubject.errors && f.ddlSubject.touched) ||
+                      (f.ddlSubject.errors && submitted)
+                    " class="invalid-feedback">
+                                <div *ngIf="f.ddlSubject.errors.required" class="validationMessage">
+                                    Please Select Subject
+                                </div>
+                            </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                    <label for="txtDetails">Details</label>
+                    <textarea matInput id="txtDetails" formControlName="txtDetails" class="form-control" placeholder="Complain Details"
+                        cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="10" [ngClass]="{
+                                                  'is-invalid':
+                                                    (f.txtDetails.errors && f.txtDetails.touched) ||
+                                                    (f.txtDetails.errors && submitted)
+                                                }"></textarea>
+                    <div *ngIf="
+                          (f.txtDetails.errors && f.txtDetails.touched) ||
+                          (f.txtDetails.errors && submitted)
+                        " class="invalid-feedback">
+                        <div *ngIf="f.txtDetails.errors.required">
+                            Complain Details is Required
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6 mb-3"></div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-2 mb-2">
+                    <button [disabled]="complainRequestForm.invalid" class="btn btn-success btn-block" type="submit"
+                        (click)="onSubmit()">Submit</button>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button class="btn btn-refresh btn-block" (click)="onReset()">Refresh</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+<app-popup *ngIf="popup" (close)="onCloseModal($event)" [popupError]="popupError" [header]="header" [message]="message"
+    [btnText]="btnText"></app-popup>

@@ -1,0 +1,194 @@
+<div class="container my-3" *ngIf="!otpComponentShow && !bulkResponseComponent">
+  <div class="py-2">
+    <span>Template excel file</span>
+    <a class="btn btn-success ml-2" href="assets/files/BULK_FT.xlsx" download>Download</a>
+  </div>
+  <fieldset style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+    <legend style="font-size: 12px; width: auto">Bulk Transfer Form</legend>
+    <form
+      [formGroup]="fileUploadForm"
+      (submit)="onSubmit()"
+    >
+      <div class="form-row align-items-center">
+        <input type="file" (change)="onFileChange($event)" />
+        <button
+          class="btn btn-success"
+          [disabled]="this.f.fileSource.value === ''"
+        >
+          Upload
+        </button>
+      </div>
+    </form>
+  </fieldset>
+
+  <div class="form-row mt-3" *ngIf="bulkTransferList">
+    <div class="acc-table-container col-12 col-12 mb-2">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <input
+              type="checkbox"
+              (change)="selectAllTransfers($event)"
+              [checked]="selectAllCheck"
+            />
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <input
+              type="checkbox"
+              (change)="selectTransfers($event, element)"
+              [checked]="checked"
+            />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="serial">
+          <th mat-header-cell *matHeaderCellDef>Serial</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.sl }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fromAccount">
+          <th mat-header-cell *matHeaderCellDef>From Account</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.froM_BRANCH_ID }}_{{ element.froM_ACCOUNT_NO }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="toAccount">
+          <th mat-header-cell *matHeaderCellDef>To Account</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.tO_BRANCH_ID }}_{{ element.tO_ACCOUNT_NO }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amounT_LCY">
+          <th mat-header-cell *matHeaderCellDef>Amount LCY</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.amounT_LCY }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amounT_CCY">
+          <th mat-header-cell *matHeaderCellDef>Amount CCY</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.amounT_CCY }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="narration">
+          <th mat-header-cell *matHeaderCellDef>To Account</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.narration }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="purposE_OF_TRANSACTION">
+          <th mat-header-cell *matHeaderCellDef>Purpose of Transaction</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.purposE_OF_TRANSACTION }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transfeR_TYPE">
+          <th mat-header-cell *matHeaderCellDef>Transfer Type</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.transfeR_TYPE }}_{{ element.tO_ACCOUNT_NO }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="banK_ID">
+          <th mat-header-cell *matHeaderCellDef>Bank ID</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.banK_ID }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="receiveR_ID">
+          <th mat-header-cell *matHeaderCellDef>Receiver ID</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.receiveR_ID }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="receiveR_NM">
+          <th mat-header-cell *matHeaderCellDef>Receiver Name</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.receiveR_NM }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="rtgS_ADDRESS">
+          <th mat-header-cell *matHeaderCellDef>RTGS Address</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.rtgS_ADDRESS }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="rtgS_CITY">
+          <th mat-header-cell *matHeaderCellDef>RTGS City</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.rtgS_CITY }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="rtgS_COUNTRY">
+          <th mat-header-cell *matHeaderCellDef>RTGS Country</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.rtgS_COUNTRY }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.status }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transactioN_ID">
+          <th mat-header-cell *matHeaderCellDef>Transaction ID</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.transactioN_ID }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="errormsg">
+          <th mat-header-cell *matHeaderCellDef>Error message</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.errormsg }}
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="transferDisplayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: transferDisplayedColumns"
+        ></tr>
+      </table>
+    </div>
+  </div>
+  <mat-paginator
+    *ngIf="bulkTransferList"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 15, 25]"
+    showFirstLastButtons
+  ></mat-paginator>
+
+  <button
+    *ngIf="bulkTransferList"
+    class="btn btn-success"
+    (click)="submitTable()"
+    [disabled]="selectedTransferList.length < 1"
+  >
+    Submit
+  </button>
+</div>
+
+<app-bulk-response
+  *ngIf="bulkResponseComponent && bulkTransferResponse.length > 0"
+  [bulkTransferResponse]="bulkTransferResponse"
+  [goBack]="goBack"
+></app-bulk-response>
+
+<!-- Popup component -->
+<app-popup
+  *ngIf="popup"
+  (close)="onCloseModal($event)"
+  [popupError]="popupError"
+  [header]="header"
+  [message]="message"
+  [btnText]="btnText"
+></app-popup>
+
+<!-- Loader component -->
+<app-loader *ngIf="loading"></app-loader>
+
+<app-confirm-otp
+  *ngIf="otpComponentShow"
+  [onSubmit]="otpSubmit"
+  [goBack]="goBack"
+  (otpEmitter)="setOtp($event)"
+></app-confirm-otp>

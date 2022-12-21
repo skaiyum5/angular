@@ -1,0 +1,92 @@
+<div id="myModal" class="modal fade show custom-modal" style="display: block">
+    <div class="modal-dialog modal-confirm" [style]="custStyle">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div [ngClass]="(!popupError && !popupPending) ? 'icon-box-success' : (!popupError && popupPending) ? 'icon-box-pending' : 'icon-box-failure'">
+            <i class="material-icons" *ngIf="!popupError || popupPending">&#xE876;</i>
+            <i class="material-icons" *ngIf="popupError">&#xE5CD;</i>
+          </div>
+          <h4 class="modal-title w-100 text-center">{{ header }}</h4>
+        </div>
+        <div class="modal-body">
+          <p class="text-center">
+            <!-- Your booking has been confirmed. Check your email for detials. -->
+            {{ message }}
+          </p>
+          <div *ngIf="fromAccount" class="account-info pt-2">
+            <div class="row">
+              <div class="col-6 text-right">
+                <strong>Transaction date:</strong>
+              </div>
+              <div class="col-6 px-1">
+                <p>{{ date | date: "dd-MMM-y" }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 text-right">
+                <strong>From account:</strong>
+              </div>
+              <div class="col-6 px-1">
+                <p>{{ fromAccount }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 text-right">
+                <strong>To account:</strong>
+              </div>
+              <div class="col-6 px-1">
+                <p>{{ toAccount }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 text-right">
+                <strong>Account Name:</strong>
+              </div>
+              <div class="col-6 px-1">
+                <p>{{ accountName }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 text-right">
+                <strong>Amount:</strong>
+              </div>
+              <div class="col-6 px-1">
+                <p>{{ amount }} BDT</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 text-right">
+                <strong>Remarks:</strong>
+              </div>
+              <div class="col-6 px-1">
+                <p>{{ remarks }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <ng-content></ng-content> -->
+        <div class="col-10 modal-footer" style="align-content: center;">
+          <button
+            [ngClass]="(!popupError && !popupPending) ? 'btn btn-success btn-block' : (!popupError && popupPending) ? 'btn btn-pending btn-block' : 'btn btn-danger btn-block'"
+            class="col-5"
+            data-dismiss="modal"
+            [disabled]="btnDisable"
+            (click)="onClose()"
+          >
+            {{ btnText }}
+          </button>
+          <button
+            *ngIf="popupPending"           
+            class="col-5 btn btn-pending"
+            data-dismiss="modal"
+            [disabled]="btnDisable"
+            (click)="backClick()"
+          >
+            Cancel
+          </button>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </div>
+  </div>
+  
